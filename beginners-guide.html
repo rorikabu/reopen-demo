@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>はじめての方へ｜ReOpen</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* === ヒーローボタン（固有） === */
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: var(--radius);
+      border: 2px solid var(--white);
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+    }
+    .hero-btn-living {
+      background: var(--white);
+      color: var(--primary);
+    }
+    .hero-btn-living:hover {
+      background: var(--primary-pale);
+      text-decoration: none;
+    }
+    .hero-btn-invest {
+      background: transparent;
+      color: var(--white);
+    }
+    .hero-btn-invest:hover {
+      background: rgba(255,255,255,0.15);
+      text-decoration: none;
+    }
+
+    /* === ロードマップ === */
+    .roadmap {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .roadmap-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+      min-width: 100px;
+      position: relative;
+    }
+    .roadmap-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: calc(50% + 28px);
+      width: calc(100% - 56px);
+      height: 2px;
+      background: var(--border);
+    }
+    .step-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
+    }
+    .step-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .step-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* === 居住用/投資用タブ === */
+    .purpose-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 0;
+      border-bottom: 3px solid var(--border);
+    }
+    .purpose-tab {
+      flex: 1;
+      padding: 16px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      border: none;
+      background: var(--bg);
+      color: var(--text-light);
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -3px;
+    }
+    .purpose-tab:hover {
+      color: var(--primary);
+      background: var(--primary-pale);
+    }
+    .purpose-tab.active {
+      background: var(--white);
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .purpose-panel {
+      display: none;
+      padding-top: 28px;
+    }
+    .purpose-panel.active {
+      display: block;
+    }
+
+    /* === 早見表 === */
+    .income-table th:first-child,
+    .income-table td:first-child {
+      font-weight: 700;
+    }
+    .income-table td.highlight {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* === シミュレーター === */
+    .simulator {
+      background: var(--primary-pale);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .sim-result {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      border: 2px solid var(--primary);
+    }
+    .sim-result-label {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 4px;
+    }
+    .sim-result-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .sim-result-unit {
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+    .sim-breakdown {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .sim-breakdown-item {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+    }
+    .sim-breakdown-item .label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .sim-breakdown-item .value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* === チェックリスト === */
+    .checklist {
+      list-style: none;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+    .checklist li:last-child {
+      border-bottom: none;
+    }
+    .check-box {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      margin-top: 2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      background: var(--white);
+    }
+    .check-box.checked {
+      background: var(--success);
+      border-color: var(--success);
+    }
+    .check-box.checked::after {
+      content: '✓';
+      color: var(--white);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* === 比較テーブル === */
+    .compare-table th {
+      text-align: center;
+    }
+    .compare-table th:first-child {
+      text-align: left;
+      background: var(--bg);
+    }
+    .compare-table td:first-child {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* === 適性診断 === */
+    .diagnosis {
+      counter-reset: q;
+    }
+    .diag-question {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+    .diag-question p {
+      font-weight: 600;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+    .diag-question p::before {
+      counter-increment: q;
+      content: "Q" counter(q) ". ";
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .diag-options {
+      display: flex;
+      gap: 12px;
+    }
+    .diag-opt {
+      padding: 8px 24px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .diag-opt:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .diag-opt.selected-yes {
+      border-color: var(--success);
+      background: #e8f5e9;
+      color: var(--success);
+    }
+    .diag-opt.selected-no {
+      border-color: var(--text-muted);
+      background: var(--bg);
+      color: var(--text-muted);
+    }
+    .diag-result {
+      background: var(--primary-pale);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      display: none;
+    }
+    .diag-result.show {
+      display: block;
+    }
+    .diag-result-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    /* === 失敗パターンカード === */
+    .fail-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .fail-card {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      border-left: 4px solid var(--danger);
+    }
+    .fail-card:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+    .fail-card-num {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 6px;
+    }
+    .fail-card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .fail-card-desc {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .fail-card-tip {
+      font-size: 0.82rem;
+      color: var(--success);
+      font-weight: 600;
+    }
+    .fail-card-tip::before {
+      content: '💡 ';
+    }
+
+    /* === 諸費用の円グラフ風 === */
+    .cost-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .cost-chart {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--primary) 0% 43%,
+        var(--accent) 43% 60%,
+        var(--success) 60% 73%,
+        #8e44ad 73% 83%,
+        var(--text-muted) 83% 100%
+      );
+      margin: 0 auto;
+      position: relative;
+    }
+    .cost-chart::after {
+      content: '諸費用\A約350万円';
+      white-space: pre;
+      position: absolute;
+      inset: 30px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .cost-list {
+      list-style: none;
+    }
+    .cost-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.9rem;
+    }
+    .cost-list li:last-child {
+      border-bottom: none;
+    }
+    .cost-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .cost-amount {
+      margin-left: auto;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* === ローン・契約フロー === */
+    .loan-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .loan-step {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .loan-step-num {
+      width: 36px;
+      height: 36px;
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .loan-step h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+    .loan-step p {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* === 折りたたみ === */
+    .collapse-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 16px 20px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .collapse-toggle:hover {
+      background: var(--primary-pale);
+    }
+    .collapse-toggle::after {
+      content: '▼';
+      font-size: 0.7rem;
+      transition: transform 0.2s;
+    }
+    .collapse-toggle.open::after {
+      transform: rotate(180deg);
+    }
+    .collapse-body {
+      display: none;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+    .collapse-body.open {
+      display: block;
+    }
+
+    /* === 契約フロー比較 === */
+    .flow-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .flow-col {
+      border-radius: var(--radius-sm);
+      padding: 24px;
+    }
+    .flow-col-old {
+      background: var(--bg);
+      border: 1px solid var(--border);
+    }
+    .flow-col-new {
+      background: var(--primary-pale);
+      border: 2px solid var(--primary);
+    }
+    .flow-col h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .flow-col-new h4 {
+      color: var(--primary);
+    }
+    .flow-list {
+      list-style: none;
+      counter-reset: flow;
+    }
+    .flow-list li {
+      padding: 10px 0;
+      padding-left: 32px;
+      position: relative;
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--border-light);
+      line-height: 1.5;
+    }
+    .flow-list li:last-child {
+      border-bottom: none;
+    }
+    .flow-list li::before {
+      counter-increment: flow;
+      content: counter(flow);
+      position: absolute;
+      left: 0;
+      width: 22px;
+      height: 22px;
+      background: var(--primary);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 10px;
+    }
+    .flow-col-old .flow-list li::before {
+      background: var(--text-muted);
+    }
+
+    /* === スケジュール === */
+    .schedule-bar {
+      display: flex;
+      gap: 4px;
+      margin-top: 16px;
+    }
+    .schedule-item {
+      flex: 1;
+      text-align: center;
+      padding: 12px 8px;
+      border-radius: var(--radius-xs);
+      font-size: 0.78rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .schedule-item span {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: inherit;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+
+    /* === AIチャットbot === */
+    .chat-placeholder {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 28px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .chat-bubble {
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 12px;
+      max-width: 85%;
+    }
+    .chat-user {
+      background: var(--primary);
+      color: var(--white);
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-bot {
+      background: var(--white);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+    }
+    .chat-input-fake {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    .chat-input-fake input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      font-size: 0.9rem;
+      background: var(--white);
+      color: var(--text-muted);
+    }
+    .chat-input-fake button {
+      padding: 12px 20px;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    /* === セクション内の補助見出し === */
+    .sub-heading {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 24px 0 12px;
+    }
+    .sub-heading:first-child {
+      margin-top: 0;
+    }
+
+    /* === 投資用ロードマップ === */
+    .invest-roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .invest-step {
+      background: var(--primary-pale);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      text-align: center;
+    }
+    .invest-step-num {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .invest-step h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .invest-step p {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    /* === レスポンシブ追加 === */
+    @media (max-width: 768px) {
+      .roadmap {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .roadmap-step:not(:last-child)::after { display: none; }
+      .roadmap-step { min-width: 80px; }
+
+      .sim-grid { grid-template-columns: 1fr; }
+      .sim-breakdown { grid-template-columns: 1fr; }
+
+      .fail-cards { grid-template-columns: 1fr; }
+
+      .cost-visual { grid-template-columns: 1fr; }
+      .cost-chart { width: 180px; height: 180px; }
+      .cost-chart::after { inset: 24px; font-size: 0.82rem; }
+
+      .loan-steps { grid-template-columns: 1fr; }
+
+      .flow-compare { grid-template-columns: 1fr; }
+
+      .invest-roadmap { grid-template-columns: 1fr; }
+
+      .schedule-bar {
+        flex-direction: column;
+      }
+      .rd-cards { grid-template-columns: 1fr; }
+      .rd-card { flex-direction: column; }
+      .rd-badge { position: static; margin-bottom: 8px; align-self: flex-start; }
+      .rd-num { width: 40px; height: 40px; font-size: 1rem; flex-shrink: 0; }
+      .rd-connector { display: none; }
+    }
+
+    /* === 詳細ロードマップ === */
+    .rd-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .rd-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .rd-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .rd-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .rd-num.rd-num-0 { background: #64748b; }
+    .rd-body { flex: 1; }
+    .rd-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .rd-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 12px;
+      background: var(--primary-pale);
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .rd-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .rd-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.86rem;
+      color: var(--text-light);
+      line-height: 1.6;
+      padding: 4px 0;
+    }
+    .rd-list li::before {
+      content: '▸';
+      color: var(--primary);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .rd-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      padding-left: 16px;
+      font-style: italic;
+    }
+    .rd-connector {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 4px 0;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+    .rd-connector::before,
+    .rd-connector::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ===== 用語集 (gd-glossary) ===== */
+    .gd-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .gd-item {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--primary);
+      padding: 16px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .gd-term {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .gd-def {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.65;
+    }
+
+    /* ===== チェック10 (gd-check) ===== */
+    .gd-check-list {
+      counter-reset: gd-check;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .gd-check-item {
+      counter-increment: gd-check;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .gd-check-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .gd-check-body { flex: 1; }
+    .gd-check-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .gd-check-desc {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ===== やってはいけない例 (gd-ng) ===== */
+    .gd-ng-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .gd-ng-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #fff5f5;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--danger);
+      padding: 16px 18px;
+    }
+    .gd-ng-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .gd-ng-body { flex: 1; }
+    .gd-ng-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 3px;
+    }
+    .gd-ng-desc {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .gd-ng-tip {
+      font-size: 0.78rem;
+      color: var(--success);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    /* ===== ハザード・耐震ほか (gd-know) ===== */
+    .gd-know-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .gd-know-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+    .gd-know-card h4 {
+      font-size: 0.95rem;
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .gd-know-card p {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.65;
+      margin: 0 0 8px;
+    }
+    .gd-know-card p:last-child { margin-bottom: 0; }
+    .gd-know-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 10px;
+      margin-right: 4px;
+    }
+    .gd-tag-danger { background: #fde2e2; color: var(--danger); }
+    .gd-tag-warn  { background: #fff3cd; color: #856404; }
+    .gd-tag-info  { background: var(--primary-pale); color: var(--primary); }
+
+    @media (max-width: 768px) {
+      .gd-list { grid-template-columns: 1fr; }
+      .gd-know-grid { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body data-page="beginners-guide">
+
+<!-- ========== ヘッダー ========== -->
+<header class="site-header"></header>
+
+<!-- ========== パンくず ========== -->
+<div class="breadcrumb">
+  <a href="index.html">トップ</a><span>›</span>
+  はじめての方へ
+</div>
+
+<!-- ========== ヒーロー ========== -->
+<section class="hero">
+  <h1>はじめてのマンション購入、<br>安心して進めましょう</h1>
+  <p>何から始めればいいかわからなくても大丈夫。<br>ReOpenが、あなたのペースに合わせて一つずつご案内します。</p>
+</section>
+
+<!-- ========== メインコンテンツ ========== -->
+<main class="container" style="margin-top:32px;">
+
+  <!-- ===== #10 購入ロードマップ（詳細版） ===== -->
+  <section class="section">
+    <h2 class="section-title">購入の全体像 ─ 8つのステップ</h2>
+    <p class="text-sm text-muted mb-16">マンション購入は、大きくわけて8つの段階で進みます。「いま自分はどこにいるか」がわかるだけで、ぐっと安心できます。</p>
+
+    <div class="rd-cards">
+
+      <!-- Step 0 -->
+      <div class="rd-card">
+        <div class="rd-num rd-num-0">0</div>
+        <div class="rd-body">
+          <div class="rd-title">物件を探す・お気に入り</div>
+          <div class="rd-badge">🕐 1日〜</div>
+          <ul class="rd-list">
+            <li>気になる物件を保存・比較</li>
+            <li>不安点をメモ（管理状態、修繕、騒音、日当たりなど）</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="rd-card">
+        <div class="rd-num">1</div>
+        <div class="rd-body">
+          <div class="rd-title">内見予約</div>
+          <div class="rd-badge">🕐 当日〜数日</div>
+          <ul class="rd-list">
+            <li>希望日時を選んで予約</li>
+            <li>見るべきポイントをチェック（チェックリストを活用）</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="rd-card">
+        <div class="rd-num">2</div>
+        <div class="rd-body">
+          <div class="rd-title">購入申込</div>
+          <div class="rd-badge">🕐 内見後すぐ〜数日</div>
+          <ul class="rd-list">
+            <li>「買いたい」意思表示＋条件提示</li>
+          </ul>
+          <div class="rd-note">例：価格、引渡し希望時期、ローン利用の有無、付帯設備の扱い</div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="rd-card">
+        <div class="rd-num">3</div>
+        <div class="rd-body">
+          <div class="rd-title">住宅ローンの事前審査</div>
+          <div class="rd-badge">🕐 数日〜2週間</div>
+          <ul class="rd-list">
+            <li>ローンを使う場合は、本申込の前に事前審査</li>
+            <li>ここで「買える確度」を固めます</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="rd-connector">▼ ここから正式な手続きに進みます ▼</div>
+
+      <!-- Step 4 -->
+      <div class="rd-card">
+        <div class="rd-num">4</div>
+        <div class="rd-body">
+          <div class="rd-title">売買条件の確定・契約準備</div>
+          <div class="rd-badge">🕐 数日〜</div>
+          <ul class="rd-list">
+            <li>契約日、手付金、ローン特約、引渡し日を確定</li>
+            <li>必要書類が揃っているかを確認</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="rd-card">
+        <div class="rd-num">5</div>
+        <div class="rd-body">
+          <div class="rd-title">売買契約</div>
+          <div class="rd-badge">🕐 契約日</div>
+          <ul class="rd-list">
+            <li>宅建士が重要事項説明</li>
+            <li>契約書に署名押印</li>
+            <li>手付金の支払い</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="rd-card">
+        <div class="rd-num">6</div>
+        <div class="rd-body">
+          <div class="rd-title">住宅ローン本審査〜金消契約</div>
+          <div class="rd-badge">🕐 1〜3週間</div>
+          <ul class="rd-list">
+            <li>本審査→ローン契約（金融機関）</li>
+            <li>火災保険加入などもこの時期</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 7 -->
+      <div class="rd-card">
+        <div class="rd-num">7</div>
+        <div class="rd-body">
+          <div class="rd-title">残代金決済・引渡し</div>
+          <div class="rd-badge">🕐 決済日</div>
+          <ul class="rd-list">
+            <li>残代金支払い</li>
+            <li>所有権移転登記（司法書士）</li>
+            <li>鍵の引渡し、管理会社手続き</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== 居住用 / 投資用 タブ ===== -->
+  <section class="section" id="purpose-section">
+    <div class="purpose-tabs">
+      <button class="purpose-tab active" onclick="switchTab('living')" id="tab-btn-living">🏠 住む方向け</button>
+      <button class="purpose-tab" onclick="switchTab('invest')" id="tab-btn-invest">📈 投資を考える方向け</button>
+    </div>
+
+    <!-- ── 住む方向けタブ ── -->
+    <div class="purpose-panel active" id="panel-living">
+
+      <!-- #29 年収別・買える物件価格の目安 -->
+      <h3 class="sub-heading">年収別・買える物件価格の目安</h3>
+      <p class="text-sm text-muted mb-16">一般的な目安として「年収の5〜7倍」が<span class="glossary" data-definition="銀行がお金を貸してくれる上限の目安のこと。年収や勤続年数などで決まります。">借入可能額</span>の範囲と言われています。</p>
+      <div class="table-wrap">
+        <table class="income-table">
+          <thead>
+            <tr>
+              <th>年収</th>
+              <th>買える物件の目安</th>
+              <th>月々の返済目安</th>
+              <th>ポイント</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>400万円</td>
+              <td class="highlight">2,000〜2,800万円</td>
+              <td>約6.5〜9万円</td>
+              <td class="text-sm text-muted">ワンルーム〜1LDK中心</td>
+            </tr>
+            <tr>
+              <td>500万円</td>
+              <td class="highlight">2,500〜3,500万円</td>
+              <td>約8〜11.5万円</td>
+              <td class="text-sm text-muted">1LDK〜2LDKが射程圏</td>
+            </tr>
+            <tr>
+              <td>600万円</td>
+              <td class="highlight">3,000〜4,200万円</td>
+              <td>約10〜13.5万円</td>
+              <td class="text-sm text-muted">ファミリー向けも視野に</td>
+            </tr>
+            <tr>
+              <td>800万円</td>
+              <td class="highlight">4,000〜5,600万円</td>
+              <td>約13〜18万円</td>
+              <td class="text-sm text-muted">エリアの選択肢が広がる</td>
+            </tr>
+            <tr>
+              <td>1,000万円</td>
+              <td class="highlight">5,000〜7,000万円</td>
+              <td>約16〜23万円</td>
+              <td class="text-sm text-muted">都心3LDKも可能</td>
+            </tr>
+            <tr>
+              <td>1,200万円</td>
+              <td class="highlight">6,000〜8,400万円</td>
+              <td>約19.5〜27万円</td>
+              <td class="text-sm text-muted">上位物件・好立地を検討</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-muted mt-8">※ 金利0.5%・35年返済・<span class="glossary" data-definition="元金（借りたお金）と利息を合わせた返済額が、毎月同じになる返済方法です。">元利均等返済</span>で算出。頭金なしの場合の目安です。</p>
+
+      <!-- #26 月々の支払いシミュレーター（#24統合） -->
+      <h3 class="sub-heading" style="margin-top:32px;">月々の支払いシミュレーター</h3>
+      <p class="text-sm text-muted mb-16">物件価格などを入れると、毎月いくら払うことになるか計算できます。<span class="glossary" data-definition="マンションの共用部分（エレベーター・廊下など）を維持するための費用。毎月支払います。">管理費</span>や<span class="glossary" data-definition="建物の大規模な修理（外壁塗り替え・配管交換など）に備えて毎月積み立てるお金です。">修繕積立金</span>も含めた「本当の月額」がわかります。</p>
+      <div class="simulator">
+        <div class="sim-grid">
+          <div class="form-group">
+            <label class="form-label">物件価格</label>
+            <input type="text" class="form-input" id="sim-price" value="4,000" placeholder="例：4,000">
+            <span class="text-sm text-muted">万円</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">頭金（自分で用意するお金）</label>
+            <input type="text" class="form-input" id="sim-down" value="300" placeholder="例：300">
+            <span class="text-sm text-muted">万円</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label"><span class="glossary" data-definition="お金を借りるときにかかる利用料の割合。低いほど返済額が少なくなります。">金利</span>（年）</label>
+            <input type="text" class="form-input" id="sim-rate" value="0.5" placeholder="例：0.5">
+            <span class="text-sm text-muted">%</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">返済期間</label>
+            <select class="form-select" id="sim-years">
+              <option value="25">25年</option>
+              <option value="30">30年</option>
+              <option value="35" selected>35年</option>
+            </select>
+          </div>
+        </div>
+        <div style="text-align:center;margin-bottom:20px;">
+          <button class="btn btn-primary" onclick="calcLoan()">計算する</button>
+        </div>
+        <div class="sim-result" id="sim-result">
+          <div class="sim-result-label">本当の月額（ローン＋管理費＋修繕積立金）</div>
+          <div class="sim-result-value" id="sim-total">約 12.2 万円<span class="sim-result-unit"> / 月</span></div>
+          <div class="sim-breakdown">
+            <div class="sim-breakdown-item">
+              <div class="label">ローン返済</div>
+              <div class="value" id="sim-loan">9.6万円</div>
+            </div>
+            <div class="sim-breakdown-item">
+              <div class="label">管理費（目安）</div>
+              <div class="value" id="sim-kanri">1.2万円</div>
+            </div>
+            <div class="sim-breakdown-item">
+              <div class="label">修繕積立金（目安）</div>
+              <div class="value" id="sim-syuzen">1.4万円</div>
+            </div>
+          </div>
+          <p class="text-sm text-muted mt-16">5年間の総コスト：約 <strong id="sim-5year">732</strong> 万円（ローン返済＋管理費＋修繕積立金）</p>
+        </div>
+      </div>
+
+      <!-- 内見・購入後チェックリストはマイページのガイドタブに移動 -->
+      <div style="margin-top:32px;padding:20px 24px;background:var(--primary-pale);border-radius:var(--radius);border:1.5px solid var(--primary-light);">
+        <p style="font-size:0.95rem;font-weight:600;color:var(--primary);margin-bottom:8px;">📖 内見チェックリスト・購入後の手続きはマイページへ</p>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;">会員登録すると、チェック付きの実用ガイド（内見10項目・購入手続き8項目・売却の流れ・用語集）がマイページで使えます。</p>
+        <a href="mypage.html" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:var(--primary);color:var(--white);border-radius:var(--radius-sm);font-size:0.88rem;font-weight:600;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">マイページのガイドを見る →</a>
+      </div>
+    </div>
+
+    <!-- ── 投資を考える方向けタブ ── -->
+    <div class="purpose-panel" id="panel-invest">
+
+      <!-- #41 居住用vs投資用 比較ガイド -->
+      <h3 class="sub-heading">居住用と投資用のちがい</h3>
+      <p class="text-sm text-muted mb-16">「住むために買う」のと「投資として買う」のでは、ローンの条件や税金が変わります。</p>
+      <div class="table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>比べるポイント</th>
+              <th>🏠 住む用</th>
+              <th>📈 投資用</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>目的</td>
+              <td>自分・家族が住む</td>
+              <td>人に貸して家賃収入を得る</td>
+            </tr>
+            <tr>
+              <td><span class="glossary" data-definition="お金を借りるときにかかる利用料の割合。住む用のほうが低く設定されることが多いです。">ローン金利</span></td>
+              <td>年0.3〜0.8%（低い）</td>
+              <td>年1.5〜3.5%（高い）</td>
+            </tr>
+            <tr>
+              <td>審査で見られること</td>
+              <td>年収・勤続年数が中心</td>
+              <td>年収＋物件の収益力</td>
+            </tr>
+            <tr>
+              <td><span class="glossary" data-definition="自分で最初に用意するお金のこと。物件価格から頭金を引いた残りをローンで借ります。">頭金</span>の目安</td>
+              <td>0〜10%でもOK</td>
+              <td>10〜30%求められることが多い</td>
+            </tr>
+            <tr>
+              <td>税金のメリット</td>
+              <td>住宅ローン控除あり</td>
+              <td>経費計上・<span class="glossary" data-definition="建物の価値が年々下がる分を経費にできる仕組み。節税に使われることがあります。">減価償却</span>あり</td>
+            </tr>
+            <tr>
+              <td>リスク</td>
+              <td>住み替え時の売却価格</td>
+              <td>空室・家賃下落・修繕費</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- #120 いくらから始められる？ -->
+      <h3 class="sub-heading" style="margin-top:32px;">いくらから始められる？自己資金別の目安</h3>
+      <p class="text-sm text-muted mb-16">投資用マンションは、自己資金（最初に用意するお金）の額によって買える物件が変わります。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>自己資金</th>
+              <th>買える物件の目安</th>
+              <th>想定できるタイプ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="fw-bold">300万円</td>
+              <td>1,000〜1,500万円</td>
+              <td class="text-sm">地方都市のワンルーム</td>
+            </tr>
+            <tr>
+              <td class="fw-bold">500万円</td>
+              <td>1,500〜2,500万円</td>
+              <td class="text-sm">都市部の築古ワンルーム</td>
+            </tr>
+            <tr>
+              <td class="fw-bold">700万円</td>
+              <td>2,000〜3,500万円</td>
+              <td class="text-sm">都市部の1K〜1LDK</td>
+            </tr>
+            <tr>
+              <td class="fw-bold">1,000万円</td>
+              <td>3,000〜5,000万円</td>
+              <td class="text-sm">都心ワンルーム・近郊ファミリー</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-muted mt-8">※ 頭金10〜30% ＋ 諸費用（物件価格の7〜8%）を想定</p>
+
+      <!-- #121 不動産投資の適性診断 -->
+      <h3 class="sub-heading" style="margin-top:32px;">あなたは向いてる？かんたん適性チェック</h3>
+      <p class="text-sm text-muted mb-16">5つの質問に答えるだけで、不動産投資との相性がわかります。</p>
+      <div class="diagnosis" id="diagnosis">
+        <div class="diag-question" data-q="0">
+          <p>毎月、手取り収入の20%以上を貯金または投資に回せていますか？</p>
+          <div class="diag-options">
+            <button class="diag-opt" onclick="selectDiag(this, 'yes')">はい</button>
+            <button class="diag-opt" onclick="selectDiag(this, 'no')">いいえ</button>
+          </div>
+        </div>
+        <div class="diag-question" data-q="1">
+          <p>10年以上の長いスパンで考えることができますか？</p>
+          <div class="diag-options">
+            <button class="diag-opt" onclick="selectDiag(this, 'yes')">はい</button>
+            <button class="diag-opt" onclick="selectDiag(this, 'no')">いいえ</button>
+          </div>
+        </div>
+        <div class="diag-question" data-q="2">
+          <p>急な出費（修繕・空室期間）に耐えられる貯蓄がありますか？</p>
+          <div class="diag-options">
+            <button class="diag-opt" onclick="selectDiag(this, 'yes')">はい</button>
+            <button class="diag-opt" onclick="selectDiag(this, 'no')">いいえ</button>
+          </div>
+        </div>
+        <div class="diag-question" data-q="3">
+          <p>数字（利回り・経費・ローン計算）を確認するのが苦ではないですか？</p>
+          <div class="diag-options">
+            <button class="diag-opt" onclick="selectDiag(this, 'yes')">はい</button>
+            <button class="diag-opt" onclick="selectDiag(this, 'no')">いいえ</button>
+          </div>
+        </div>
+        <div class="diag-question" data-q="4">
+          <p>「確実にすぐ儲かる」よりも「じっくりコツコツ」派ですか？</p>
+          <div class="diag-options">
+            <button class="diag-opt" onclick="selectDiag(this, 'yes')">はい</button>
+            <button class="diag-opt" onclick="selectDiag(this, 'no')">いいえ</button>
+          </div>
+        </div>
+      </div>
+      <div class="diag-result" id="diag-result">
+        <div class="diag-result-title" id="diag-result-title"></div>
+        <p id="diag-result-text" class="text-sm"></p>
+      </div>
+
+      <!-- #71 投資用ロードマップ -->
+      <h3 class="sub-heading" style="margin-top:32px;">投資用マンション購入のロードマップ</h3>
+      <p class="text-sm text-muted mb-16">投資として購入する場合の流れです。居住用とはチェックポイントが異なります。</p>
+      <div class="invest-roadmap">
+        <div class="invest-step">
+          <div class="invest-step-num">STEP 1</div>
+          <h4>目標を決める</h4>
+          <p>月の家賃収入はいくらほしい？何年で回収したい？</p>
+        </div>
+        <div class="invest-step">
+          <div class="invest-step-num">STEP 2</div>
+          <h4>資金計画を立てる</h4>
+          <p>自己資金とローンのバランス。<span class="glossary" data-definition="年間の家賃収入を物件価格で割った数字。高いほど効率よく収益を得られます。">利回り</span>の目安を知る</p>
+        </div>
+        <div class="invest-step">
+          <div class="invest-step-num">STEP 3</div>
+          <h4>エリア・物件を選ぶ</h4>
+          <p>空室リスクの低いエリア選び。駅徒歩・築年数が重要</p>
+        </div>
+        <div class="invest-step">
+          <div class="invest-step-num">STEP 4</div>
+          <h4>収支を計算する</h4>
+          <p>家賃収入 − 経費 − ローン返済 ＝ 手残り</p>
+        </div>
+        <div class="invest-step">
+          <div class="invest-step-num">STEP 5</div>
+          <h4>ローン審査・契約</h4>
+          <p>投資用ローンの審査。金利や条件を複数比較</p>
+        </div>
+        <div class="invest-step">
+          <div class="invest-step-num">STEP 6</div>
+          <h4>管理会社を決める</h4>
+          <p>入居者募集・集金・トラブル対応を任せる会社選び</p>
+        </div>
+      </div>
+
+      <!-- #49 物件探しチェックリスト -->
+      <h3 class="sub-heading" style="margin-top:32px;">投資用・物件探しチェックリスト</h3>
+      <p class="text-sm text-muted mb-16">投資用の物件を選ぶときに確認しておきたいポイントです。</p>
+      <ul class="checklist">
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>最寄り駅からの距離</strong>：徒歩10分以内が入居者に人気</div></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>周辺の賃貸需要</strong>：近くに大学・オフィス街・病院があるか</div></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong><span class="glossary" data-definition="年間の家賃収入を物件価格で割った数字。高いほど効率よく収益を得られます。">表面利回り</span></strong>：都心4〜5%、郊外6〜8%が目安</div></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>築年数と修繕履歴</strong>：大規模修繕の時期と費用を確認</div></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>管理費・修繕積立金</strong>：手残りに直結するので要チェック</div></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>空室率</strong>：マンション全体の入居状況を確認</div></li>
+        <li><div class="check-box" onclick="toggleCheck(this)"></div><div><strong>将来の売却しやすさ</strong>：人口が増えているエリアかどうか</div></li>
+      </ul>
+
+      <!-- #80 初心者が陥る失敗パターン5選 -->
+      <h3 class="sub-heading" style="margin-top:32px;">初心者が陥りやすい失敗パターン5選</h3>
+      <p class="text-sm text-muted mb-16">先に知っておけば避けられる。よくある失敗と、その回避策です。</p>
+      <div class="fail-cards">
+        <div class="fail-card">
+          <div class="fail-card-num">失敗 1</div>
+          <div class="fail-card-title">「利回りが高い！」だけで飛びつく</div>
+          <div class="fail-card-desc">利回りが高い物件は、空室リスクや修繕費が高いケースが多い。数字の裏を見る習慣が大事。</div>
+          <div class="fail-card-tip">表面利回りだけでなく、経費を引いた「実質利回り」で判断する</div>
+        </div>
+        <div class="fail-card">
+          <div class="fail-card-num">失敗 2</div>
+          <div class="fail-card-title">管理費・修繕積立金を甘く見る</div>
+          <div class="fail-card-desc">月2〜3万円の管理費を計算に入れ忘れ、「思ったより手残りが少ない」となるパターン。</div>
+          <div class="fail-card-tip">購入前に管理費＋修繕積立金＋固定資産税を必ず月額で計算</div>
+        </div>
+        <div class="fail-card">
+          <div class="fail-card-num">失敗 3</div>
+          <div class="fail-card-title">「新築」にこだわりすぎる</div>
+          <div class="fail-card-desc">新築は価格が割高で利回りが低くなりがち。中古のほうが投資効率が良いケースも多い。</div>
+          <div class="fail-card-tip">築10〜20年の良好管理物件を中心にリサーチ</div>
+        </div>
+        <div class="fail-card">
+          <div class="fail-card-num">失敗 4</div>
+          <div class="fail-card-title">空室期間を想定しない</div>
+          <div class="fail-card-desc">「ずっと満室」前提の計画は危険。退去→次の入居まで1〜3ヶ月は見ておくべき。</div>
+          <div class="fail-card-tip">年間の空室率を5〜10%で計算に組み込む</div>
+        </div>
+        <div class="fail-card">
+          <div class="fail-card-num">失敗 5</div>
+          <div class="fail-card-title">出口戦略（売るとき）を考えない</div>
+          <div class="fail-card-desc">買うときに「いつ・いくらで売れるか」を考えていないと、損切りできず塩漬けに。</div>
+          <div class="fail-card-tip">購入時に「10年後に売れるエリア・価格帯か」を確認</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== #30 諸費用のビジュアル解説（共通） ===== -->
+  <section class="section">
+    <h2 class="section-title">マンション購入にかかる諸費用</h2>
+    <p class="text-sm text-muted mb-24">物件価格のほかに、いくつかの費用がかかります。5,000万円の物件を買う場合の目安です。</p>
+    <div class="cost-visual">
+      <div>
+        <div class="cost-chart"></div>
+      </div>
+      <div>
+        <ul class="cost-list">
+          <li>
+            <span class="cost-dot" style="background:var(--primary)"></span>
+            <span class="glossary" data-definition="売買の手続きを法律的に正しく記録するための費用。司法書士という専門家に依頼します。">登記費用・司法書士報酬</span>
+            <span class="cost-amount">約 50万円</span>
+          </li>
+          <li>
+            <span class="cost-dot" style="background:var(--accent)"></span>
+            <span class="glossary" data-definition="住宅ローンを組むときに銀行に支払う手数料のこと。銀行によって金額が異なります。">ローン事務手数料・保証料</span>
+            <span class="cost-amount">約 100万円</span>
+          </li>
+          <li>
+            <span class="cost-dot" style="background:var(--success)"></span>
+            火災保険・地震保険
+            <span class="cost-amount">約 30万円</span>
+          </li>
+          <li>
+            <span class="cost-dot" style="background:#8e44ad"></span>
+            <span class="glossary" data-definition="不動産の売買契約書に貼る「印紙」の代金です。契約金額によって決まります。">印紙税・登録免許税</span>
+            <span class="cost-amount">約 40万円</span>
+          </li>
+          <li>
+            <span class="cost-dot" style="background:var(--text-muted)"></span>
+            ReOpen手数料（売主1.5% / 買主1%）
+            <span class="cost-amount">約 50万円</span>
+          </li>
+          <li style="border-top:2px solid var(--border);padding-top:12px;margin-top:4px;">
+            <strong>合計の目安</strong>
+            <span class="cost-amount" style="font-size:1.1rem;">約 270〜350万円</span>
+          </li>
+        </ul>
+        <p class="text-sm text-muted mt-8">※ 一般的な不動産会社の仲介手数料は約171万円（3%＋6万円）。ReOpenなら50万円（1%）で、約120万円おトクです。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== #34 ローン事前審査ガイド / #95 現金購入ガイド ===== -->
+  <section class="section">
+    <h2 class="section-title">ローンの事前審査 ─ 意外とカンタンです</h2>
+    <p class="text-sm text-muted mb-24">「審査」と聞くと構えてしまいますが、やることはシンプル。3ステップで完了します。</p>
+    <div class="loan-steps">
+      <div class="loan-step">
+        <div class="loan-step-num">1</div>
+        <h4>必要書類をそろえる</h4>
+        <p>本人確認書類（運転免許証など）、<span class="glossary" data-definition="お勤め先が発行する、年間の給与額が記載された書類です。毎年12月〜1月頃にもらえます。">源泉徴収票</span>、健康保険証の3つがあればOK。</p>
+      </div>
+      <div class="loan-step">
+        <div class="loan-step-num">2</div>
+        <h4>ネットで申し込み</h4>
+        <p>多くの銀行がスマホから申込可能。所要時間は15〜30分程度です。</p>
+      </div>
+      <div class="loan-step">
+        <div class="loan-step-num">3</div>
+        <h4>結果を待つ</h4>
+        <p>最短で即日〜3営業日ほど。「いくらまで借りられるか」の回答がもらえます。</p>
+      </div>
+    </div>
+    <p class="text-sm text-muted mt-16">※ 事前審査を通しても、購入の義務は一切ありません。「自分がいくら借りられるか知る」ための手続きです。</p>
+
+    <!-- #95 現金購入ガイド（折りたたみ） -->
+    <div style="margin-top:28px;">
+      <button class="collapse-toggle" onclick="toggleCollapse(this)">💰 現金で購入する場合のガイドはこちら</button>
+      <div class="collapse-body">
+        <h4 class="sub-heading" style="margin-top:0;">現金購入の流れ</h4>
+        <p class="text-sm text-muted mb-16">ローンを使わず、全額を現金で支払う場合の手順です。審査がないぶんスピーディに進みます。</p>
+        <div class="loan-steps">
+          <div class="loan-step">
+            <div class="loan-step-num">1</div>
+            <h4>資金の準備</h4>
+            <p>物件価格＋諸費用分の資金を用意。銀行の残高証明が必要になることも。</p>
+          </div>
+          <div class="loan-step">
+            <div class="loan-step-num">2</div>
+            <h4>売買契約</h4>
+            <p>手付金（物件価格の5〜10%）を支払い契約。ローン審査がないぶん、早く進められます。</p>
+          </div>
+          <div class="loan-step">
+            <div class="loan-step-num">3</div>
+            <h4>決済・引渡し</h4>
+            <p>残代金を振込み、同日に登記手続き・カギの受取りを行います。</p>
+          </div>
+        </div>
+        <p class="text-sm text-muted mt-16"><strong>現金購入のメリット：</strong>金利がかからない、審査不要、スケジュールが早い<br>
+        <strong>注意点：</strong>手元資金が大きく減るため、余裕資金で購入することが大切です。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== #94 ReOpenでの契約フロー / #108 スケジュール ===== -->
+  <section class="section">
+    <h2 class="section-title">ReOpenでの契約の流れ</h2>
+    <p class="text-sm text-muted mb-24">従来の不動産会社を通す場合と、ReOpenを使う場合の違いを見てみましょう。</p>
+
+    <div class="flow-compare">
+      <div class="flow-col flow-col-old">
+        <h4>従来の不動産会社の場合</h4>
+        <ol class="flow-list">
+          <li>不動産会社に相談・問合せ</li>
+          <li>担当者と内見の日程調整</li>
+          <li>購入申込書を提出</li>
+          <li>不動産会社が条件交渉</li>
+          <li><span class="glossary" data-definition="不動産取引の専門資格を持つ人が、物件の重要な情報を買主に説明する法律で決められた手続きです。">重要事項説明</span>（対面）</li>
+          <li>売買契約の締結</li>
+          <li>決済・引渡し</li>
+        </ol>
+        <p class="text-sm text-muted mt-8">手数料：物件価格の3%＋6万円</p>
+      </div>
+      <div class="flow-col flow-col-new">
+        <h4>ReOpenの場合</h4>
+        <ol class="flow-list">
+          <li>ReOpenで物件をさがす・比べる</li>
+          <li>気になる物件の内見を予約（提携業者が案内）</li>
+          <li>購入の意思をReOpenに伝える</li>
+          <li>ReOpen提携の<span class="glossary" data-definition="不動産取引の専門資格を持つ人。法律で定められた説明を行い、安全な取引をサポートします。">宅建士</span>が重要事項説明</li>
+          <li>売買契約の締結（オンライン対応可）</li>
+          <li>決済・引渡し</li>
+        </ol>
+        <p class="text-sm mt-8" style="color:var(--primary);font-weight:600;">手数料：買主1%（売主1.5%）</p>
+      </div>
+    </div>
+
+    <!-- #108 契約〜引渡しスケジュール -->
+    <h3 class="sub-heading" style="margin-top:32px;">契約から引渡しまでのスケジュール目安</h3>
+    <div class="schedule-bar">
+      <div class="schedule-item" style="background:var(--primary-pale);color:var(--primary);">
+        購入申込<span>当日</span>
+      </div>
+      <div class="schedule-item" style="background:#d4edda;color:#2e7d32;">
+        ローン事前審査<span>1〜3日</span>
+      </div>
+      <div class="schedule-item" style="background:#fff3cd;color:#856404;">
+        重要事項説明<span>1〜2週間後</span>
+      </div>
+      <div class="schedule-item" style="background:#fde2e2;color:var(--danger);">
+        売買契約<span>2〜3週間後</span>
+      </div>
+      <div class="schedule-item" style="background:#e8daef;color:#6c3483;">
+        ローン本審査<span>3〜4週間</span>
+      </div>
+      <div class="schedule-item" style="background:var(--primary);color:var(--white);">
+        決済・引渡し<span>1〜2ヶ月後</span>
+      </div>
+    </div>
+    <p class="text-sm text-muted mt-8">※ 現金購入の場合はローン審査が不要なため、最短2〜3週間で引渡しが可能です。</p>
+  </section>
+
+  <!-- ===== ガイドページへの案内 ===== -->
+  <section class="section text-center" style="background:var(--primary-pale);border-radius:var(--radius);padding:40px 24px;margin-bottom:32px;">
+    <div style="font-size:2.5rem;margin-bottom:12px;">📖</div>
+    <h2 class="section-title" style="text-align:center;border-bottom:none;justify-content:center;">もっと詳しく知りたい方へ</h2>
+    <p class="text-sm text-muted mb-24">用語集・チェックリスト・失敗例・建物の基礎知識など、<br>購入前に知っておきたい情報をまとめたガイドページをご用意しています。</p>
+    <a href="guide.html" class="btn btn-lg" style="background:var(--primary);color:var(--white);text-decoration:none;display:inline-flex;align-items:center;gap:8px;">📖 売買ガイドを見る</a>
+  </section>
+
+  <!-- ===== #91 AIチャットbot プレースホルダー ===== -->
+  <section class="section text-center">
+    <h2 class="section-title" style="text-align:center;border-bottom:none;">わからないことは、AIに気軽に聞けます</h2>
+    <p class="text-sm text-muted mb-24">24時間いつでも、どんな初歩的な質問でも大丈夫。<br>ReOpenのAIアシスタントがお答えします。</p>
+    <div class="chat-placeholder">
+      <div class="chat-bubble chat-user">管理費と修繕積立金って何がちがうの？</div>
+      <div class="chat-bubble chat-bot">いい質問ですね！<br><strong>管理費</strong>は、エレベーターや廊下など共用部分の「日々の維持費」です。<br><strong>修繕積立金</strong>は、外壁の塗り替えなど「将来の大きな修理に備えた貯金」です。<br>どちらも毎月の支払いに含まれるので、物件選びのときにチェックしましょう。</div>
+      <div class="chat-bubble chat-user">事前審査って落ちることある？</div>
+      <div class="chat-bubble chat-bot">はい、落ちることもあります。主な理由は①年収に対して借入額が大きすぎる ②他にローンがある（車のローンなど）③信用情報に問題がある、の3つです。<br>でも、事前審査は何度でも出せるので、条件を変えて再チャレンジできますよ。</div>
+      <div class="chat-input-fake">
+        <input type="text" placeholder="質問を入力してください..." disabled>
+        <button disabled>送信</button>
+      </div>
+      <p class="text-sm text-muted mt-16">※ この機能は現在開発中です。正式リリース時にご利用いただけます。</p>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <div class="cta-section">
+    <h2>準備ができたら、物件を見てみましょう</h2>
+    <p>ReOpenなら、手数料をおさえて安心のマンション購入ができます。</p>
+    <div class="cta-buttons">
+      <a href="property-list.html" class="btn btn-lg" style="background:var(--white);color:var(--primary);">物件を探してみる</a>
+      <a href="features.html" class="btn btn-lg" style="background:var(--white);color:var(--primary);">ReOpenの特徴を見る</a>
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== フッター ========== -->
+<footer class="site-footer"></footer>
+
+<script src="common.js"></script>
+
+<!-- ========== JavaScript ========== -->
+<script>
+// --- タブ切り替え ---
+function switchTab(type) {
+  document.querySelectorAll('.purpose-tab').forEach(function(btn) { btn.classList.remove('active'); });
+  document.querySelectorAll('.purpose-panel').forEach(function(p) { p.classList.remove('active'); });
+
+  document.getElementById('tab-btn-' + type).classList.add('active');
+  document.getElementById('panel-' + type).classList.add('active');
+
+  // タブセクションまでスクロール
+  document.getElementById('purpose-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// --- チェックボックス ---
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+}
+
+// --- ローンシミュレーター ---
+function calcLoan() {
+  var price = parseFloat(document.getElementById('sim-price').value.replace(/,/g, ''));
+  var down = parseFloat(document.getElementById('sim-down').value.replace(/,/g, ''));
+  var rate = parseFloat(document.getElementById('sim-rate').value);
+  var years = parseInt(document.getElementById('sim-years').value);
+
+  if (isNaN(price) || isNaN(down) || isNaN(rate) || isNaN(years)) {
+    alert('すべての項目を入力してください。');
+    return;
+  }
+
+  var principal = (price - down) * 10000; // 円に変換
+  var monthlyRate = rate / 100 / 12;
+  var totalMonths = years * 12;
+  var monthly;
+
+  if (monthlyRate === 0) {
+    monthly = principal / totalMonths;
+  } else {
+    monthly = principal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+  }
+
+  var monthlyMan = monthly / 10000; // 万円に変換
+
+  // 管理費・修繕積立金の目安（物件価格に応じて調整）
+  var kanri = Math.round((0.8 + price * 0.001) * 10) / 10; // 万円
+  var syuzen = Math.round((0.8 + price * 0.0015) * 10) / 10; // 万円
+  if (kanri < 0.8) kanri = 0.8;
+  if (syuzen < 0.8) syuzen = 0.8;
+
+  var total = monthlyMan + kanri + syuzen;
+  var fiveYear = Math.round(total * 60); // 5年分
+
+  document.getElementById('sim-total').innerHTML = '約 ' + total.toFixed(1) + ' 万円<span class="sim-result-unit"> / 月</span>';
+  document.getElementById('sim-loan').textContent = monthlyMan.toFixed(1) + '万円';
+  document.getElementById('sim-kanri').textContent = kanri.toFixed(1) + '万円';
+  document.getElementById('sim-syuzen').textContent = syuzen.toFixed(1) + '万円';
+  document.getElementById('sim-5year').textContent = fiveYear;
+}
+
+// --- 折りたたみ ---
+function toggleCollapse(el) {
+  el.classList.toggle('open');
+  var body = el.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// --- 適性診断 ---
+var diagAnswers = [null, null, null, null, null];
+
+function selectDiag(btn, answer) {
+  var question = btn.closest('.diag-question');
+  var qIndex = parseInt(question.getAttribute('data-q'));
+
+  // リセット
+  question.querySelectorAll('.diag-opt').forEach(function(b) {
+    b.classList.remove('selected-yes', 'selected-no');
+  });
+
+  // 選択状態
+  if (answer === 'yes') {
+    btn.classList.add('selected-yes');
+    diagAnswers[qIndex] = true;
+  } else {
+    btn.classList.add('selected-no');
+    diagAnswers[qIndex] = false;
+  }
+
+  // 全問回答チェック
+  var allAnswered = diagAnswers.every(function(a) { return a !== null; });
+  if (allAnswered) {
+    showDiagResult();
+  }
+}
+
+function showDiagResult() {
+  var yesCount = diagAnswers.filter(function(a) { return a === true; }).length;
+  var resultEl = document.getElementById('diag-result');
+  var titleEl = document.getElementById('diag-result-title');
+  var textEl = document.getElementById('diag-result-text');
+
+  if (yesCount >= 4) {
+    titleEl.textContent = '✨ 不動産投資に向いているタイプです！';
+    textEl.textContent = '長期的な視点とコツコツ型の性格は、不動産投資との相性が良いです。まずは情報収集から始めてみましょう。';
+  } else if (yesCount >= 2) {
+    titleEl.textContent = '🤔 もう少し準備をしてからが安心です';
+    textEl.textContent = '投資に興味がある気持ちは大切です。まずは貯蓄を増やしつつ、このページの情報で知識を深めていきましょう。';
+  } else {
+    titleEl.textContent = '📚 まずは勉強から始めましょう';
+    textEl.textContent = '今すぐの投資は少しリスクが高いかもしれません。まずは居住用として検討するか、投資の基礎知識を学ぶことをおすすめします。';
+  }
+
+  resultEl.classList.add('show');
+  resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// --- 初期シミュレーション実行 ---
+window.addEventListener('DOMContentLoaded', function() {
+  calcLoan();
+});
+</script>
+
+</body>
+</html>

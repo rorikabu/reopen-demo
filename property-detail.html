@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>グランドメゾン恵比寿テラス｜ReOpen</title>
+  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="property-detail.css">
+</head>
+<body data-page="property-detail">
+
+<!-- ========== ヘッダー ========== -->
+<header class="site-header"></header>
+
+<!-- ========== パンくず ========== -->
+<div class="breadcrumb">
+  <a href="index.html">トップ</a><span>›</span>
+  <a href="property-list.html">物件一覧</a><span>›</span>
+  グランドメゾン恵比寿テラス
+</div>
+
+<main class="container">
+
+  <!-- ========== 物件トップ：写真 + 基本情報 ========== -->
+  <div class="property-top">
+
+    <!-- 写真エリア (#92) -->
+    <div>
+      <div class="photo-main" id="main-photo">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop" alt="リビング">
+        <div class="photo-caption">売主撮影「南向きバルコニーからの眺め。朝日がよく入ります」</div>
+      </div>
+      <div class="photo-thumbs">
+        <div class="photo-thumb active" onclick="changePhoto(0)">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=150&h=120&fit=crop" alt="リビング">
+          <span class="photo-thumb-label">リビング</span>
+        </div>
+        <div class="photo-thumb" onclick="changePhoto(1)">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=150&h=120&fit=crop" alt="キッチン">
+          <span class="photo-thumb-label">キッチン</span>
+        </div>
+        <div class="photo-thumb" onclick="changePhoto(2)">
+          <img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=150&h=120&fit=crop" alt="寝室">
+          <span class="photo-thumb-label">寝室</span>
+        </div>
+        <div class="photo-thumb" onclick="changePhoto(3)">
+          <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=150&h=120&fit=crop" alt="眺望">
+          <span class="photo-thumb-label">眺望</span>
+        </div>
+        <div class="photo-thumb" onclick="changePhoto(4)">
+          <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=150&h=120&fit=crop" alt="外観">
+          <span class="photo-thumb-label">外観</span>
+        </div>
+      </div>
+      <!-- 動画セクション -->
+      <div style="margin-top:12px;background:var(--primary-pale);border-radius:var(--radius-sm);overflow:hidden;">
+        <div style="aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;" onclick="this.innerHTML='<div style=\'padding:24px;text-align:center;color:var(--text-light);font-size:0.9rem;\'>動画を再生中（モック表示）</div>'">
+          <div style="width:56px;height:56px;border-radius:50%;background:rgba(30,58,95,0.8);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:1.5rem;color:#fff;margin-left:4px;">▶</span>
+          </div>
+          <span style="font-size:0.85rem;font-weight:600;color:var(--primary);">お部屋の紹介動画を見る</span>
+          <span style="font-size:0.75rem;color:var(--text-muted);">2:34</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 基本情報パネル -->
+    <div class="info-panel">
+
+      <!-- バッジ (#87 + #17) -->
+      <div class="badges">
+        <span class="badge" style="background:linear-gradient(135deg,#1e3a5f,#2a5080);color:#fff;">🛡️ ReOpen確認済</span>
+      </div>
+
+      <!-- #14 相性スコア -->
+      <div style="background:linear-gradient(135deg,#fff0f3,#ffe8ec);border:1.5px solid #f5c6cb;border-radius:var(--radius-sm);padding:14px 18px;display:flex;align-items:center;gap:14px;">
+        <div style="font-size:2rem;">❤️</div>
+        <div style="flex:1;">
+          <div style="font-size:1rem;font-weight:700;color:#e74c3c;margin-bottom:4px;">あなたとの相性 <span style="font-size:1.3rem;">92%</span></div>
+          <div style="font-size:0.82rem;color:var(--text-light);display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:#fff;padding:2px 8px;border-radius:10px;">🚉 駅近（徒歩7分）</span>
+            <span style="background:#fff;padding:2px 8px;border-radius:10px;">📐 希望の間取り</span>
+            <span style="background:#fff;padding:2px 8px;border-radius:10px;">💰 予算内</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 物件タグ -->
+      <div class="property-tags">
+        <span class="property-tag">オートロック</span>
+        <span class="property-tag">ペットOK</span>
+        <span class="property-tag">宅配ボックス</span>
+        <span class="property-tag">南向き</span>
+        <span class="property-tag">角部屋</span>
+        <span class="property-tag">床暖房</span>
+        <span class="property-tag">食洗機</span>
+        <span class="property-tag">浴室乾燥機</span>
+      </div>
+
+      <!-- 価格 -->
+      <div class="price-area">
+        <div class="price-label">販売価格</div>
+        <div class="price-value">1<small>億</small>2,000<small>万円</small></div>
+      </div>
+
+      <!-- 物件概要 -->
+      <div class="info-grid">
+        <dl class="info-item"><dt>間取り</dt><dd>3LDK</dd></dl>
+        <dl class="info-item"><dt>専有面積</dt><dd>45帖 / 72.5㎡</dd></dl>
+        <dl class="info-item"><dt>築年</dt><dd>2015年（築11年）</dd></dl>
+        <dl class="info-item"><dt>最寄駅</dt><dd>JR恵比寿 徒歩7分</dd></dl>
+        <dl class="info-item"><dt>階数</dt><dd>8階 / 14階建</dd></dl>
+        <dl class="info-item"><dt>構造</dt><dd>RC造</dd></dl>
+        <dl class="info-item">
+          <dt><span class="glossary" data-definition="毎月かかるマンション全体の管理にかかるお金です。共用部分の清掃やエレベーター点検などに使われます。">管理費</span></dt>
+          <dd>15,800円/月</dd>
+        </dl>
+        <dl class="info-item">
+          <dt><span class="glossary" data-definition="将来の大規模な修理（外壁塗装・配管交換など）に備えて毎月積み立てるお金です。">修繕積立金</span></dt>
+          <dd>12,400円/月</dd>
+        </dl>
+      </div>
+
+      <!-- ===== メインCTAボタン（目立つ位置） ===== -->
+      <div class="cta-top-row" style="display:flex;gap:10px;margin-bottom:8px;">
+        <button class="btn-kininaru" id="btn-kininaru-top" onclick="toggleKininaru()" style="flex:1;padding:16px;font-size:1.05rem;border:none;border-radius:var(--radius-sm);cursor:pointer;font-weight:700;background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;">
+          <span>❤️</span> 気になる
+        </button>
+        <button onclick="toggleViewingForm()" style="flex:1;padding:16px;font-size:1.05rem;border:2px solid var(--primary);border-radius:var(--radius-sm);cursor:pointer;font-weight:700;background:var(--white);color:var(--primary);display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;">
+          🏠 まず見てみる（無料）
+        </button>
+        <button onclick="toggleConsultForm()" style="flex:1;padding:16px;font-size:1.05rem;border:none;border-radius:var(--radius-sm);cursor:pointer;font-weight:700;background:#27ae60;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;">
+          💬 まず相談する
+        </button>
+      </div>
+      <!-- 気になる安心トースト（デスクトップ） -->
+      <div class="kininaru-toast" id="kininaru-toast">
+        <button class="toast-close" onclick="closeKininaruToast()">&times;</button>
+        ✅ 登録しました！ 購入の義務はありません。いつでも解除できます。<br>マイページからいつでも確認できます。
+      </div>
+
+      <!-- 手数料比較 (#25) -->
+      <div class="fee-compare">
+        <div class="fee-row old-price">
+          <span>一般的な仲介手数料（3%）</span>
+          <span>約 360万円</span>
+        </div>
+        <div class="fee-row highlight">
+          <span>ReOpen 買主手数料（1%）</span>
+          <span>約 120万円</span>
+        </div>
+        <div class="fee-saving">ReOpenなら約240万円おトク！</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== ここから全幅セクション ===== -->
+  <div class="full-width-sections">
+
+    <!-- 月々シミュレーター + 価格参考データ を横並び -->
+    <div class="sim-price-grid">
+
+      <!-- 月々シミュレーター (#106) -->
+      <div class="simulator">
+        <div class="simulator-title">月々の支払いシミュレーション</div>
+
+        <!-- 住居用 / 投資用 切り替え -->
+        <div class="sim-type-toggle">
+          <button class="sim-type-btn active" onclick="switchLoanType('residential')">住居用ローン</button>
+          <button class="sim-type-btn" onclick="switchLoanType('investment')">投資用ローン</button>
+        </div>
+
+        <div class="sim-row">
+          <label>頭金</label>
+          <input type="number" id="sim-down" value="2000" step="100" min="0"> <span>万円</span>
+        </div>
+        <div class="sim-row">
+          <label>期間</label>
+          <select id="sim-years">
+            <option value="25">25年</option>
+            <option value="30">30年</option>
+            <option value="35" selected>35年</option>
+          </select>
+        </div>
+        <div class="sim-row">
+          <label><span class="glossary" data-definition="お金を借りるときにかかる利息の割合です。低いほど毎月の支払いが少なくなります。">金利</span></label>
+          <input type="number" id="sim-rate" value="0.5" step="0.1" min="0.1" max="10"> <span>%</span>
+        </div>
+        <div class="sim-result">
+          <div class="sim-result-label">毎月の返済額（目安）</div>
+          <div class="sim-result-value" id="sim-monthly">--</div>
+          <div class="text-sm text-muted mt-8">＋管理費・修繕積立金 28,200円/月</div>
+        </div>
+        <div class="sim-note" id="sim-note"></div>
+      </div>
+
+      <!-- CTAスタック（購入検討はしご） -->
+      <div class="cta-stack">
+
+        <!-- ソーシャルプルーフ -->
+        <div class="cta-social-proof">
+          <span>&#x1F440; １週間で <span class="number">89人</span> が閲覧</span>
+          <span>&#x2764;&#xFE0F; <span class="number">23人</span> が「気になる」に登録</span>
+        </div>
+
+        <!-- セカンダリボタン -->
+        <div class="cta-secondary">
+          <button class="btn-consult" onclick="toggleConsultForm()">
+            &#x1F4AC; まず相談する（無料）
+          </button>
+
+          <!-- 相談インラインフォーム -->
+          <div class="consult-form-inline" id="consult-form">
+            <label>💡 気になること、不安なことを何でもどうぞ</label>
+            <div class="consult-chips">
+              <button class="consult-chip" onclick="selectConsultChip(this)">この物件は自分に合う？</button>
+              <button class="consult-chip" onclick="selectConsultChip(this)">ローンが通るか心配</button>
+              <button class="consult-chip" onclick="selectConsultChip(this)">内見の流れが知りたい</button>
+              <button class="consult-chip" onclick="selectConsultChip(this)">はじめてで何もわからない</button>
+            </div>
+            <textarea id="consult-text" placeholder="自由に入力もできます"></textarea>
+            <button class="consult-submit-btn" onclick="submitConsult()">相談を送る（無料）</button>
+            <div class="consult-assurance">ReOpenのスタッフが24時間以内に返信します。<br>売り込みは一切しません。</div>
+          </div>
+
+          <button class="btn-outline-action" id="btn-viewing" onclick="toggleViewingForm()">
+            &#x1F3E0; まず見てみる（無料・義務なし）
+          </button>
+
+          <!-- 内見予約インラインフォーム -->
+          <div class="viewing-form-inline" id="viewing-form">
+            <div class="viewing-reassure">💡 見学は完全無料。プロが一緒にご案内します。<br>　 購入の義務はなく、見てから考えてOKです。</div>
+            <label>第1希望の日程</label>
+            <input type="date" id="viewing-date1">
+            <label>第2希望の日程</label>
+            <input type="date" id="viewing-date2">
+            <label>聞きたいこと（なくてもOK）</label>
+            <textarea placeholder="例：収納の広さを見たいです"></textarea>
+            <ul class="viewing-assurance">
+              <li>見学だけでもOK。購入の義務はありません</li>
+              <li>提携の不動産のプロがご案内（無料）</li>
+              <li>手ぶらでOK、費用は一切なし</li>
+              <li>予約後のキャンセルも無料</li>
+            </ul>
+            <button class="viewing-submit-btn" onclick="submitViewing()">この内容で申し込む（無料）</button>
+          </div>
+
+          <button class="btn-outline-action" onclick="document.getElementById('question-section').scrollIntoView({behavior:'smooth'})">
+            &#x1F4AC; 売主に質問する
+          </button>
+        </div>
+
+        <!-- 購入ステップ（折りたたみ） -->
+        <details class="cta-steps">
+          <summary>
+            &#x1F4CB; 購入までの流れを見る
+            <span class="arrow">&#x25BC;</span>
+          </summary>
+          <ol class="step-list" id="step-list">
+            <li>
+              <span class="step-check done">&#x2713;</span>
+              <span class="step-number">1.</span>
+              物件を見る
+            </li>
+            <li>
+              <span class="step-check" id="step2-check">&#x2713;</span>
+              <span class="step-number">2.</span>
+              気になるに登録
+            </li>
+            <li>
+              <span class="step-check" id="step3-check">&#x2713;</span>
+              <span class="step-number">3.</span>
+              質問・内見
+            </li>
+            <li>
+              <span class="step-check">&#x2713;</span>
+              <span class="step-number">4.</span>
+              購入を申し込む
+            </li>
+            <li>
+              <span class="step-check">&#x2713;</span>
+              <span class="step-number">5.</span>
+              契約・引渡し
+            </li>
+          </ol>
+          <div class="step-anytime">
+            申し込み前なら、いつでもやめられます。
+          </div>
+        </details>
+
+      </div>
+      <!-- ===== /CTAスタック ===== -->
+
+    </div>
+
+    <!-- ===== 価格参考データ（全幅） ===== -->
+    <div class="pr-section">
+      <div class="pr-section-title">📊 この物件の価格、どうですか？</div>
+
+      <!-- AI適正価格判定 -->
+      <div class="pr-ai-box">
+        <div class="pr-ai-label">AIによる適正価格の判定</div>
+        <div class="pr-ai-verdict">適正〜やや割安</div>
+        <div class="pr-ai-range">AI算出レンジ：1億1,200万円 〜 1億3,500万円</div>
+        <div class="pr-ai-bar-wrap">
+          <div class="pr-ai-bar-fill" style="width:85%"></div>
+          <div class="pr-ai-bar-marker" style="left:62%"></div>
+        </div>
+        <div class="pr-ai-bar-labels">
+          <span>割安</span>
+          <span>適正</span>
+          <span>割高</span>
+        </div>
+      </div>
+
+      <!-- 事例テーブル横並び -->
+      <div class="pr-tables-grid">
+        <div>
+          <div class="pr-sub-title" style="border-top:none;margin-top:0;padding-top:0;">🏢 同じマンション内の売出・成約事例</div>
+          <table class="pr-table">
+            <thead>
+              <tr>
+                <th>部屋</th>
+                <th>階</th>
+                <th>面積</th>
+                <th>価格</th>
+                <th>時期</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>705号室</td>
+                <td>7階</td>
+                <td>72.5㎡</td>
+                <td class="pr-price">1億1,800万円</td>
+                <td>2025年11月 成約</td>
+              </tr>
+              <tr>
+                <td>1203号室</td>
+                <td>12階</td>
+                <td>75.2㎡</td>
+                <td class="pr-price">1億3,200万円</td>
+                <td>2025年8月 成約</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <div class="pr-sub-title" style="border-top:none;margin-top:0;padding-top:0;">📍 周辺の似た条件の物件</div>
+          <table class="pr-table">
+            <thead>
+              <tr>
+                <th>物件名</th>
+                <th>面積</th>
+                <th>価格</th>
+                <th>坪単価</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>パークコート目黒</td>
+                <td>68.4㎡</td>
+                <td class="pr-price">1億800万円</td>
+                <td>521万円</td>
+              </tr>
+              <tr>
+                <td>ブリリア恵比寿</td>
+                <td>74.1㎡</td>
+                <td class="pr-price">1億2,500万円</td>
+                <td>557万円</td>
+              </tr>
+              <tr>
+                <td>プラウド中目黒</td>
+                <td>70.8㎡</td>
+                <td class="pr-price">1億1,400万円</td>
+                <td>532万円</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- エリア相場サマリー -->
+      <div class="pr-sub-title">📈 エリア相場との比較</div>
+      <div class="pr-metrics">
+        <div class="pr-metric">
+          <div class="pr-metric-label">このエリアの平均坪単価</div>
+          <div class="pr-metric-value">538万円</div>
+          <div class="pr-metric-sub">目黒区・3LDK・築10年以内</div>
+        </div>
+        <div class="pr-metric">
+          <div class="pr-metric-label">この物件の坪単価</div>
+          <div class="pr-metric-value">515万円</div>
+          <div class="pr-metric-sub">75.2㎡ ／ 22.7坪換算</div>
+        </div>
+        <div class="pr-metric">
+          <div class="pr-metric-label">エリア平均との差</div>
+          <div class="pr-metric-value pr-accent">−23万円（約4%割安）</div>
+          <div class="pr-metric-sub">同条件の平均より安い</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== 間取り図 ========== -->
+  <div class="section">
+    <h2 class="section-title">間取り図</h2>
+    <div class="floorplan-area">
+      <div class="floorplan-img">
+        <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;padding:12px;">
+          <!-- 外枠 -->
+          <rect x="20" y="20" width="460" height="360" fill="none" stroke="#1e3a5f" stroke-width="3"/>
+          <!-- LDK -->
+          <rect x="20" y="20" width="280" height="220" fill="#e8eef5" stroke="#1e3a5f" stroke-width="2"/>
+          <text x="160" y="120" text-anchor="middle" font-size="15" font-weight="700" fill="#1e3a5f">LDK</text>
+          <text x="160" y="142" text-anchor="middle" font-size="11" fill="#666">18.5帖</text>
+          <!-- キッチンライン -->
+          <line x1="220" y1="20" x2="220" y2="100" stroke="#1e3a5f" stroke-width="1.5" stroke-dasharray="4"/>
+          <text x="250" y="55" text-anchor="middle" font-size="9" fill="#999">キッチン</text>
+          <!-- 洋室1（主寝室） -->
+          <rect x="300" y="20" width="180" height="180" fill="#dce6f0" stroke="#1e3a5f" stroke-width="2"/>
+          <text x="390" y="100" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a5f">洋室1</text>
+          <text x="390" y="120" text-anchor="middle" font-size="10" fill="#666">7.2帖</text>
+          <text x="390" y="136" text-anchor="middle" font-size="9" fill="#999">（主寝室）</text>
+          <!-- WIC -->
+          <rect x="380" y="145" width="100" height="55" fill="#f0ece4" stroke="#1e3a5f" stroke-width="1.5"/>
+          <text x="430" y="178" text-anchor="middle" font-size="9" fill="#666">WIC</text>
+          <!-- 洋室2 -->
+          <rect x="300" y="200" width="100" height="180" fill="#dce6f0" stroke="#1e3a5f" stroke-width="2"/>
+          <text x="350" y="285" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a5f">洋室2</text>
+          <text x="350" y="305" text-anchor="middle" font-size="10" fill="#666">5.8帖</text>
+          <!-- 洋室3 -->
+          <rect x="400" y="200" width="80" height="180" fill="#dce6f0" stroke="#1e3a5f" stroke-width="2"/>
+          <text x="440" y="285" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a5f">洋室3</text>
+          <text x="440" y="305" text-anchor="middle" font-size="10" fill="#666">5.0帖</text>
+          <!-- 廊下 -->
+          <rect x="200" y="240" width="100" height="140" fill="#f7f8fa" stroke="#1e3a5f" stroke-width="1.5"/>
+          <text x="250" y="315" text-anchor="middle" font-size="10" fill="#999">廊下</text>
+          <!-- 浴室・洗面 -->
+          <rect x="100" y="240" width="100" height="80" fill="#e0f0f0" stroke="#1e3a5f" stroke-width="1.5"/>
+          <text x="150" y="276" text-anchor="middle" font-size="10" fill="#666">浴室</text>
+          <text x="150" y="292" text-anchor="middle" font-size="9" fill="#999">洗面</text>
+          <!-- トイレ -->
+          <rect x="20" y="240" width="80" height="80" fill="#f5f0e8" stroke="#1e3a5f" stroke-width="1.5"/>
+          <text x="60" y="285" text-anchor="middle" font-size="10" fill="#666">トイレ</text>
+          <!-- 玄関 -->
+          <rect x="20" y="320" width="180" height="60" fill="#f0ece4" stroke="#1e3a5f" stroke-width="1.5"/>
+          <text x="110" y="355" text-anchor="middle" font-size="11" fill="#666">玄関</text>
+          <!-- 玄関ドア -->
+          <rect x="80" y="374" width="60" height="6" fill="#1e3a5f" rx="2"/>
+          <!-- バルコニー -->
+          <rect x="20" y="4" width="280" height="16" fill="none" stroke="#1e3a5f" stroke-width="1.5" stroke-dasharray="6"/>
+          <text x="160" y="14" text-anchor="middle" font-size="9" fill="#999">バルコニー（12.3㎡）</text>
+          <!-- 方角 -->
+          <text x="470" y="14" text-anchor="middle" font-size="11" font-weight="700" fill="#c8913a">N↑</text>
+          <text x="160" y="395" text-anchor="middle" font-size="9" fill="#999">※ 実際の間取りと異なる場合があります</text>
+        </svg>
+      </div>
+      <div>
+        <h4 class="mb-16" style="font-size:0.95rem; color:var(--primary);">各部屋の広さ</h4>
+        <ul class="room-specs">
+          <li><span>LDK</span><span>18.5 帖</span></li>
+          <li><span>洋室1（主寝室）</span><span>7.2 帖</span></li>
+          <li><span>洋室2</span><span>5.8 帖</span></li>
+          <li><span>洋室3</span><span>5.0 帖</span></li>
+          <li><span>バルコニー</span><span>8帖 / 12.3㎡</span></li>
+          <li><span>専有面積</span><span>45帖 / 72.5㎡</span></li>
+        </ul>
+        <p class="text-sm text-muted mt-16">※ 間取り図は実際の物件と異なる場合があります</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 売主コメント (#9) ========== -->
+  <div class="section">
+    <h2 class="section-title">売主からのコメント</h2>
+    <div class="owner-comment">
+      <div class="comment-box good">
+        <h4>気に入っていた点</h4>
+        <p>南向きバルコニーで日当たりが非常に良く、冬でもリビングが暖かいです。恵比寿駅まで徒歩7分ですが、住宅街を通るので静かで快適な通勤ができます。近くにスーパーが2軒あり、日常の買い物にも困りません。管理組合がしっかりしていて、共用部分はいつも綺麗に保たれています。</p>
+      </div>
+      <div class="comment-box bad">
+        <h4>正直イマイチだった点</h4>
+        <p>駐車場が機械式で、出し入れに少し時間がかかります。また、1階にコンビニが入っているため、週末の夜は若干人の声が聞こえることがあります（8階なのでほとんど気になりませんが）。収納がもう少し広ければ良かったと感じます。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== マンション健康診断 (#11) ========== -->
+  <div class="section">
+    <h2 class="section-title">マンション健康診断スコア</h2>
+    <div class="health-score">
+      <div class="radar-placeholder">レーダーチャート<br>（実装時に描画）</div>
+      <ul class="score-list">
+        <li>
+          <span><span class="glossary" data-definition="管理人の有無、清掃の頻度、管理組合の活動状況など、マンション全体がどれだけきちんと運営されているかです。">管理の充実度</span></span>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:90%"></div></div>
+          <span class="fw-bold text-primary">90</span>
+        </li>
+        <li>
+          <span><span class="glossary" data-definition="外壁・配管・エレベーターなど、建物の傷み具合と、過去にどれだけきちんと修理されてきたかを示します。">建物コンディション</span></span>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:82%"></div></div>
+          <span class="fw-bold text-primary">82</span>
+        </li>
+        <li>
+          <span><span class="glossary" data-definition="将来の大きな修理に備えたお金（修繕積立金）が十分に貯まっているか、管理費が適正かどうかを示します。">お金まわりの安心度</span></span>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:78%"></div></div>
+          <span class="fw-bold text-primary">78</span>
+        </li>
+        <li>
+          <span><span class="glossary" data-definition="騒音の少なさ、日当たり・風通し、設備の新しさなど、実際に暮らしたときの快適さを総合的に評価します。">住み心地</span></span>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:88%"></div></div>
+          <span class="fw-bold text-primary">88</span>
+        </li>
+        <li>
+          <span><span class="glossary" data-definition="このエリアで今後も買いたい人がいるか、建物の寿命がまだどれくらいあるかなど、長い目で見た安心感です。">将来の安心度</span></span>
+          <div class="score-bar-wrap"><div class="score-bar" style="width:85%"></div></div>
+          <span class="fw-bold text-primary">85</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========== 居住/投資 タブ ========== -->
+  <div class="section">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('living')">住む人向け</button>
+      <button class="tab-btn" onclick="switchTab('invest')">投資を考える人向け</button>
+    </div>
+
+    <!-- 居住タブ -->
+    <div class="tab-panel active" id="tab-living">
+
+      <!-- 修繕積立金の将来予測 (#12) -->
+      <h3 class="section-title" style="border-bottom-width:1px; font-size:1rem;">修繕積立金の将来予測</h3>
+      <p class="text-sm text-muted mb-16">一般的なマンションでは、築年数が進むと修繕積立金が段階的に上がることがあります。</p>
+      <div class="chart-placeholder mb-24">
+        グラフ表示エリア<br>
+        現在 12,400円 → 築20年 約18,000円 → 築30年 約24,000円（一般的な目安）
+      </div>
+
+      <!-- 過去の売買履歴 (#18) -->
+      <h3 class="section-title" style="border-bottom-width:1px; font-size:1rem;">この部屋の売買履歴</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>時期</th><th>売買価格</th><th>㎡単価</th><th>備考</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2015年3月</td><td>1億500万円</td><td>144.8万円</td><td>新築分譲時</td></tr>
+            <tr><td>2020年6月</td><td>1億1,200万円</td><td>154.5万円</td><td>中古売買</td></tr>
+            <tr><td>2026年（今回）</td><td>1億2,000万円</td><td>165.5万円</td><td>出品中</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 投資タブ -->
+    <div class="tab-panel" id="tab-invest">
+
+      <!-- 表面vs実質利回り (#51) -->
+      <h3 class="section-title" style="border-bottom-width:1px; font-size:1rem;">利回りシミュレーション</h3>
+      <div class="yield-cards">
+        <div class="yield-card">
+          <div class="label"><span class="glossary" data-definition="年間の家賃収入を物件価格で割ったもの。経費を引く前のざっくりとした利回りです。">表面利回り</span></div>
+          <div class="value">4.0<small>%</small></div>
+        </div>
+        <div class="yield-card">
+          <div class="label"><span class="glossary" data-definition="管理費・修繕積立金・固定資産税などの経費を引いた後の、実際に手元に残る利回りです。">実質利回り</span></div>
+          <div class="value accent">3.5<small>%</small></div>
+        </div>
+      </div>
+
+      <!-- キャッシュフローシミュレーター (#52) -->
+      <h3 class="section-title" style="border-bottom-width:1px; font-size:1rem;">キャッシュフロー（お金の流れ）</h3>
+      <p class="text-sm text-muted mb-16">投資用ローン（頭金3,000万円・金利1.8%・30年）で計算した場合の目安</p>
+      <div class="table-wrap mb-24">
+        <table class="cf-table">
+          <thead>
+            <tr><th>項目</th><th>月額</th><th>年額</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>想定家賃収入</td><td class="text-success fw-bold">+400,000円</td><td class="text-success fw-bold">+4,800,000円</td></tr>
+            <tr><td>ローン返済（30年・1.8%）</td><td>-323,700円</td><td>-3,884,400円</td></tr>
+            <tr><td>管理費・修繕積立金</td><td>-28,200円</td><td>-338,400円</td></tr>
+            <tr><td><span class="glossary" data-definition="不動産を持っていると毎年かかる税金です。物件の評価額に応じて金額が決まります。">固定資産税</span>（月割）</td><td>-20,800円</td><td>-249,600円</td></tr>
+            <tr style="background:var(--primary-pale); font-weight:700;">
+              <td>手残り（税引前）</td><td class="text-primary">+27,300円</td><td class="text-primary">+327,600円</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 売主の運用実績 (#50) -->
+      <h3 class="section-title" style="border-bottom-width:1px; font-size:1rem;">売主の運用実績</h3>
+      <div class="performance-grid">
+        <div class="perf-item">
+          <div class="label">保有期間</div>
+          <div class="value">6年</div>
+        </div>
+        <div class="perf-item">
+          <div class="label">平均入居率</div>
+          <div class="value">96%</div>
+        </div>
+        <div class="perf-item">
+          <div class="label">累計家賃収入</div>
+          <div class="value">2,760万</div>
+        </div>
+      </div>
+      <p class="text-sm text-muted">過去6年間で空室は計3ヶ月のみ。安定した賃貸需要のあるエリアです。</p>
+
+      <!-- 出口戦略・融資 (#123, #124) -->
+      <div class="exit-grid mt-24">
+        <div class="exit-card">
+          <h4>出口戦略の見通し</h4>
+          <p>恵比寿エリアは中古マンション需要が安定しており、築20年程度までは大きな値下がりリスクが低いと見込まれます。過去10年の同エリア中古マンション価格はほぼ横ばい〜微増傾向です。</p>
+          <div class="rating-bar">
+            <span class="text-sm">売りやすさ</span>
+            <div class="rating-fill"><div class="rating-fill-inner" style="width:82%"></div></div>
+            <span class="rating-label">82</span>
+          </div>
+        </div>
+        <div class="exit-card">
+          <h4>融資のつきやすさ目安</h4>
+          <p>築11年・RC造・駅徒歩7分・渋谷区という条件は、多くの金融機関で好条件と評価されます。フルローンも検討可能なレベルです。</p>
+          <div class="rating-bar">
+            <span class="text-sm">融資評価</span>
+            <div class="rating-fill"><div class="rating-fill-inner" style="width:88%"></div></div>
+            <span class="rating-label">88</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 売主レビュー (#21) ========== -->
+  <div class="section">
+    <h2 class="section-title">このマンションの住民レビュー</h2>
+    <p class="text-sm text-muted mb-16">同じマンションに住んでいた方からの口コミです</p>
+
+    <div class="review-item">
+      <div class="review-header">
+        <div class="review-avatar">T.S</div>
+        <div>
+          <div class="review-stars">★★★★★</div>
+          <div class="review-meta">2024年まで6階に居住 ・ ファミリー</div>
+        </div>
+      </div>
+      <p class="review-text">管理人さんが常駐で、いつも共用部が清潔です。子育て世帯が多く、マンション内の雰囲気もとても良かったです。恵比寿ガーデンプレイスまで徒歩5分で、週末の買い物や食事にも便利でした。</p>
+    </div>
+
+    <div class="review-item">
+      <div class="review-header">
+        <div class="review-avatar">M.K</div>
+        <div>
+          <div class="review-stars">★★★★☆</div>
+          <div class="review-meta">2022年まで10階に居住 ・ 単身</div>
+        </div>
+      </div>
+      <p class="review-text">駅からの道が平坦で歩きやすく、夜道も明るいので安心です。宅配ボックスも大型で、ネット通販をよく使う方には助かると思います。強いて言えば、ゴミ出しが曜日指定なのが少し不便でした。</p>
+    </div>
+
+    <div class="review-item">
+      <div class="review-header">
+        <div class="review-avatar">A.Y</div>
+        <div>
+          <div class="review-stars">★★★★★</div>
+          <div class="review-meta">2023年まで3階に居住 ・ 夫婦</div>
+        </div>
+      </div>
+      <p class="review-text">修繕積立金の値上げ計画が長期修繕計画にきちんと明記されていて、管理組合の運営が透明で安心感がありました。築年数の割に設備が新しく、大規模修繕も計画通りに実施されています。</p>
+    </div>
+  </div>
+
+  <!-- ========== 周辺施設マップ (#93) ========== -->
+  <div class="section">
+    <h2 class="section-title">周辺施設マップ</h2>
+    <div class="map-placeholder mb-16">
+      地図表示エリア（Google Maps 等を埋め込み予定）
+    </div>
+    <div class="grid-3 text-sm">
+      <div>
+        <strong>買い物</strong>
+        <p class="text-muted">ピーコックストア 徒歩3分<br>まいばすけっと 徒歩2分</p>
+      </div>
+      <div>
+        <strong>医療</strong>
+        <p class="text-muted">恵比寿クリニック 徒歩5分<br>広尾病院 徒歩12分</p>
+      </div>
+      <div>
+        <strong>学校</strong>
+        <p class="text-muted">恵比寿小学校 徒歩8分<br>恵比寿中学校 徒歩10分</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 質問フォーム + 質問履歴 (#23) ========== -->
+  <div class="section" id="question-section">
+    <h2 class="section-title">売主に質問する</h2>
+    <p class="text-sm text-muted mb-16">気になることがあれば、売主に直接質問できます。（価格交渉はできません）</p>
+    <div class="question-form">
+      <div class="form-group">
+        <label class="form-label">質問カテゴリ</label>
+        <select class="form-select">
+          <option>選択してください</option>
+          <option>物件の状態について</option>
+          <option>周辺環境について</option>
+          <option>管理組合について</option>
+          <option>設備・リフォームについて</option>
+          <option>その他</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">質問内容</label>
+        <textarea class="form-textarea" placeholder="例：キッチンのリフォームはされていますか？"></textarea>
+      </div>
+      <button class="btn btn-primary">質問を送信する</button>
+    </div>
+
+    <!-- 質問履歴 -->
+    <div class="qa-history">
+      <h3 class="section-title" style="border-bottom-width:1px; font-size:1rem;">これまでの質問と回答（3件）</h3>
+
+      <div class="qa-item">
+        <div class="qa-question">
+          <span class="qa-label qa-label-q">質問</span>
+          <span>リフォームの履歴はありますか？水まわりの状態が気になります。</span>
+        </div>
+        <div class="qa-answer">
+          <span class="qa-label qa-label-a">回答</span>
+          <span>2022年にキッチンと浴室をリフォームしました。キッチンは食洗機付きのシステムキッチンに交換し、浴室も乾燥機付きのユニットバスに入れ替えています。配管の状態も良好です。</span>
+        </div>
+        <div class="qa-meta">2026年2月20日 ・ カテゴリ：設備・リフォームについて</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question">
+          <span class="qa-label qa-label-q">質問</span>
+          <span>ペットの飼育ルールを教えてください。大型犬は可能ですか？</span>
+        </div>
+        <div class="qa-answer">
+          <span class="qa-label qa-label-a">回答</span>
+          <span>管理規約では小型犬・猫は2匹まで飼育可能です。大型犬は残念ながら不可となっています。体重10kg以下が目安です。ペットの足洗い場が1階にあります。</span>
+        </div>
+        <div class="qa-meta">2026年2月15日 ・ カテゴリ：物件の状態について</div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question">
+          <span class="qa-label qa-label-q">質問</span>
+          <span>近くの保育園の空き状況はわかりますか？</span>
+        </div>
+        <div class="qa-answer">
+          <span class="qa-label qa-label-a">回答</span>
+          <span>徒歩5分圏内に認可保育園が2か所あります。私の子どもは恵比寿南保育園に通っていましたが、近年は比較的入りやすくなったと聞いています。区の窓口で最新の空き状況を確認されることをおすすめします。</span>
+        </div>
+        <div class="qa-meta">2026年2月10日 ・ カテゴリ：周辺環境について</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== おすすめ物件 (#8) ========== -->
+  <div class="section">
+    <h2 class="section-title">この物件を見た人はこんな物件も見ています</h2>
+    <div class="recommend-grid">
+      <a href="property-detail.html" class="card" style="text-decoration:none;color:inherit;">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop" alt="パークハウス代官山">
+        </div>
+        <div class="card-body">
+          <div class="card-title">パークハウス代官山</div>
+          <div class="card-text">2LDK・36帖 / 58.3㎡・代官山駅 徒歩5分</div>
+          <div class="card-price">9,480万円</div>
+        </div>
+      </a>
+      <a href="property-detail.html" class="card" style="text-decoration:none;color:inherit;">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop" alt="ブリリア目黒">
+        </div>
+        <div class="card-body">
+          <div class="card-title">ブリリア目黒</div>
+          <div class="card-text">3LDK・46帖 / 75.2㎡・目黒駅 徒歩8分</div>
+          <div class="card-price">1億1,800万円</div>
+        </div>
+      </a>
+      <a href="property-detail.html" class="card" style="text-decoration:none;color:inherit;">
+        <div class="card-img">
+          <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&h=300&fit=crop" alt="プラウド広尾">
+        </div>
+        <div class="card-body">
+          <div class="card-title">プラウド広尾</div>
+          <div class="card-text">3LDK・49帖 / 80.1㎡・広尾駅 徒歩6分</div>
+          <div class="card-price">1億4,500万円</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</main>
+
+<!-- ========== モバイル固定フッターバー ========== -->
+<div class="mobile-cta-bar" id="mobile-cta-bar">
+  <div class="mobile-price">1<small>億</small>2,000<small>万円</small></div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button class="btn-kininaru-sm" id="btn-kininaru-mobile" onclick="toggleKininaru()">
+      &#x2764;&#xFE0F; 気になる
+    </button>
+    <button class="btn-consult-sm" onclick="toggleConsultForm()">
+      &#x1F4AC; 相談
+    </button>
+  </div>
+</div>
+<!-- モバイル用トースト -->
+<div class="kininaru-toast-mobile" id="kininaru-toast-mobile">
+  <button class="toast-close" onclick="closeMobileToast()">&times;</button>
+  ✅ 登録しました！ 購入の義務はありません。いつでも解除できます。
+</div>
+
+<!-- ========== フッター ========== -->
+<footer class="site-footer"></footer>
+
+<script src="common.js"></script>
+
+<!-- ========== JavaScript ========== -->
+<script>
+  // --- 写真切り替え ---
+  var photos = [
+    { src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop', caption: '売主撮影「南向きバルコニーからの眺め。朝日がよく入ります」' },
+    { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop', caption: '売主撮影「リフォーム済みのキッチン。食洗機付きです」' },
+    { src: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&h=600&fit=crop', caption: '売主撮影「主寝室。ウォークインクローゼット付き」' },
+    { src: 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=800&h=600&fit=crop', caption: '売主撮影「8階からの眺望。夜景もきれいです」' },
+    { src: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop', caption: '売主撮影「マンション外観。築11年ですが管理良好」' }
+  ];
+
+  function changePhoto(index) {
+    var mainImg = document.querySelector('.photo-main img');
+    var caption = document.querySelector('.photo-caption');
+    mainImg.src = photos[index].src;
+    caption.textContent = photos[index].caption;
+
+    document.querySelectorAll('.photo-thumb').forEach(function(t, i) {
+      t.classList.toggle('active', i === index);
+    });
+  }
+
+  // --- タブ切り替え ---
+  function switchTab(tabName) {
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-panel').forEach(function(panel) {
+      panel.classList.remove('active');
+    });
+
+    if (tabName === 'living') {
+      document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      document.getElementById('tab-living').classList.add('active');
+    } else {
+      document.querySelectorAll('.tab-btn')[1].classList.add('active');
+      document.getElementById('tab-invest').classList.add('active');
+    }
+  }
+
+  // --- ローンタイプ切り替え ---
+  var currentLoanType = 'residential';
+
+  function switchLoanType(type) {
+    currentLoanType = type;
+    document.querySelectorAll('.sim-type-btn').forEach(function(btn) {
+      btn.classList.remove('active');
+    });
+
+    if (type === 'residential') {
+      document.querySelectorAll('.sim-type-btn')[0].classList.add('active');
+      document.getElementById('sim-down').value = 2000;
+      document.getElementById('sim-rate').value = 0.5;
+      document.getElementById('sim-years').value = '35';
+      document.getElementById('sim-note').textContent = '';
+    } else {
+      document.querySelectorAll('.sim-type-btn')[1].classList.add('active');
+      document.getElementById('sim-down').value = 3000;
+      document.getElementById('sim-rate').value = 1.8;
+      document.getElementById('sim-years').value = '30';
+      document.getElementById('sim-note').textContent = '※ 投資用ローンは住居用より金利が高く、借入期間が短い傾向があります';
+    }
+
+    calcMonthly();
+  }
+
+  // --- 月々シミュレーター (#106) ---
+  function calcMonthly() {
+    var price = 12000; // 万円（1億2,000万円）
+    var down = parseFloat(document.getElementById('sim-down').value) || 0;
+    var years = parseInt(document.getElementById('sim-years').value) || 35;
+    var rate = parseFloat(document.getElementById('sim-rate').value) || 0.5;
+
+    var loan = (price - down) * 10000; // 円に変換
+    if (loan <= 0) {
+      document.getElementById('sim-monthly').textContent = '0 円';
+      return;
+    }
+
+    var monthlyRate = rate / 100 / 12;
+    var months = years * 12;
+    var monthly;
+
+    if (monthlyRate === 0) {
+      monthly = loan / months;
+    } else {
+      monthly = loan * monthlyRate * Math.pow(1 + monthlyRate, months)
+             / (Math.pow(1 + monthlyRate, months) - 1);
+    }
+
+    document.getElementById('sim-monthly').textContent =
+      Math.round(monthly).toLocaleString() + ' 円/月';
+  }
+
+  // 初期計算 + イベント
+  document.getElementById('sim-down').addEventListener('input', calcMonthly);
+  document.getElementById('sim-years').addEventListener('change', calcMonthly);
+  document.getElementById('sim-rate').addEventListener('input', calcMonthly);
+  calcMonthly();
+
+  // --- 「気になる」ボタン切り替え ---
+  var isKininaru = false;
+
+  function toggleKininaru() {
+    isKininaru = !isKininaru;
+
+    var btnTop = document.getElementById('btn-kininaru-top');
+    var btnMobile = document.getElementById('btn-kininaru-mobile');
+    var step2 = document.getElementById('step2-check');
+
+    if (isKininaru) {
+      btnTop.style.background = 'linear-gradient(135deg, #1e3a5f, #2a5080)';
+      btnTop.innerHTML = '<span>✔️</span> 登録済み';
+      step2.classList.add('done');
+      if (btnMobile) {
+        btnMobile.classList.add('is-active');
+        btnMobile.innerHTML = '&#x2714;&#xFE0F; 登録済み';
+      }
+      // 安心トースト表示
+      showKininaruToast();
+    } else {
+      btnTop.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+      btnTop.innerHTML = '<span>❤️</span> 気になる';
+      step2.classList.remove('done');
+      if (btnMobile) {
+        btnMobile.classList.remove('is-active');
+        btnMobile.innerHTML = '&#x2764;&#xFE0F; 気になる';
+      }
+      // トーストを非表示
+      closeKininaruToast();
+      closeMobileToast();
+    }
+  }
+
+  // --- 気になるトースト ---
+  var toastTimer = null;
+  function showKininaruToast() {
+    var toast = document.getElementById('kininaru-toast');
+    var mobileToast = document.getElementById('kininaru-toast-mobile');
+    // デスクトップ
+    if (toast) {
+      toast.classList.add('is-show');
+    }
+    // モバイル
+    if (mobileToast && window.innerWidth <= 768) {
+      mobileToast.classList.add('is-show');
+    }
+    // 3秒後に自動で閉じる
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() {
+      closeKininaruToast();
+      closeMobileToast();
+    }, 3000);
+  }
+  function closeKininaruToast() {
+    var toast = document.getElementById('kininaru-toast');
+    if (toast) toast.classList.remove('is-show');
+  }
+  function closeMobileToast() {
+    var mobileToast = document.getElementById('kininaru-toast-mobile');
+    if (mobileToast) mobileToast.classList.remove('is-show');
+  }
+
+  // --- 内見予約フォームの展開 ---
+  function toggleViewingForm() {
+    var form = document.getElementById('viewing-form');
+    form.classList.toggle('is-open');
+
+    // 日付入力の最小値を今日に設定
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('viewing-date1').setAttribute('min', today);
+    document.getElementById('viewing-date2').setAttribute('min', today);
+  }
+
+  function submitViewing() {
+    var date1 = document.getElementById('viewing-date1').value;
+    if (!date1) {
+      alert('第1希望の日程を選んでください');
+      return;
+    }
+    // ステップ3にチェック
+    document.getElementById('step3-check').classList.add('done');
+    // フォームを完了表示に差し替え
+    var form = document.getElementById('viewing-form');
+    form.innerHTML = '<div style="text-align:center; padding:16px 0;">' +
+      '<div style="font-size:1.5rem; margin-bottom:8px;">&#x2705;</div>' +
+      '<div style="font-weight:700; color:var(--primary); margin-bottom:4px;">見学のお申し込みを受け付けました</div>' +
+      '<div style="font-size:0.82rem; color:var(--text-muted);">担当者から日程確認のご連絡をいたします</div>' +
+      '</div>';
+  }
+
+  // --- 相談フォームの展開 ---
+  function toggleConsultForm() {
+    var form = document.getElementById('consult-form');
+    form.classList.toggle('is-open');
+    // フォームが開いたらスクロール
+    if (form.classList.contains('is-open')) {
+      form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function selectConsultChip(chip) {
+    chip.classList.toggle('selected');
+    // 選択中チップのテキストでテキストエリアを常に更新
+    var textarea = document.getElementById('consult-text');
+    var chips = document.querySelectorAll('.consult-chip.selected');
+    var texts = [];
+    for (var i = 0; i < chips.length; i++) {
+      texts.push(chips[i].textContent);
+    }
+    textarea.value = texts.join('\n');
+  }
+
+  function submitConsult() {
+    var textarea = document.getElementById('consult-text');
+    var chips = document.querySelectorAll('.consult-chip.selected');
+    if (!textarea.value && chips.length === 0) {
+      alert('相談内容を入力するか、選択肢を選んでください');
+      return;
+    }
+    var form = document.getElementById('consult-form');
+    form.innerHTML = '<div style="text-align:center; padding:16px 0;">' +
+      '<div style="font-size:1.5rem; margin-bottom:8px;">&#x2705;</div>' +
+      '<div style="font-weight:700; color:#27ae60; margin-bottom:4px;">ご相談を受け付けました</div>' +
+      '<div style="font-size:0.82rem; color:var(--text-muted);">ReOpenスタッフが24時間以内にご返信いたします</div>' +
+      '</div>';
+  }
+</script>
+
+</body>
+</html>

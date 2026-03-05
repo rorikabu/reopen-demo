@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReOpenの特徴｜ReOpen</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* === ヒーローポイント（固有） === */
+    .hero-points {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-point {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 180px;
+    }
+    .hero-point-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .hero-point-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .hero-point-sub {
+      font-size: 0.82rem;
+      opacity: 0.8;
+    }
+
+    /* === 手数料比較セクション === */
+    .fee-section {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .fee-input-area {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .fee-input-area label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-right: 8px;
+    }
+    .fee-price-input {
+      width: 160px;
+      padding: 10px 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-align: right;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-xs);
+      color: var(--primary);
+      font-family: inherit;
+    }
+    .fee-price-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .fee-input-area .unit {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+    .fee-compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0;
+      align-items: stretch;
+    }
+    .fee-box {
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+    }
+    .fee-box-old {
+      background: #f5f5f5;
+      border: 2px solid var(--border);
+    }
+    .fee-box-new {
+      background: linear-gradient(135deg, #fdf8f0, #fef3e0);
+      border: 2px solid #f0d9a8;
+    }
+    .fee-box-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+    .fee-box-new .fee-box-label {
+      color: var(--accent);
+    }
+    .fee-detail {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 0.88rem;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .fee-detail:last-child {
+      border-bottom: none;
+    }
+    .fee-detail-label {
+      color: var(--text-light);
+    }
+    .fee-detail-value {
+      font-weight: 700;
+      color: var(--text);
+    }
+    .fee-box-new .fee-detail-value {
+      color: var(--primary);
+    }
+    .fee-vs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .fee-saving-banner {
+      margin-top: 20px;
+      padding: 20px 24px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #c8913a, #daa54e);
+      color: var(--white);
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .fee-saving-item {
+      text-align: center;
+    }
+    .fee-saving-item .label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      opacity: 0.9;
+      margin-bottom: 4px;
+    }
+    .fee-saving-item .amount {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    /* === 売主メリットセクション === */
+    .seller-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .seller-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 20px;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+    .seller-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .seller-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--primary-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin: 0 auto 14px;
+    }
+    .seller-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .seller-card p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    /* === 買主メリットセクション === */
+    .buyer-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .buyer-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 20px;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+    .buyer-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .buyer-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #dbeafe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin: 0 auto 14px;
+    }
+    .buyer-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .buyer-card .buyer-card-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .buyer-card p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* === 3つの安心セクション === */
+    .safety-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .safety-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 20px;
+      text-align: center;
+      border-top: 4px solid var(--primary);
+      transition: box-shadow 0.2s;
+    }
+    .safety-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .safety-card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .safety-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .safety-card p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .safety-card .badge {
+      margin-top: 10px;
+    }
+
+    /* === 買主保護セクション === */
+    .support-flow {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .support-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+      min-width: 140px;
+      max-width: 180px;
+      position: relative;
+    }
+    .support-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(50% + 32px);
+      width: calc(100% - 64px);
+      height: 2px;
+      background: var(--border);
+    }
+    .support-step-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--primary-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .support-step-label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .support-step-desc {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    /* === 購入の流れセクション === */
+    .flow-steps {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      justify-content: space-between;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+      min-width: 110px;
+      position: relative;
+    }
+    .flow-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: calc(50% + 28px);
+      width: calc(100% - 56px);
+      height: 2px;
+      background: var(--border);
+    }
+    .flow-step-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .flow-step-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .flow-step-desc {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      line-height: 1.4;
+    }
+    .policy-box {
+      margin-top: 20px;
+      background: var(--primary-pale);
+      border-radius: var(--radius-sm);
+      padding: 20px 24px;
+    }
+    .policy-box h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .policy-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .policy-list li {
+      padding: 6px 0;
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .policy-list li::before {
+      content: '>';
+      color: var(--primary);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* === 他サービス比較表 === */
+    .compare-table-wrap {
+      overflow-x: auto;
+    }
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: 12px 14px;
+      text-align: center;
+      font-size: 0.85rem;
+      border-bottom: 1px solid var(--border-light);
+      vertical-align: middle;
+    }
+    .compare-table thead th {
+      font-weight: 700;
+      background: var(--primary-pale);
+      color: var(--primary);
+    }
+    .compare-table thead th:first-child {
+      text-align: left;
+    }
+    .compare-table tbody td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .compare-table .col-reopen {
+      background: #fdf8f0;
+    }
+    .compare-table thead .col-reopen {
+      background: linear-gradient(135deg, #c8913a, #daa54e);
+      color: var(--white);
+    }
+    .compare-check {
+      color: var(--success);
+      font-weight: 700;
+    }
+    .compare-x {
+      color: var(--text-muted);
+    }
+
+    /* === 体験談セクション === */
+    .voice-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .voice-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      transition: box-shadow 0.2s;
+    }
+    .voice-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .voice-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .voice-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .voice-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .voice-tag {
+      font-size: 0.78rem;
+      color: var(--text-light);
+    }
+    .voice-text {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 12px;
+      padding: 14px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+    }
+    .voice-saving {
+      text-align: center;
+      padding: 8px 16px;
+      border-radius: var(--radius-xs);
+      background: linear-gradient(135deg, #fdf8f0, #fef3e0);
+      border: 1.5px solid #f0d9a8;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* === FAQセクション === */
+    .faq-item {
+      border-bottom: 1px solid var(--border-light);
+    }
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      padding: 16px 0;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      transition: color 0.2s;
+    }
+    .faq-question:hover {
+      color: var(--primary);
+    }
+    .faq-question::after {
+      content: '+';
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .faq-question.open::after {
+      content: '-';
+    }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-answer.open {
+      max-height: 500px;
+      padding-bottom: 16px;
+    }
+    .faq-answer p {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    /* === CTAボタン（固有） === */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: var(--radius);
+      border: 2px solid var(--white);
+      cursor: pointer;
+      transition: all 0.25s;
+      text-decoration: none;
+    }
+    .cta-btn-primary {
+      background: var(--white);
+      color: var(--primary);
+    }
+    .cta-btn-primary:hover {
+      background: var(--primary-pale);
+    }
+    .cta-btn-secondary {
+      background: transparent;
+      color: var(--white);
+    }
+    .cta-btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    .cta-btn-accent {
+      background: var(--accent);
+      color: var(--white);
+      border-color: var(--accent);
+    }
+    .cta-btn-accent:hover {
+      background: #b5802f;
+    }
+
+    /* === セクションタイトル共通 === */
+    .section-icon {
+      font-size: 1.3rem;
+      margin-right: 8px;
+    }
+
+    /* === レスポンシブ === */
+    @media (max-width: 768px) {
+      .hero-points { gap: 16px; }
+      .hero-point { min-width: 140px; }
+      .fee-compare-grid { grid-template-columns: 1fr; gap: 12px; }
+      .fee-vs { transform: rotate(90deg); padding: 4px 0; }
+      .seller-cards { grid-template-columns: 1fr; }
+      .buyer-cards { grid-template-columns: 1fr; }
+      .safety-cards { grid-template-columns: 1fr; }
+      .support-flow { flex-direction: column; align-items: center; }
+      .support-step { max-width: 100%; flex-direction: row; gap: 14px; text-align: left; }
+      .support-step:not(:last-child)::after { display: none; }
+      .flow-steps { flex-direction: column; align-items: center; }
+      .flow-step { flex-direction: row; gap: 14px; text-align: left; width: 100%; min-width: auto; }
+      .flow-step:not(:last-child)::after { display: none; }
+      .flow-step-num { flex-shrink: 0; }
+      .voice-cards { grid-template-columns: 1fr; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .cta-btn { width: 100%; max-width: 300px; justify-content: center; }
+      .fee-section { padding: 20px; }
+      .role-cards { grid-template-columns: 1fr; }
+      .role-card { padding: 24px 18px; }
+      .role-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+      .role-list li { font-size: 0.84rem; }
+    }
+
+    /* === 役割分担セクション === */
+    .role-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .role-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+      transition: box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .role-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .role-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+    }
+    .role-card.role-seller::before { background: #10b981; }
+    .role-card.role-buyer::before { background: var(--primary); }
+    .role-card.role-pro::before { background: #f59e0b; }
+    .role-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .role-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .role-seller .role-icon { background: #d1fae5; }
+    .role-buyer .role-icon { background: #dbeafe; }
+    .role-pro .role-icon { background: #fef3c7; }
+    .role-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .role-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .role-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .role-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .role-list li:last-child {
+      border-bottom: none;
+    }
+    .role-list li::before {
+      content: '✓';
+      color: var(--primary);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .role-note {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: var(--primary-pale);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    /* === 比較カード（仲介 vs ReOpen） === */
+    .vs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .vs-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+      transition: box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .vs-card:hover { box-shadow: var(--shadow-hover); }
+    .vs-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .vs-card.vs-old::before { background: var(--text-muted); }
+    .vs-card.vs-new::before { background: var(--primary); }
+    .vs-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .vs-card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .vs-old .vs-card-icon { background: #f1f5f9; }
+    .vs-new .vs-card-icon { background: var(--primary-pale); }
+    .vs-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .vs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .vs-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--text);
+    }
+    .vs-list li:last-child { border-bottom: none; }
+    .vs-list li::before {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .vs-old .vs-list li::before {
+      content: '•';
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+    .vs-new .vs-list li::before {
+      content: '✓';
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .vs-note {
+      margin-top: 16px;
+      padding: 14px 18px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.65;
+    }
+    @media (max-width: 768px) {
+      .vs-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-page="features">
+
+<!-- ========== ヘッダー ========== -->
+<header class="site-header"></header>
+
+<!-- ========== パンくず ========== -->
+<div class="breadcrumb">
+  <a href="index.html">トップ</a><span>›</span>
+  ReOpenの特徴
+</div>
+
+<!-- ========== ヒーローセクション ========== -->
+<section class="hero">
+  <h1>個人がつながる不動産売買。<br>だから安い、だから安心。</h1>
+  <p>個人同士が直接つながり、プロがしっかりサポート。<br>中古マンション売買の新しいかたちです。</p>
+  <div class="hero-points">
+    <div class="hero-point">
+      <div class="hero-point-icon">&#x1F4B0;</div>
+      <div class="hero-point-label">手数料は業界最安</div>
+      <div class="hero-point-sub">買主1% / 売主1.5%</div>
+    </div>
+    <div class="hero-point">
+      <div class="hero-point-icon">&#x1F3E0;</div>
+      <div class="hero-point-label">プロがサポート</div>
+      <div class="hero-point-sub">提携業者が内見・契約を代行</div>
+    </div>
+    <div class="hero-point">
+      <div class="hero-point-icon">&#x1F6E1;</div>
+      <div class="hero-point-label">安心の保証制度</div>
+      <div class="hero-point-sub">ローン特約・トラブル対応</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== メインコンテンツ ========== -->
+<div class="container" style="margin-top:24px;">
+
+  <!-- ===== #25 手数料比較（インタラクティブ） ===== -->
+  <div class="fee-section">
+    <h2 class="section-title"><span class="section-icon">&#x1F4B0;</span>手数料をくらべてみよう</h2>
+    <p class="text-sm text-muted mb-16">物件の価格を入れると、どれくらいおトクかすぐわかります。</p>
+
+    <div class="fee-input-area">
+      <label for="fee-price">物件価格</label>
+      <input type="number" id="fee-price" class="fee-price-input" value="5000" step="100" min="100" oninput="calcFee()">
+      <span class="unit">万円</span>
+    </div>
+
+    <div class="fee-compare-grid">
+      <!-- 従来 -->
+      <div class="fee-box fee-box-old">
+        <div class="fee-box-label">従来の不動産会社</div>
+        <div class="fee-detail">
+          <span class="fee-detail-label">買主の手数料</span>
+          <span class="fee-detail-value" id="old-buyer">--</span>
+        </div>
+        <div class="fee-detail">
+          <span class="fee-detail-label">売主の手数料</span>
+          <span class="fee-detail-value" id="old-seller">--</span>
+        </div>
+        <div class="fee-detail">
+          <span class="fee-detail-label">合計</span>
+          <span class="fee-detail-value" id="old-total">--</span>
+        </div>
+      </div>
+
+      <div class="fee-vs">VS</div>
+
+      <!-- ReOpen -->
+      <div class="fee-box fee-box-new">
+        <div class="fee-box-label">ReOpen</div>
+        <div class="fee-detail">
+          <span class="fee-detail-label">買主の手数料</span>
+          <span class="fee-detail-value" id="new-buyer">--</span>
+        </div>
+        <div class="fee-detail">
+          <span class="fee-detail-label">売主の手数料</span>
+          <span class="fee-detail-value" id="new-seller">--</span>
+        </div>
+        <div class="fee-detail">
+          <span class="fee-detail-label">合計</span>
+          <span class="fee-detail-value" id="new-total">--</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fee-saving-banner">
+      <div class="fee-saving-item">
+        <div class="label">🛒 買主のおトク額</div>
+        <div class="amount" id="fee-saving-buyer">--</div>
+      </div>
+      <div class="fee-saving-item">
+        <div class="label">🏠 売主のおトク額</div>
+        <div class="amount" id="fee-saving-seller">--</div>
+      </div>
+      <div class="fee-saving-item">
+        <div class="label">合計おトク額</div>
+        <div class="amount" id="fee-saving">--</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== #96 売主メリット + #83 AI査定 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F4E4;</span>売主さまへのメリット</h2>
+
+    <div class="seller-cards">
+      <div class="seller-card">
+        <div class="seller-card-icon">&#x1F4B8;</div>
+        <h3>手数料がおトク</h3>
+        <p>売主さまの手数料は<strong>1.5%</strong>。従来の約半分です。5,000万円の物件なら約<strong>81万円の節約</strong>になります。</p>
+      </div>
+      <div class="seller-card">
+        <div class="seller-card-icon">&#x1F3AF;</div>
+        <h3>自分で値段をつけられる</h3>
+        <p>不動産会社に「もっと下げましょう」と言われる心配がありません。ご自身の希望価格で出品できます。</p>
+      </div>
+      <div class="seller-card">
+        <div class="seller-card-icon">&#x1F916;</div>
+        <h3>AI査定で安心の価格設定</h3>
+        <p>AIが周辺の相場・過去の取引データを分析し、適正な価格帯を提案。初めての方でも迷いません。</p>
+      </div>
+    </div>
+
+    <!-- AI査定モック画面 -->
+    <div class="ai-mock">
+      <p class="text-sm fw-bold mb-8" style="color:var(--primary);">AI価格査定のイメージ</p>
+      <div class="ai-mock-screen">
+        <div class="ai-mock-title">グランドメゾン恵比寿テラス 3LDK / 72.5m&sup2;</div>
+        <div class="ai-mock-bar">
+          <span class="ai-mock-bar-label">低め</span>
+          <div class="ai-mock-bar-track">
+            <div class="ai-mock-bar-fill" style="width:30%;background:var(--border);"></div>
+          </div>
+          <span class="ai-mock-bar-value">4,200万円</span>
+        </div>
+        <div class="ai-mock-bar">
+          <span class="ai-mock-bar-label">適正価格</span>
+          <div class="ai-mock-bar-track">
+            <div class="ai-mock-bar-fill" style="width:60%;background:var(--primary);"></div>
+          </div>
+          <span class="ai-mock-bar-value" style="color:var(--primary);">4,800万円</span>
+        </div>
+        <div class="ai-mock-bar">
+          <span class="ai-mock-bar-label">高め</span>
+          <div class="ai-mock-bar-track">
+            <div class="ai-mock-bar-fill" style="width:85%;background:var(--accent);"></div>
+          </div>
+          <span class="ai-mock-bar-value">5,400万円</span>
+        </div>
+        <div class="ai-mock-result">
+          おすすめ価格帯：<strong>4,600〜5,000万円</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 買主メリット ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">🛍️</span>買主さまへのメリット</h2>
+    <p class="text-sm text-muted mb-16">ReOpenだからこそ、買う側も安心して判断できる仕組みがあります。</p>
+
+    <div class="buyer-cards">
+      <div class="buyer-card">
+        <div class="buyer-card-icon">🔍</div>
+        <h3>後悔を減らせる</h3>
+        <div class="buyer-card-sub">「買ってから気づく」を減らせる</div>
+        <p>住み心地・騒音・日当たり・管理の実態など、図面や写真だけでは分からないポイントを、売主に直接確認できます。</p>
+      </div>
+      <div class="buyer-card">
+        <div class="buyer-card-icon">💬</div>
+        <h3>迷いが減って判断が早い</h3>
+        <div class="buyer-card-sub">検討がスムーズに進む</div>
+        <p>気になる点をその場で質問できるので、伝言の行き違いや確認漏れを減らしながら、納得して次のステップに進めます。</p>
+      </div>
+      <div class="buyer-card">
+        <div class="buyer-card-icon">📊</div>
+        <h3>高値掴みを防ぎやすい</h3>
+        <div class="buyer-card-sub">価格の"根拠"が見える</div>
+        <p>過去の売買価格や同じマンション内の売出事例をもとに、AIが適正価格の目安を算出。相場観を持って判断できるので、高値掴みの不安を減らせます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== #87 #89 #105 3つの安心 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F6E1;</span>3つの安心ポイント</h2>
+    <p class="text-sm text-muted mb-16">個人間の売買でも安心できる仕組みをととのえています。</p>
+
+    <div class="safety-cards">
+      <!-- #87 バッジ -->
+      <div class="safety-card">
+        <div class="safety-card-icon">&#x2705;</div>
+        <h3>本人確認・登記確認ずみ</h3>
+        <p>出品者は本人確認書類と登記情報の提出が必要です。確認済みの出品者にはバッジがつきます。</p>
+        <span class="badge badge-verified">&#x2713; 本人確認済</span>
+        <span class="badge badge-info" style="margin-left:4px;">&#x1F4CB; 登記確認済</span>
+      </div>
+      <!-- #89 内見 -->
+      <div class="safety-card">
+        <div class="safety-card-icon">&#x1F3E2;</div>
+        <h3>内見はプロが立ち会い</h3>
+        <p>内見にはReOpenが提携する地元の不動産業者が立ち会います。売主さま・買主さまが直接会う必要はありません。</p>
+      </div>
+      <!-- #105 ローン特約 -->
+      <div class="safety-card">
+        <div class="safety-card-icon">&#x1F4B3;</div>
+        <h3>ローン特約で安心</h3>
+        <p>住宅ローンの審査が通らなかった場合、契約をキャンセルできます。手付金も全額返金されます。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 誰が何をするの？ ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F91D;</span>ReOpenでは誰が何をするの？</h2>
+    <p class="text-sm text-muted mb-16" style="text-align:center;">ReOpenは「売主」「買主」「提携不動産会社」の3者で成り立っています。<br>難しい手続きはプロにおまかせ。売主と買主はかんたんなことだけ。</p>
+
+    <div class="role-cards">
+      <!-- 売主 -->
+      <div class="role-card role-seller">
+        <div class="role-header">
+          <div class="role-icon">🏠</div>
+          <div>
+            <div class="role-title">売主がすること</div>
+            <div class="role-subtitle">あなたの物件を出品する側</div>
+          </div>
+        </div>
+        <ul class="role-list">
+          <li>物件情報・写真・住んでみての実感を登録</li>
+          <li>内見の調整（希望日時の提示など）</li>
+          <li>必要書類の用意（管理規約・修繕計画・登記情報など）</li>
+          <li>売買契約の締結、引渡し準備</li>
+        </ul>
+      </div>
+
+      <!-- 買主 -->
+      <div class="role-card role-buyer">
+        <div class="role-header">
+          <div class="role-icon">🛒</div>
+          <div>
+            <div class="role-title">買主がすること</div>
+            <div class="role-subtitle">気になる物件を見つける側</div>
+          </div>
+        </div>
+        <ul class="role-list">
+          <li>内見予約・質問（不安点の洗い出し）</li>
+          <li>購入申込（条件提示）</li>
+          <li>住宅ローンの事前審査→本審査（利用する場合）</li>
+          <li>売買契約の締結、残代金決済の準備</li>
+        </ul>
+      </div>
+
+      <!-- 提携不動産会社 -->
+      <div class="role-card role-pro">
+        <div class="role-header">
+          <div class="role-icon">👨‍💼</div>
+          <div>
+            <div class="role-title">提携不動産会社がすること</div>
+            <div class="role-subtitle">安心の要 ー 国家資格を持つ宅建士</div>
+          </div>
+        </div>
+        <ul class="role-list">
+          <li>内見の同行（希望に応じて）</li>
+          <li>契約書類の作成・重要事項説明</li>
+          <li>ローン特約・引渡し条件など契約リスクの整理</li>
+          <li>決済・引渡し当日の段取り（司法書士との連携含む）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role-note">
+      💡 売主と買主が直接やりとりするのは「質問」や「日程調整」だけ。<br>契約・お金・法律に関わる部分は、すべて提携不動産会社のプロがサポートします。
+    </div>
+  </section>
+
+  <!-- ===== 価格の透明性 + ここだけの情報 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F4CA;</span>ReOpenならではの強み</h2>
+    <div class="safety-cards">
+      <div class="safety-card">
+        <div class="safety-card-icon">&#x1F4B0;</div>
+        <h3>価格がオープンだから適正価格がわかる</h3>
+        <p>すべての物件の売出価格と、AIが算出した相場価格が並んで表示されます。価格のつり上げや不当な値付けがしにくい仕組みなので、買う側も安心して判断できます。</p>
+      </div>
+      <div class="safety-card">
+        <div class="safety-card-icon">&#x1F4CE;</div>
+        <h3>ここにしかない物件情報がある</h3>
+        <p>売主が自分の言葉で書く「住んでみた感想」や「近所の便利スポット」など、広告サイトには載らないリアルな情報が掲載されています。住んだ人だからこそわかる情報が手に入ります。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== #103 買主保護・トラブルサポート ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F4DE;</span>もしものときも安心 ー 買主保護の仕組み</h2>
+    <p class="text-sm text-muted mb-16">万が一トラブルが起きても、ReOpenがしっかりサポートします。</p>
+
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div>
+        <h4 class="fw-bold mb-8" style="color:var(--primary);font-size:0.95rem;">相談窓口</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="padding:6px 0;font-size:0.88rem;display:flex;align-items:center;gap:8px;">
+            &#x1F4AC; チャットサポート（平日10〜18時）
+          </li>
+          <li style="padding:6px 0;font-size:0.88rem;display:flex;align-items:center;gap:8px;">
+            &#x1F4DE; 電話相談（<span title="不動産の国家資格を持つ専門家" style="border-bottom:1px dotted var(--text-muted);cursor:help;">宅建士</span>が対応）
+          </li>
+          <li style="padding:6px 0;font-size:0.88rem;display:flex;align-items:center;gap:8px;">
+            &#x1F4E7; メール（24時間受付・翌営業日回答）
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="fw-bold mb-8" style="color:var(--primary);font-size:0.95rem;">保証制度</h4>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="padding:6px 0;font-size:0.88rem;display:flex;align-items:center;gap:8px;">
+            &#x1F6E1; <span title="購入後に見つかった不具合について、売主に修理や補償を求められる制度" style="border-bottom:1px dotted var(--text-muted);cursor:help;">契約不適合責任</span>のサポート
+          </li>
+          <li style="padding:6px 0;font-size:0.88rem;display:flex;align-items:center;gap:8px;">
+            &#x1F4B0; 手付金の安全管理（<span title="売主・買主どちらの手元にも置かず、信頼できる第三者が一時的に預かる仕組み" style="border-bottom:1px dotted var(--text-muted);cursor:help;">エスクロー方式</span>）
+          </li>
+          <li style="padding:6px 0;font-size:0.88rem;display:flex;align-items:center;gap:8px;">
+            &#x1F4DD; 重要事項説明は<span title="不動産の国家資格を持つ専門家" style="border-bottom:1px dotted var(--text-muted);cursor:help;">宅建士</span>が実施
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h4 class="fw-bold mb-8" style="color:var(--primary);font-size:0.95rem;">トラブル発生時の対応フロー</h4>
+    <div class="support-flow">
+      <div class="support-step">
+        <div class="support-step-circle">&#x1F4AC;</div>
+        <div>
+          <div class="support-step-label">ご連絡</div>
+          <div class="support-step-desc">チャット・電話・メールでReOpenにご相談</div>
+        </div>
+      </div>
+      <div class="support-step">
+        <div class="support-step-circle">&#x1F50D;</div>
+        <div>
+          <div class="support-step-label">状況確認</div>
+          <div class="support-step-desc">専門スタッフが事実関係を調査</div>
+        </div>
+      </div>
+      <div class="support-step">
+        <div class="support-step-circle">&#x1F4CB;</div>
+        <div>
+          <div class="support-step-label">解決策のご提案</div>
+          <div class="support-step-desc">法的観点もふまえた対処方法をご案内</div>
+        </div>
+      </div>
+      <div class="support-step">
+        <div class="support-step-circle">&#x2705;</div>
+        <div>
+          <div class="support-step-label">解決・フォロー</div>
+          <div class="support-step-desc">解決まで担当者がサポート</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== #104 #114 購入の流れ ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F4CB;</span>購入申込みの流れ</h2>
+    <p class="text-sm text-muted mb-16">「気になる」から「自分のもの」になるまでの流れです。</p>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-step-num">1</div>
+        <div>
+          <div class="flow-step-label">物件をさがす</div>
+          <div class="flow-step-desc">条件を入れて検索</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">2</div>
+        <div>
+          <div class="flow-step-label">内見する</div>
+          <div class="flow-step-desc">提携業者が案内</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">3</div>
+        <div>
+          <div class="flow-step-label">購入を申込む</div>
+          <div class="flow-step-desc">ボタンひとつで申込み</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">4</div>
+        <div>
+          <div class="flow-step-label">手付金を入金</div>
+          <div class="flow-step-desc">安全管理で安心</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">5</div>
+        <div>
+          <div class="flow-step-label">売主が承諾</div>
+          <div class="flow-step-desc">72時間以内に回答</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-step-num">6</div>
+        <div>
+          <div class="flow-step-label">契約・引渡し</div>
+          <div class="flow-step-desc">宅建士がサポート</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-box">
+      <h4>キャンセルポリシー・申込みルール</h4>
+      <ul class="policy-list">
+        <li>購入申込みは1つの物件に対して同時に1件まで。複数物件の同時申込みはできません。</li>
+        <li>売主の承諾前であれば、購入申込みのキャンセルは無料で可能です。</li>
+        <li>売主の承諾後は、手付金を放棄することでキャンセルできます。</li>
+        <li>ローン特約をつけた場合、ローン審査が不承認なら全額返金のうえキャンセルできます。</li>
+        <li>同じ物件に複数の申込みがあった場合、先着順ではなく売主が選ぶ方式です。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== 一般的な仲介 vs ReOpen ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F500;</span>一般的な仲介と、ReOpenの違い</h2>
+
+    <div class="vs-grid">
+      <!-- 一般的な仲介 -->
+      <div class="vs-card vs-old">
+        <div class="vs-card-header">
+          <div class="vs-card-icon">🏢</div>
+          <div class="vs-card-title">一般的な仲介</div>
+        </div>
+        <ul class="vs-list">
+          <li>連絡は基本「不動産会社を通して」行う</li>
+          <li>情報は資料中心になりやすく、細かい感覚は伝わりにくい</li>
+          <li>質問→回答まで時間がかかることがある</li>
+          <li>担当者の説明の厚みや進め方に差が出やすい</li>
+          <li>手続きは仲介がまとめて進行する</li>
+        </ul>
+      </div>
+
+      <!-- ReOpen -->
+      <div class="vs-card vs-new">
+        <div class="vs-card-header">
+          <div class="vs-card-icon">🤝</div>
+          <div class="vs-card-title">ReOpen</div>
+        </div>
+        <ul class="vs-list">
+          <li>売主と買主が「直接」やり取りできる</li>
+          <li>住み心地・近隣・管理の雰囲気など"リアル"を確認しやすい</li>
+          <li>気になる点をその場で深掘りしやすい</li>
+          <li>重要事項説明（宅建士）や契約条件の整理は提携不動産会社がサポート</li>
+          <li>情報はダイレクトに、手続きは確実に進められる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="vs-note">
+      ※「直接」＝なんでも自己責任、ではありません。契約・書類・条件整理は宅建士がサポートします。
+    </div>
+  </section>
+
+  <!-- ===== #97 他サービスとの比較 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F4CA;</span>他のサービスとくらべてみよう</h2>
+
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>SUUMO</th>
+            <th>HOME'S</th>
+            <th>従来の仲介</th>
+            <th class="col-reopen">ReOpen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>物件の出品者</td>
+            <td>不動産会社</td>
+            <td>不動産会社</td>
+            <td>不動産会社</td>
+            <td class="col-reopen"><strong>個人（売主本人）</strong></td>
+          </tr>
+          <tr>
+            <td>買主の手数料</td>
+            <td>仲介 約3%+6万</td>
+            <td>仲介 約3%+6万</td>
+            <td>約3%+6万</td>
+            <td class="col-reopen"><strong>1%</strong></td>
+          </tr>
+          <tr>
+            <td>売主の手数料</td>
+            <td>仲介 約3%+6万</td>
+            <td>仲介 約3%+6万</td>
+            <td>約3%+6万</td>
+            <td class="col-reopen"><strong>1.5%</strong></td>
+          </tr>
+          <tr>
+            <td>売主の情報がわかる</td>
+            <td class="compare-x">&#x2717;</td>
+            <td class="compare-x">&#x2717;</td>
+            <td class="compare-x">&#x2717;</td>
+            <td class="col-reopen compare-check">&#x25CB; プロフィール公開</td>
+          </tr>
+          <tr>
+            <td>売主への質問</td>
+            <td class="compare-x">&#x2717; 仲介経由</td>
+            <td class="compare-x">&#x2717; 仲介経由</td>
+            <td class="compare-x">&#x2717; 仲介経由</td>
+            <td class="col-reopen compare-check">&#x25CB; 直接やりとり</td>
+          </tr>
+          <tr>
+            <td>プロのサポート</td>
+            <td class="compare-check">&#x25CB;</td>
+            <td class="compare-check">&#x25CB;</td>
+            <td class="compare-check">&#x25CB;</td>
+            <td class="col-reopen compare-check">&#x25CB; 提携業者が対応</td>
+          </tr>
+          <tr>
+            <td>個人間取引（CtoC）</td>
+            <td class="compare-x">&#x2717;</td>
+            <td class="compare-x">&#x2717;</td>
+            <td class="compare-x">&#x2717;</td>
+            <td class="col-reopen compare-check">&#x25CB;</td>
+          </tr>
+          <tr>
+            <td>AI価格査定</td>
+            <td class="compare-x">&#x2717;</td>
+            <td class="compare-x">&#x2717;</td>
+            <td class="compare-x">&#x2717;</td>
+            <td class="col-reopen compare-check">&#x25CB;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== #38 利用者の声 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F4AC;</span>利用者の声</h2>
+
+    <div class="voice-cards">
+      <!-- 買主の声 -->
+      <div class="voice-card">
+        <div class="voice-card-header">
+          <div class="voice-avatar">&#x1F468;</div>
+          <div>
+            <div class="voice-name">Tさん（30代・会社員）</div>
+            <div class="voice-tag">東京都 / 3LDK購入</div>
+          </div>
+        </div>
+        <div class="voice-text">
+          初めてのマンション購入で不安だらけでしたが、売主さんに直接質問できたのが大きかったです。不動産会社を通すと聞きにくいことも気軽に聞けました。手数料も安くて、浮いたお金でリフォームできました。
+        </div>
+        <div class="voice-saving">
+          節約できた手数料：約 <strong>106万円</strong>
+        </div>
+      </div>
+
+      <!-- 売主の声 -->
+      <div class="voice-card">
+        <div class="voice-card-header">
+          <div class="voice-avatar">&#x1F469;</div>
+          <div>
+            <div class="voice-name">Mさん（40代・自営業）</div>
+            <div class="voice-tag">神奈川県 / 2LDK売却</div>
+          </div>
+        </div>
+        <div class="voice-text">
+          転勤でマンションを売ることに。不動産会社に頼むと手数料が100万円以上かかると聞いて驚きました。ReOpenなら自分で値段を決められるし、AI査定で相場もわかって安心でした。
+        </div>
+        <div class="voice-saving">
+          節約できた手数料：約 <strong>57万円</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== #98 よくある質問 ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x2753;</span>よくある質問</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">個人間の売買って、本当に安全なんですか？</button>
+        <div class="faq-answer">
+          <p>はい。ReOpenでは、出品者の本人確認・登記情報の確認を行い、内見には提携の不動産業者が立ち会います。契約時は宅建士（不動産の国家資格者）が重要事項の説明を行い、手付金もエスクロー方式（第三者が一時管理）で安全に管理します。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">宅建士（不動産の国家資格者）はいるんですか？</button>
+        <div class="faq-answer">
+          <p>はい。ReOpenの提携不動産業者には宅建士が在籍しています。重要事項説明・契約書の作成など、法律で宅建士が必要な場面はすべて有資格者が対応します。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">なぜこんなに手数料が安いんですか？</button>
+        <div class="faq-answer">
+          <p>従来の不動産売買では、売主側と買主側にそれぞれ仲介会社がつくため、双方に手数料がかかっていました。ReOpenは個人同士が直接つながるプラットフォームなので、そのぶんの費用を大幅に削減できています。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">住宅ローンは使えますか？</button>
+        <div class="faq-answer">
+          <p>はい、使えます。ReOpenを通じた売買でも、通常の中古マンション購入と同じように住宅ローンを利用できます。ローン審査が通らなかった場合にキャンセルできる「ローン特約」もつけられます。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">トラブルが起きたらどうなりますか？</button>
+        <div class="faq-answer">
+          <p>ReOpenにはチャット・電話・メールの相談窓口があり、専門スタッフが対応します。法的なトラブルについても宅建士や提携の専門家が解決をサポートします。引渡し後に見つかった不具合についても、契約不適合責任にもとづいたサポート体制があります。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">売主に直接会わないといけないですか？</button>
+        <div class="faq-answer">
+          <p>いいえ、直接会う必要はありません。内見はReOpen提携の不動産業者が立ち会い、質問は専用のメッセージ機能でやりとりできます。契約もオンラインで対応可能です。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">出品するのに費用はかかりますか？</button>
+        <div class="faq-answer">
+          <p>出品は無料です。手数料がかかるのは、実際に売買が成立したときだけ。売主さまの場合、成約価格の1.5%が手数料となります。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">購入申込みをキャンセルできますか？</button>
+        <div class="faq-answer">
+          <p>売主の承諾前であれば、無料でキャンセルできます。承諾後は手付金の放棄が必要です。ただし、ローン特約をつけている場合は、ローン審査が不承認なら全額返金のうえキャンセルが可能です。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">AI価格査定はどのくらい正確ですか？</button>
+        <div class="faq-answer">
+          <p>過去の取引データ・周辺相場・築年数・階数・面積などをもとに算出しています。あくまで参考価格ですが、多くの場合、実際の成約価格に近い結果になります。最終的な値付けは売主さまご自身で決められます。</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">対象エリアはどこですか？</button>
+        <div class="faq-answer">
+          <p>現在は首都圏（東京・神奈川・千葉・埼玉）を中心にサービスを提供しています。対象エリアは順次拡大予定です。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== #30 紹介プログラム ===== -->
+  <section class="section">
+    <h2 class="section-title"><span class="section-icon">&#x1F381;</span>友達紹介プログラム</h2>
+    <p class="text-sm text-muted mb-16">ReOpenを友達に紹介すると、おトクな特典があります。</p>
+
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div style="text-align:center;padding:32px 24px;background:linear-gradient(135deg,#fdf8f0,#fef3e0);border-radius:var(--radius);border:1.5px solid #f0d9a8;">
+        <div style="font-size:2.5rem;margin-bottom:12px;">🎁</div>
+        <div style="font-size:1.1rem;font-weight:700;color:var(--accent);margin-bottom:8px;">紹介した方が成約したとき</div>
+        <div style="font-size:1.4rem;font-weight:700;color:var(--primary);margin-bottom:8px;">手数料 0.2% 割引クーポン</div>
+        <div style="font-size:0.85rem;color:var(--text-light);">あなたも紹介された方も、次回の取引でおトクに</div>
+      </div>
+      <div style="padding:24px;">
+        <div style="font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:16px;">紹介のかんたん3ステップ</div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--primary);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">1</div>
+            <div>
+              <div style="font-weight:600;font-size:0.9rem;">マイページで招待コードをコピー</div>
+              <div style="font-size:0.78rem;color:var(--text-light);">あなた専用のコードが発行されます</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--primary);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">2</div>
+            <div>
+              <div style="font-weight:600;font-size:0.9rem;">友達にコードをシェア</div>
+              <div style="font-size:0.78rem;color:var(--text-light);">LINE・メール・SNSで送れます</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">3</div>
+            <div>
+              <div style="font-weight:600;font-size:0.9rem;">友達が成約 → 特典ゲット！</div>
+              <div style="font-size:0.78rem;color:var(--text-light);">双方に割引クーポンをプレゼント</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <div class="cta-section">
+    <h2>まずは物件を見てみませんか？</h2>
+    <p>登録は無料。気になる物件があれば、すぐに売主さんに質問もできます。</p>
+    <div class="cta-buttons">
+      <a href="property-list.html" class="cta-btn cta-btn-primary">物件をさがす</a>
+      <a href="register.html" class="cta-btn cta-btn-accent">出品する（まず会員登録）</a>
+      <a href="beginners-guide.html" class="cta-btn cta-btn-secondary">はじめての方ガイド</a>
+    </div>
+  </div>
+
+</div><!-- /.container -->
+
+<!-- ========== フッター ========== -->
+<footer class="site-footer"></footer>
+
+<script src="common.js"></script>
+
+<!-- ========== JavaScript ========== -->
+<script>
+// --- 手数料計算 ---
+function calcFee() {
+  var price = parseFloat(document.getElementById('fee-price').value);
+  if (isNaN(price) || price <= 0) return;
+
+  // 従来の手数料: (価格 × 3% + 6万円) + 消費税10%
+  // 400万円超の場合の速算式
+  var oldRate = 0.03;
+  var oldBuyerBase = price * 10000 * oldRate + 60000; // 円
+  var oldBuyer = oldBuyerBase * 1.1; // 税込
+  var oldSeller = oldBuyer; // 売主も同額
+  var oldTotal = oldBuyer + oldSeller;
+
+  // ReOpen手数料: 買主1% / 売主1.5%（税込想定）
+  var newBuyer = price * 10000 * 0.01 * 1.1;
+  var newSeller = price * 10000 * 0.015 * 1.1;
+  var newTotal = newBuyer + newSeller;
+
+  var savingBuyer = oldBuyer - newBuyer;
+  var savingSeller = oldSeller - newSeller;
+  var saving = oldTotal - newTotal;
+
+  // 表示（万円単位、小数第1位）
+  document.getElementById('old-buyer').textContent = formatMan(oldBuyer);
+  document.getElementById('old-seller').textContent = formatMan(oldSeller);
+  document.getElementById('old-total').textContent = formatMan(oldTotal);
+  document.getElementById('new-buyer').textContent = formatMan(newBuyer);
+  document.getElementById('new-seller').textContent = formatMan(newSeller);
+  document.getElementById('new-total').textContent = formatMan(newTotal);
+  document.getElementById('fee-saving-buyer').textContent = formatMan(savingBuyer);
+  document.getElementById('fee-saving-seller').textContent = formatMan(savingSeller);
+  document.getElementById('fee-saving').textContent = formatMan(saving);
+}
+
+function formatMan(yen) {
+  var man = yen / 10000;
+  if (man >= 100) {
+    return '約 ' + Math.round(man) + '万円';
+  }
+  return '約 ' + man.toFixed(1) + '万円';
+}
+
+// --- 初期計算 ---
+window.addEventListener('DOMContentLoaded', function() {
+  calcFee();
+});
+</script>
+
+</body>
+</html>

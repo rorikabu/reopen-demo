@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>物件をさがす｜ReOpen</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* ========== 固有バッジ ========== */
+    .badge-price-down {
+      background: #fde8e8;
+      color: var(--danger);
+    }
+    .badge-popular {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    /* ========== #14 相性スコア ========== */
+    .compatibility-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: linear-gradient(135deg, #fff0f3, #ffe8ec);
+      border-radius: 8px;
+      margin-top: 8px;
+      font-size: 0.78rem;
+    }
+    .compatibility-heart {
+      color: #e74c3c;
+      font-size: 0.85rem;
+    }
+    .compatibility-score {
+      font-weight: 700;
+      color: #e74c3c;
+    }
+    .compatibility-reason {
+      color: var(--text-light);
+      font-size: 0.72rem;
+    }
+
+    /* ========== 値下げ前価格 ========== */
+    .property-card-price .original {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      font-weight: 400;
+      margin-left: 6px;
+    }
+
+    /* ========== マップビュー（プレースホルダー） ========== */
+    .map-view {
+      display: none;
+      background: var(--primary-pale);
+      border-radius: var(--radius);
+      height: 500px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--text-light);
+    }
+    .map-view.active {
+      display: flex;
+    }
+    .map-view-icon {
+      font-size: 3rem;
+    }
+    .map-view-text {
+      font-size: 0.95rem;
+    }
+
+  /* ===== 条件保存ダイアログ (sv-) ===== */
+  .sv-save-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .sv-save-btn:hover { opacity: .85; }
+
+  .sv-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 9000;
+    justify-content: center;
+    align-items: center;
+  }
+  .sv-overlay.active { display: flex; }
+
+  .sv-dialog {
+    background: #fff;
+    border-radius: 16px;
+    width: 92%;
+    max-width: 440px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 28px 24px 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,.2);
+    position: relative;
+  }
+  .sv-dialog-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--text-muted);
+  }
+  .sv-dialog h3 {
+    font-size: 1.05rem;
+    margin: 0 0 18px;
+  }
+
+  .sv-field { margin-bottom: 16px; }
+  .sv-field label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+  .sv-field input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    box-sizing: border-box;
+  }
+  .sv-field input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  .sv-summary {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 0.82rem;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .sv-summary-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .sv-alert-section h4 {
+    font-size: 0.85rem;
+    margin: 0 0 10px;
+    color: var(--text);
+  }
+  .sv-alert-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .sv-alert-row:last-child { border-bottom: none; }
+  .sv-alert-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sv-alert-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+  }
+  .sv-alert-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  /* トグルスイッチ */
+  .sv-toggle {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+  .sv-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+  .sv-toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #ccc;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: background .25s;
+  }
+  .sv-toggle-slider::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .25s;
+  }
+  .sv-toggle input:checked + .sv-toggle-slider {
+    background: var(--primary);
+  }
+  .sv-toggle input:checked + .sv-toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  .sv-submit-btn {
+    width: 100%;
+    padding: 13px;
+    margin-top: 18px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .sv-submit-btn:hover { opacity: .85; }
+
+  /* トースト */
+  .sv-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #333;
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    z-index: 9999;
+    opacity: 0;
+    transition: transform .35s ease, opacity .35s ease;
+    white-space: nowrap;
+  }
+  .sv-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    .sv-dialog {
+      width: 95%;
+      padding: 22px 18px 20px;
+    }
+  }
+
+  </style>
+</head>
+<body data-page="property-list">
+
+<!-- ========== ヘッダー ========== -->
+<header class="site-header"></header>
+
+<!-- ========== 検索ヒーロー ========== -->
+<div class="search-hero">
+  <h1>あなたにぴったりの中古マンションを見つけよう</h1>
+  <p>個人から直接購入できるから、仲介手数料が最大で3分の1に</p>
+  <div class="search-box">
+    <input type="text" class="search-input" placeholder="エリア名・マンション名・駅名で検索…">
+    <button class="search-btn">🔍 検索</button>
+  </div>
+  <div class="search-tags">
+    <a class="search-tag" href="#">📍 東京23区</a>
+    <a class="search-tag" href="#">📍 横浜・川崎</a>
+    <a class="search-tag" href="#">📍 大阪市内</a>
+    <a class="search-tag" href="#">🔥 人気エリア</a>
+    <a class="search-tag" href="#">💰 3,000万円以下</a>
+  </div>
+  <!-- AI条件入力 -->
+  <div style="max-width:640px;margin:20px auto 0;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <span style="font-size:1.1rem;">🤖</span>
+      <span style="font-size:0.85rem;font-weight:600;">AIに条件をおまかせ入力</span>
+    </div>
+    <div style="display:flex;gap:0;">
+      <textarea style="flex:1;padding:12px 16px;font-size:0.9rem;border:none;border-radius:var(--radius-sm) 0 0 var(--radius-sm);outline:none;resize:none;height:48px;font-family:inherit;" placeholder="例：「駅から10分以内で、3LDK、5000万円以下の物件を探して」"></textarea>
+      <button style="padding:12px 20px;background:var(--accent);color:var(--white);border:none;border-radius:0 var(--radius-sm) var(--radius-sm) 0;font-size:0.9rem;font-weight:700;cursor:pointer;white-space:nowrap;">AIで検索</button>
+    </div>
+    <p style="font-size:0.75rem;opacity:0.7;margin-top:6px;text-align:left;">希望の条件を自由な言葉で入力すると、AIが最適な検索条件を設定します</p>
+  </div>
+  <a href="building-list.html" style="display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 20px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.4);border-radius:24px;color:var(--white);font-size:0.85rem;font-weight:600;text-decoration:none;transition:background 0.2s;">🏢 一棟投資用マンションはこちら →</a>
+</div>
+
+<!-- ========== パンくず ========== -->
+<div class="breadcrumb">
+  <a href="index.html">トップ</a><span>></span>
+  物件をさがす
+</div>
+
+
+<!-- ========== メインレイアウト ========== -->
+<div class="list-layout">
+  <!-- ===== フィルターサイドバー ===== -->
+  <aside class="filter-panel" id="filterPanel">
+    <div class="filter-title">🔍 絞り込み</div>
+
+    <div class="filter-group">
+      <label class="filter-label">エリア</label>
+      <select class="filter-select">
+        <option>すべてのエリア</option>
+        <option>東京都 — 23区</option>
+        <option>東京都 — 23区外</option>
+        <option>神奈川県</option>
+        <option>大阪府</option>
+        <option>その他</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">価格帯</label>
+      <div class="filter-range">
+        <input type="text" placeholder="下限（万円）">
+        <span class="filter-range-sep">〜</span>
+        <input type="text" placeholder="上限（万円）">
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">間取り</label>
+      <div class="filter-checks">
+        <label class="filter-check-item"><input type="checkbox"> 1R・1K</label>
+        <label class="filter-check-item"><input type="checkbox"> 1LDK・2K</label>
+        <label class="filter-check-item"><input type="checkbox" checked> 2LDK・3K</label>
+        <label class="filter-check-item"><input type="checkbox" checked> 3LDK以上</label>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">築年数</label>
+      <select class="filter-select">
+        <option>指定なし</option>
+        <option>新築〜5年</option>
+        <option>5年〜10年</option>
+        <option>10年〜20年</option>
+        <option>20年〜30年</option>
+        <option>30年以上</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label class="filter-label">駅徒歩</label>
+      <select class="filter-select">
+        <option>指定なし</option>
+        <option>5分以内</option>
+        <option>10分以内</option>
+        <option>15分以内</option>
+      </select>
+    </div>
+
+    <!-- 投資用フィルター（#122） -->
+    <div class="filter-group invest-filter" >
+      <label class="filter-label">表面利回り</label>
+      <select class="filter-select">
+        <option>指定なし</option>
+        <option>3%以上</option>
+        <option>5%以上</option>
+        <option>7%以上</option>
+        <option>10%以上</option>
+      </select>
+    </div>
+
+    <div class="filter-group invest-filter" >
+      <label class="filter-label">想定家賃（月額）</label>
+      <div class="filter-range">
+        <input type="text" placeholder="下限（万円）">
+        <span class="filter-range-sep">〜</span>
+        <input type="text" placeholder="上限（万円）">
+      </div>
+    </div>
+
+    <button class="filter-reset">✕ 条件をリセット</button>
+    <button class="sv-save-btn" onclick="openSaveDialog()">🔔 この条件を保存する</button>
+  </aside>
+
+  <!-- ===== 条件保存ダイアログ ===== -->
+  <div class="sv-overlay" id="svOverlay" onclick="if(event.target===this)closeSaveDialog()">
+    <div class="sv-dialog">
+      <button class="sv-dialog-close" onclick="closeSaveDialog()">✕</button>
+      <h3>🔔 検索条件を保存</h3>
+
+      <div class="sv-field">
+        <label>保存名</label>
+        <input type="text" id="svName" placeholder="例：世田谷区の2LDK">
+      </div>
+
+      <div class="sv-summary-label">現在の検索条件</div>
+      <div class="sv-summary" id="svSummary">条件が設定されていません</div>
+
+      <div class="sv-alert-section">
+        <h4>通知設定</h4>
+        <div class="sv-alert-row">
+          <div class="sv-alert-info">
+            <span class="sv-alert-name">🔔 新着物件</span>
+            <span class="sv-alert-desc">条件に合う新規出品をお知らせ</span>
+          </div>
+          <label class="sv-toggle">
+            <input type="checkbox" checked>
+            <span class="sv-toggle-slider"></span>
+          </label>
+        </div>
+        <div class="sv-alert-row">
+          <div class="sv-alert-info">
+            <span class="sv-alert-name">💰 価格改定</span>
+            <span class="sv-alert-desc">値下げ・値上げをお知らせ</span>
+          </div>
+          <label class="sv-toggle">
+            <input type="checkbox" checked>
+            <span class="sv-toggle-slider"></span>
+          </label>
+        </div>
+        <div class="sv-alert-row">
+          <div class="sv-alert-info">
+            <span class="sv-alert-name">📊 成約通知</span>
+            <span class="sv-alert-desc">相場感をつかむための参考情報</span>
+          </div>
+          <label class="sv-toggle">
+            <input type="checkbox">
+            <span class="sv-toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <button class="sv-submit-btn" onclick="saveCond()">保存する</button>
+    </div>
+  </div>
+  <div class="sv-toast" id="svToast">条件を保存しました！マイページで管理できます</div>
+
+  <!-- ===== 物件一覧メインエリア ===== -->
+  <main>
+    <!-- ツールバー -->
+    <div class="toolbar">
+      <div class="toolbar-count">検索結果：<strong id="resultCount">13</strong> 件</div>
+      <div class="toolbar-right">
+        <select class="sort-select">
+          <option>新着順</option>
+          <option>価格が安い順</option>
+          <option>価格が高い順</option>
+          <option>人気順</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" data-view="list" onclick="switchView('list')">📋 一覧</button>
+          <button class="view-btn" data-view="map" onclick="switchView('map')">🗺️ 地図</button>
+        </div>
+      </div>
+    </div>
+
+      <!-- 一覧表示 -->
+      <div class="property-grid" id="gridLiving">
+        <!-- 物件1 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=250&fit=crop" alt="ブリリアタワー品川シーサイド">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-price-down">▼ 値下げ</span>
+              <span class="property-card-badge badge-verified-sm">🛡️ ReOpen確認済</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">ブリリアタワー品川シーサイド</div>
+            <div class="property-card-price">4,860万円 <span class="original">4,980万円</span></div>
+            <div class="property-card-specs">
+              <span>📐 2LDK</span>
+              <span>📏 40帖 / 65.3㎡</span>
+              <span>🏢 22階</span>
+              <span>📅 2019年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 品川駅 徒歩8分</span>
+              <span>📍 品川区</span>
+            </div>
+            <div class="compatibility-bar">
+              <span class="compatibility-heart">❤️</span>
+              <span class="compatibility-score">相性 92%</span>
+              <span class="compatibility-reason">駅近・2LDK・予算内</span>
+            </div>
+            <div class="property-card-meta">
+              <span>出品者: 個人オーナー ✅</span>
+              <span class="property-card-fav liked">❤️ 42</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 物件2 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1567684014761-b65e2e59b9eb?w=400&h=250&fit=crop" alt="パークシティ武蔵小杉">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-popular">🔥 人気</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">パークシティ武蔵小杉 ミッドスカイタワー</div>
+            <div class="property-card-price">5,280万円</div>
+            <div class="property-card-specs">
+              <span>📐 3LDK</span>
+              <span>📏 45帖 / 72.5㎡</span>
+              <span>🏢 15階</span>
+              <span>📅 2017年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 武蔵小杉駅 徒歩3分</span>
+              <span>📍 中原区</span>
+            </div>
+            <div class="compatibility-bar">
+              <span class="compatibility-heart">❤️</span>
+              <span class="compatibility-score">相性 85%</span>
+              <span class="compatibility-reason">3LDK・駅近・新しい</span>
+            </div>
+            <div class="property-card-meta">
+              <span>出品者: 個人オーナー ✅</span>
+              <span class="property-card-fav">🤍 38</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 物件3 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1567496898669-ee935f5f647a?w=400&h=250&fit=crop" alt="ライオンズマンション目黒">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-verified-sm">🛡️ ReOpen確認済</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">ライオンズマンション目黒</div>
+            <div class="property-card-price">6,200万円</div>
+            <div class="property-card-specs">
+              <span>📐 3LDK</span>
+              <span>📏 48帖 / 78.2㎡</span>
+              <span>🏢 8階</span>
+              <span>📅 2005年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 目黒駅 徒歩5分</span>
+              <span>📍 目黒区</span>
+            </div>
+            <div class="compatibility-bar">
+              <span class="compatibility-heart">❤️</span>
+              <span class="compatibility-score">相性 78%</span>
+              <span class="compatibility-reason">3LDK・駅近</span>
+            </div>
+            <div class="property-card-meta">
+              <span>出品者: 個人オーナー ✅</span>
+              <span class="property-card-fav">🤍 25</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 物件4 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1460317442991-0ec209397118?w=400&h=250&fit=crop" alt="グランドメゾン恵比寿テラス">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-new">✨ 新着</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">グランドメゾン恵比寿テラス</div>
+            <div class="property-card-price">4,800万円</div>
+            <div class="property-card-specs">
+              <span>📐 2LDK</span>
+              <span>📏 39帖 / 62.8㎡</span>
+              <span>🏢 5階</span>
+              <span>📅 2015年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 恵比寿駅 徒歩10分</span>
+              <span>📍 渋谷区</span>
+            </div>
+            <div class="compatibility-bar">
+              <span class="compatibility-heart">❤️</span>
+              <span class="compatibility-score">相性 88%</span>
+              <span class="compatibility-reason">2LDK・予算内</span>
+            </div>
+            <div class="property-card-meta">
+              <span>出品者: 個人オーナー ✅</span>
+              <span class="property-card-fav">🤍 19</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 物件5 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1574362848149-11496d93a7c7?w=400&h=250&fit=crop" alt="リバーサイドコート中目黒">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-verified-sm">🛡️ ReOpen確認済</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">リバーサイドコート中目黒</div>
+            <div class="property-card-price">3,850万円</div>
+            <div class="property-card-specs">
+              <span>📐 2LDK</span>
+              <span>📏 36帖 / 58.4㎡</span>
+              <span>🏢 4階</span>
+              <span>📅 2008年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 中目黒駅 徒歩7分</span>
+              <span>📍 目黒区</span>
+            </div>
+            <div class="compatibility-bar">
+              <span class="compatibility-heart">❤️</span>
+              <span class="compatibility-score">相性 90%</span>
+              <span class="compatibility-reason">2LDK・予算内・駅近</span>
+            </div>
+            <div class="property-card-meta">
+              <span>出品者: 個人オーナー ✅</span>
+              <span class="property-card-fav">🤍 15</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 物件6 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1515263487990-61b07816b324?w=400&h=250&fit=crop" alt="サンクタス世田谷">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-verified-sm">🛡️ ReOpen確認済</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">サンクタス世田谷</div>
+            <div class="property-card-price">3,750万円</div>
+            <div class="property-card-specs">
+              <span>📐 2LDK</span>
+              <span>📏 37帖 / 60.1㎡</span>
+              <span>🏢 3階</span>
+              <span>📅 2012年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 三軒茶屋駅 徒歩9分</span>
+              <span>📍 世田谷区</span>
+            </div>
+            <div class="compatibility-bar">
+              <span class="compatibility-heart">❤️</span>
+              <span class="compatibility-score">相性 82%</span>
+              <span class="compatibility-reason">2LDK・予算内</span>
+            </div>
+            <div class="property-card-meta">
+              <span>出品者: 個人オーナー ✅</span>
+              <span class="property-card-fav">🤍 28</span>
+            </div>
+          </div>
+        </a>
+
+
+        <!-- 投資物件1 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=250&fit=crop" alt="ルーブル新宿West">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-new">✨ 新着</span>
+              <span class="property-card-badge badge-verified-sm">🛡️ ReOpen確認済</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">ルーブル新宿West</div>
+            <div class="property-card-price">2,180万円</div>
+            <div class="property-card-specs">
+              <span>📐 1K</span>
+              <span>📏 16帖 / 25.8㎡</span>
+              <span>🏢 9階</span>
+              <span>📅 2010年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 新宿駅 徒歩12分</span>
+              <span>📍 新宿区</span>
+            </div>
+            <div class="invest-info">
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="物件価格に対する年間家賃収入の割合。高いほど収益性が高い目安です">表面利回り</span>
+                <span class="invest-info-value highlight">5.2%</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="管理費や修繕費などの経費を引いた後の利回り。より現実に近い数字です">実質利回り</span>
+                <span class="invest-info-value">4.1%</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="この物件で見込まれる毎月の家賃収入です">想定家賃</span>
+                <span class="invest-info-value">9.4万円/月</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="現在の入居状態。入居中なら購入後すぐに家賃収入が得られます">入居状況</span>
+                <span class="invest-info-value" style="color:var(--success)">入居中</span>
+              </div>
+            </div>
+            <div class="property-card-meta">
+              <span>運用実績: 8年 ✅</span>
+              <span class="property-card-fav">🤍 31</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 投資物件2 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=400&h=250&fit=crop" alt="スカイコート池袋パークサイド">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-popular">🔥 人気</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">スカイコート池袋パークサイド</div>
+            <div class="property-card-price">3,280万円</div>
+            <div class="property-card-specs">
+              <span>📐 1LDK</span>
+              <span>📏 24帖 / 38.5㎡</span>
+              <span>🏢 6階</span>
+              <span>📅 2015年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 池袋駅 徒歩7分</span>
+              <span>📍 豊島区</span>
+            </div>
+            <div class="invest-info">
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="物件価格に対する年間家賃収入の割合。高いほど収益性が高い目安です">表面利回り</span>
+                <span class="invest-info-value highlight">4.8%</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="管理費や修繕費などの経費を引いた後の利回り。より現実に近い数字です">実質利回り</span>
+                <span class="invest-info-value">3.7%</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="この物件で見込まれる毎月の家賃収入です">想定家賃</span>
+                <span class="invest-info-value">13.1万円/月</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="現在の入居状態。入居中なら購入後すぐに家賃収入が得られます">入居状況</span>
+                <span class="invest-info-value" style="color:var(--success)">入居中</span>
+              </div>
+            </div>
+            <div class="property-card-meta">
+              <span>運用実績: 5年 ✅</span>
+              <span class="property-card-fav">🤍 47</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 投資物件3 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=250&fit=crop" alt="プレサンスロジェ大阪本町">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-price-down">▼ 値下げ</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">プレサンスロジェ大阪本町</div>
+            <div class="property-card-price">1,580万円 <span class="original">1,700万円</span></div>
+            <div class="property-card-specs">
+              <span>📐 1K</span>
+              <span>📏 14帖 / 22.1㎡</span>
+              <span>🏢 7階</span>
+              <span>📅 2006年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 本町駅 徒歩4分</span>
+              <span>📍 大阪市中央区</span>
+            </div>
+            <div class="invest-info">
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="物件価格に対する年間家賃収入の割合。高いほど収益性が高い目安です">表面利回り</span>
+                <span class="invest-info-value highlight">6.8%</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="管理費や修繕費などの経費を引いた後の利回り。より現実に近い数字です">実質利回り</span>
+                <span class="invest-info-value">5.4%</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="この物件で見込まれる毎月の家賃収入です">想定家賃</span>
+                <span class="invest-info-value">8.9万円/月</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="現在の入居状態。入居中なら購入後すぐに家賃収入が得られます">入居状況</span>
+                <span class="invest-info-value" style="color:var(--text-muted)">空室</span>
+              </div>
+            </div>
+            <div class="property-card-meta">
+              <span>運用実績: 12年 ✅</span>
+              <span class="property-card-fav">🤍 18</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 投資物件4 -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&h=250&fit=crop" alt="メインステージ品川">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-verified-sm">🛡️ ReOpen確認済</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">メインステージ品川</div>
+            <div class="property-card-price">1,980万円</div>
+            <div class="property-card-specs">
+              <span>📐 1R</span>
+              <span>📏 13帖 / 20.5㎡</span>
+              <span>🏢 11階</span>
+              <span>📅 2012年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 品川駅 徒歩10分</span>
+              <span>📍 品川区</span>
+            </div>
+            <div class="invest-info">
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="物件価格に対する年間家賃収入の割合。高いほど収益性が高い目安です">表面利回り</span>
+                <span class="invest-info-value highlight">5.5%</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="管理費や修繕費などの経費を引いた後の利回り。より現実に近い数字です">実質利回り</span>
+                <span class="invest-info-value">4.3%</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="この物件で見込まれる毎月の家賃収入です">想定家賃</span>
+                <span class="invest-info-value">9.1万円/月</span>
+              </div>
+              <div class="invest-info-item">
+                <span class="invest-info-label" title="現在の入居状態。入居中なら購入後すぐに家賃収入が得られます">入居状況</span>
+                <span class="invest-info-value" style="color:var(--success)">入居中</span>
+              </div>
+            </div>
+            <div class="property-card-meta">
+              <span>運用実績: 6年 ✅</span>
+              <span class="property-card-fav">🤍 22</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 物件11（1億クラス） -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400&h=250&fit=crop" alt="パークコート赤坂檜町ザ タワー">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-popular">🔥 人気</span>
+              <span class="property-card-badge badge-verified-sm">🛡️ ReOpen確認済</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">パークコート赤坂檜町ザ タワー</div>
+            <div class="property-card-price">1<small>億</small>8,500万円</div>
+            <div class="property-card-specs">
+              <span>📐 3LDK</span>
+              <span>📏 56帖 / 91.2㎡</span>
+              <span>🏢 32階</span>
+              <span>📅 2018年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 六本木駅 徒歩5分</span>
+              <span>📍 港区</span>
+            </div>
+            <div class="compatibility-bar">
+              <span class="compatibility-heart">❤️</span>
+              <span class="compatibility-score">相性 88%</span>
+              <span class="compatibility-reason">3LDK・駅近・高層階</span>
+            </div>
+            <div class="property-card-meta">
+              <span>出品者: 個人オーナー ✅</span>
+              <span class="property-card-fav">🤍 67</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 物件12（1億クラス） -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=250&fit=crop" alt="グランドヒルズ白金台">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-new">✨ 新着</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">グランドヒルズ白金台</div>
+            <div class="property-card-price">1<small>億</small>2,000万円</div>
+            <div class="property-card-specs">
+              <span>📐 3LDK</span>
+              <span>📏 49帖 / 80.5㎡</span>
+              <span>🏢 10階</span>
+              <span>📅 2020年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 白金台駅 徒歩3分</span>
+              <span>📍 港区</span>
+            </div>
+            <div class="compatibility-bar">
+              <span class="compatibility-heart">❤️</span>
+              <span class="compatibility-score">相性 91%</span>
+              <span class="compatibility-reason">3LDK・駅近・築浅</span>
+            </div>
+            <div class="property-card-meta">
+              <span>出品者: 個人オーナー ✅</span>
+              <span class="property-card-fav">🤍 53</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 物件13（1億クラス） -->
+        <a href="property-detail.html" class="property-card">
+          <div class="property-card-img">
+            <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=400&h=250&fit=crop" alt="ブリリアタワーズ目黒">
+            <div class="property-card-badges">
+              <span class="property-card-badge badge-verified-sm">🛡️ ReOpen確認済</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-card-name">ブリリアタワーズ目黒 サウスレジデンス</div>
+            <div class="property-card-price">1<small>億</small>500万円</div>
+            <div class="property-card-specs">
+              <span>📐 2LDK</span>
+              <span>📏 43帖 / 70.8㎡</span>
+              <span>🏢 25階</span>
+              <span>📅 2017年築</span>
+            </div>
+            <div class="property-card-specs">
+              <span>🚉 目黒駅 徒歩1分</span>
+              <span>📍 品川区</span>
+            </div>
+            <div class="compatibility-bar">
+              <span class="compatibility-heart">❤️</span>
+              <span class="compatibility-score">相性 86%</span>
+              <span class="compatibility-reason">駅直結・2LDK・高層階</span>
+            </div>
+            <div class="property-card-meta">
+              <span>出品者: 個人オーナー ✅</span>
+              <span class="property-card-fav liked">❤️ 71</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- 地図ビュー（プレースホルダー） -->
+      <div class="map-view" id="mapView">
+        <div class="map-view-icon">🗺️</div>
+        <div class="map-view-text">地図で物件を探す（モック表示）</div>
+        <p style="font-size:0.82rem;color:var(--text-muted);">実装時にはGoogle Maps / Mapbox等の地図上に<br>物件ピンが表示されます</p>
+      </div>
+
+    <!-- コンサルタントに相談 -->
+    <div style="margin:32px 0;padding:28px 24px;background:linear-gradient(135deg,#f8faff,#eef3fb);border:1.5px solid var(--primary-pale);border-radius:var(--radius);text-align:center;">
+      <div style="font-size:1.8rem;margin-bottom:8px;">💬</div>
+      <div style="font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:6px;">物件選びに迷ったら</div>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:16px;">ReOpenのコンサルタントが、あなたの希望条件に合った物件選びを無料でサポートします。</p>
+      <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--primary);color:var(--white);border-radius:var(--radius-sm);font-size:0.95rem;font-weight:700;text-decoration:none;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">💬 コンサルタントにチャットで相談する</a>
+    </div>
+
+    <!-- ページネーション -->
+    <div class="pagination">
+      <a href="#" class="page-btn active">1</a>
+    </div>
+  </main>
+</div>
+
+<!-- ========== フッター ========== -->
+<footer class="site-footer"></footer>
+
+<script src="common.js"></script>
+
+<!-- ========== JavaScript ========== -->
+<script>
+  /* ===== 一覧 / 地図ビュー切り替え ===== */
+  function switchView(mode) {
+    document.querySelectorAll('.view-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.view === mode);
+    });
+    document.getElementById('gridLiving').style.display = mode === 'list' ? 'grid' : 'none';
+    document.getElementById('mapView').classList.toggle('active', mode === 'map');
+  }
+
+  /* ===== 条件保存ダイアログ ===== */
+  function openSaveDialog() {
+    /* 現在のフィルター値を読み取ってサマリーに反映 */
+    var parts = [];
+    var selects = document.querySelectorAll('.filter-select');
+    selects.forEach(function(sel) {
+      if (sel.selectedIndex > 0) parts.push(sel.options[sel.selectedIndex].text);
+    });
+    var checks = document.querySelectorAll('.filter-check-item input:checked');
+    checks.forEach(function(c) {
+      parts.push(c.parentElement.textContent.trim());
+    });
+    var minPrice = document.querySelector('.filter-range input:first-child');
+    var maxPrice = document.querySelector('.filter-range input:last-child');
+    if (minPrice && minPrice.value) parts.push('下限 ' + minPrice.value + '万円');
+    if (maxPrice && maxPrice.value) parts.push('上限 ' + maxPrice.value + '万円');
+
+    var summary = document.getElementById('svSummary');
+    summary.textContent = parts.length > 0 ? parts.join(' ／ ') : '条件が設定されていません';
+
+    document.getElementById('svOverlay').classList.add('active');
+  }
+
+  function closeSaveDialog() {
+    document.getElementById('svOverlay').classList.remove('active');
+  }
+
+  function saveCond() {
+    closeSaveDialog();
+    var toast = document.getElementById('svToast');
+    toast.classList.add('show');
+    setTimeout(function() { toast.classList.remove('show'); }, 2800);
+  }
+</script>
+
+</body>
+</html>

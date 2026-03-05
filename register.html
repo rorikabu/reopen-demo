@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>会員登録・好み診断｜ReOpen</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* ========== 登録ページ固有スタイル ========== */
+    .reg-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 48px 24px;
+    }
+    .reg-hero h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .reg-hero p {
+      font-size: 0.92rem;
+      opacity: 0.85;
+    }
+
+    /* フォームコンテナ */
+    .reg-container {
+      max-width: 640px;
+      margin: -20px auto 48px;
+      padding: 0 24px;
+    }
+    .reg-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 32px;
+    }
+    .reg-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .reg-card-desc {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* ステップパネル */
+    .step-panel {
+      display: none;
+    }
+    .step-panel.active {
+      display: block;
+    }
+
+    /* フォームグループ */
+    .reg-group {
+      margin-bottom: 20px;
+    }
+    .reg-label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .reg-label .required {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--danger);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+    .reg-input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      color: var(--text);
+      font-family: inherit;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .reg-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    .reg-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* 予算スライダー */
+    .budget-display {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .budget-slider {
+      width: 100%;
+      accent-color: var(--primary);
+      height: 6px;
+    }
+    .budget-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ボタン */
+    .reg-btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .reg-btn {
+      flex: 1;
+      padding: 14px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      border: none;
+    }
+    .reg-btn-primary {
+      background: var(--primary);
+      color: var(--white);
+    }
+    .reg-btn-primary:hover {
+      background: var(--primary-light);
+    }
+    .reg-btn-secondary {
+      background: var(--white);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    .reg-btn-secondary:hover {
+      background: var(--primary-pale);
+    }
+    .reg-btn-accent {
+      background: var(--accent);
+      color: var(--white);
+    }
+    .reg-btn-accent:hover {
+      background: #b5802f;
+    }
+
+    /* 完了画面（固有） */
+    .complete-profile {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .complete-profile-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .complete-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .complete-tag {
+      padding: 6px 14px;
+      background: var(--primary-pale);
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* ソーシャルログイン */
+    .social-login {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .social-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+    .social-btn:hover {
+      background: var(--bg);
+    }
+    .social-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .social-divider::before,
+    .social-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* レスポンシブ */
+    @media (max-width: 768px) {
+      .reg-card { padding: 24px 20px; }
+      .choice-grid { grid-template-columns: 1fr; }
+      .choice-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+      .check-grid { grid-template-columns: 1fr 1fr; }
+      .reg-row { grid-template-columns: 1fr; }
+      .reg-btn-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body data-page="register">
+
+<!-- ========== ヘッダー ========== -->
+<header class="site-header"></header>
+
+<!-- ========== ヒーロー + ステッパー ========== -->
+<div class="reg-hero">
+  <h1>ReOpenをはじめよう</h1>
+  <p>登録は無料。あなたにぴったりの物件を見つけましょう。</p>
+
+  <div class="stepper" id="stepper">
+    <div class="stepper-item active" data-step="1">
+      <div class="stepper-circle">1</div>
+      <div class="stepper-label">基本情報</div>
+    </div>
+    <div class="stepper-item" data-step="2">
+      <div class="stepper-circle">2</div>
+      <div class="stepper-label">好み診断</div>
+    </div>
+    <div class="stepper-item" data-step="3">
+      <div class="stepper-circle">3</div>
+      <div class="stepper-label">完了</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== フォーム本体 ========== -->
+<div class="reg-container">
+  <div class="reg-card">
+
+    <!-- ===== STEP 1: 基本情報 ===== -->
+    <div class="step-panel active" id="step-1">
+      <div class="reg-card-title">📝 基本情報</div>
+      <div class="reg-card-desc">まずはアカウントを作成しましょう。1分で完了します。</div>
+
+      <!-- ソーシャルログイン -->
+      <div class="social-login">
+        <button class="social-btn">📧 Googleで登録</button>
+        <button class="social-btn">💬 LINEで登録</button>
+      </div>
+      <div class="social-divider">または</div>
+
+      <div class="reg-row">
+        <div class="reg-group">
+          <label class="reg-label">姓 <span class="required">必須</span></label>
+          <input type="text" class="reg-input" placeholder="田中">
+        </div>
+        <div class="reg-group">
+          <label class="reg-label">名 <span class="required">必須</span></label>
+          <input type="text" class="reg-input" placeholder="ゆかり">
+        </div>
+      </div>
+      <div class="reg-group">
+        <label class="reg-label">メールアドレス <span class="required">必須</span></label>
+        <input type="email" class="reg-input" placeholder="example@email.com">
+      </div>
+      <div class="reg-group">
+        <label class="reg-label">パスワード <span class="required">必須</span></label>
+        <input type="password" class="reg-input" placeholder="8文字以上">
+      </div>
+      <div class="reg-group">
+        <label class="reg-label">電話番号</label>
+        <input type="tel" class="reg-input" placeholder="090-1234-5678">
+      </div>
+
+      <div style="font-size:0.78rem;color:var(--text-muted);margin-top:8px;line-height:1.6;">
+        「次へ」をクリックすると、<a href="#">利用規約</a>と<a href="#">プライバシーポリシー</a>に同意したものとみなされます。
+      </div>
+
+      <div class="reg-btn-row">
+        <button class="reg-btn reg-btn-primary" onclick="goStep(2)">次へ：好み診断 →</button>
+      </div>
+    </div>
+
+    <!-- ===== STEP 2: 好み診断 ===== -->
+    <div class="step-panel" id="step-2">
+      <div class="reg-card-title">❤️ 好み診断</div>
+      <div class="reg-card-desc">あなたの好みを教えてください。ぴったりの物件をおすすめできるようになります。あとから変更もできます。</div>
+
+      <!-- Q1: 目的 -->
+      <div class="reg-group">
+        <label class="reg-label">何のためにマンションを探していますか？</label>
+        <div class="choice-grid">
+          <label class="choice-card" onclick="selectChoice(this)">
+            <input type="radio" name="purpose" value="live">
+            <div class="choice-icon">🏠</div>
+            <div class="choice-label">住むため</div>
+            <div class="choice-sub">自分や家族の住まい</div>
+          </label>
+          <label class="choice-card" onclick="selectChoice(this)">
+            <input type="radio" name="purpose" value="invest">
+            <div class="choice-icon">📊</div>
+            <div class="choice-label">投資のため</div>
+            <div class="choice-sub">賃貸に出して収入を得たい</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q2: エリア -->
+      <div class="reg-group">
+        <label class="reg-label">どのエリアに住みたいですか？（複数選択OK）</label>
+        <div class="check-grid">
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 東京23区
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 東京23区外
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 神奈川県
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 埼玉県
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 千葉県
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 大阪府
+          </label>
+        </div>
+      </div>
+
+      <!-- Q3: 予算 -->
+      <div class="reg-group">
+        <label class="reg-label">予算はどれくらいですか？</label>
+        <div class="budget-display" id="budgetDisplay">〜 5,000万円</div>
+        <input type="range" class="budget-slider" min="1000" max="15000" step="500" value="5000" oninput="updateBudget(this.value)">
+        <div class="budget-labels">
+          <span>1,000万円</span>
+          <span>1億5,000万円</span>
+        </div>
+      </div>
+
+      <!-- Q4: 間取り -->
+      <div class="reg-group">
+        <label class="reg-label">希望の間取りは？（複数選択OK）</label>
+        <div class="choice-grid cols-3">
+          <label class="choice-card" onclick="selectMultiChoice(this)">
+            <input type="checkbox" name="layout">
+            <div class="choice-label">1R〜1K</div>
+            <div class="choice-sub">ひとり暮らし向け</div>
+          </label>
+          <label class="choice-card" onclick="selectMultiChoice(this)">
+            <input type="checkbox" name="layout">
+            <div class="choice-label">1LDK〜2K</div>
+            <div class="choice-sub">カップル向け</div>
+          </label>
+          <label class="choice-card" onclick="selectMultiChoice(this)">
+            <input type="checkbox" name="layout">
+            <div class="choice-label">2LDK〜3K</div>
+            <div class="choice-sub">小家族向け</div>
+          </label>
+          <label class="choice-card" onclick="selectMultiChoice(this)">
+            <input type="checkbox" name="layout">
+            <div class="choice-label">3LDK</div>
+            <div class="choice-sub">ファミリー向け</div>
+          </label>
+          <label class="choice-card" onclick="selectMultiChoice(this)">
+            <input type="checkbox" name="layout">
+            <div class="choice-label">4LDK以上</div>
+            <div class="choice-sub">大家族向け</div>
+          </label>
+          <label class="choice-card" onclick="selectMultiChoice(this)">
+            <input type="checkbox" name="layout">
+            <div class="choice-label">こだわらない</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Q5: こだわり -->
+      <div class="reg-group">
+        <label class="reg-label">こだわりポイントは？（複数選択OK）</label>
+        <div class="check-grid">
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 🚉 駅近（徒歩5分）
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 🐕 ペットOK
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> ☀️ 南向き
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 🔒 オートロック
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 🏗️ 築10年以内
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 🌡️ 床暖房
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 📦 宅配ボックス
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 🔲 角部屋
+          </label>
+          <label class="check-card" onclick="toggleCheck(this)">
+            <input type="checkbox"> 🍳 食洗機
+          </label>
+        </div>
+      </div>
+
+      <div class="reg-btn-row">
+        <button class="reg-btn reg-btn-secondary" onclick="goStep(1)">← 戻る</button>
+        <button class="reg-btn reg-btn-accent" onclick="goStep(3)">診断結果を見る ✨</button>
+      </div>
+    </div>
+
+    <!-- ===== STEP 3: 完了 ===== -->
+    <div class="step-panel" id="step-3">
+      <div class="complete-icon">🎉</div>
+      <div class="complete-title">登録完了！あなたの好みプロフィール</div>
+      <div class="complete-desc">好みにもとづいて、ぴったりの物件をおすすめします。<br>新着マッチ物件は通知でお届けします。</div>
+
+      <div class="complete-profile">
+        <div class="complete-profile-title">あなたの好みプロフィール</div>
+        <div class="complete-tags">
+          <span class="complete-tag">🏠 居住用</span>
+          <span class="complete-tag">📍 東京23区</span>
+          <span class="complete-tag">💰 〜5,000万円</span>
+          <span class="complete-tag">📐 2LDK〜3K</span>
+          <span class="complete-tag">🚉 駅近</span>
+          <span class="complete-tag">🐕 ペットOK</span>
+          <span class="complete-tag">☀️ 南向き</span>
+        </div>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:12px;">好みはいつでもマイページから変更できます</p>
+      </div>
+
+      <div style="background:linear-gradient(135deg,#fdf8f0,#fef3e0);border:1.5px solid #f0d9a8;border-radius:var(--radius-sm);padding:20px;text-align:center;margin-bottom:24px;">
+        <div style="font-size:0.92rem;font-weight:700;color:var(--accent);margin-bottom:8px;">🔔 おすすめ通知をONにしました</div>
+        <div style="font-size:0.82rem;color:var(--text-light);">好みに合う新着物件が出品されたら、すぐにお知らせします</div>
+      </div>
+
+      <div class="reg-btn-row" style="flex-direction:column;gap:10px;">
+        <a href="property-list.html" class="reg-btn reg-btn-primary" style="text-align:center;text-decoration:none;display:block;">🔍 さっそく物件を見る</a>
+        <a href="home.html" class="reg-btn reg-btn-secondary" style="text-align:center;text-decoration:none;display:block;">🏠 ホームへ</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== フッター ========== -->
+<footer class="site-footer"></footer>
+
+<script src="common.js"></script>
+
+<!-- ========== JavaScript ========== -->
+<script>
+  /* ===== ステップ切り替え ===== */
+  function goStep(n) {
+    // パネル切り替え
+    document.querySelectorAll('.step-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.getElementById('step-' + n).classList.add('active');
+
+    // ステッパー更新
+    document.querySelectorAll('.stepper-item').forEach(function(item) {
+      var step = parseInt(item.dataset.step);
+      item.classList.remove('active', 'done');
+      if (step < n) item.classList.add('done');
+      if (step === n) item.classList.add('active');
+    });
+
+    // スクロールトップ
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ===== 選択カード（単一選択） ===== */
+  function selectChoice(el) {
+    var parent = el.closest('.choice-grid');
+    parent.querySelectorAll('.choice-card').forEach(function(c) { c.classList.remove('selected'); });
+    el.classList.add('selected');
+  }
+
+  /* ===== 選択カード（複数選択） ===== */
+  function selectMultiChoice(el) {
+    el.classList.toggle('selected');
+  }
+
+  /* ===== チェックカード ===== */
+  function toggleCheck(el) {
+    el.classList.toggle('selected');
+  }
+
+  /* ===== 予算スライダー ===== */
+  function updateBudget(val) {
+    var v = parseInt(val);
+    var text;
+    if (v >= 10000) {
+      text = '〜 ' + (v / 10000).toFixed(1) + '億円';
+      if (v % 10000 === 0) text = '〜 ' + (v / 10000) + '億円';
+    } else {
+      text = '〜 ' + v.toLocaleString() + '万円';
+    }
+    document.getElementById('budgetDisplay').textContent = text;
+  }
+</script>
+
+</body>
+</html>

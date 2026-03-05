@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ホーム｜ReOpen</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    /* ========== ウェルカムバー ========== */
+    .welcome-bar {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: var(--white);
+      padding: 28px 24px 24px;
+    }
+    .welcome-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .welcome-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .welcome-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 2px solid rgba(255,255,255,0.4);
+      flex-shrink: 0;
+    }
+    .welcome-text h1 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .welcome-sub {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+    .welcome-right {
+      display: flex;
+      gap: 10px;
+    }
+    .welcome-stat {
+      text-align: center;
+      padding: 8px 18px;
+      background: rgba(255,255,255,0.12);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .welcome-stat-num {
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .welcome-stat-num.accent {
+      color: var(--accent);
+    }
+    .welcome-stat-label {
+      font-size: 0.7rem;
+      opacity: 0.75;
+    }
+
+    /* ========== 通知バー ========== */
+    .notif-bar {
+      max-width: 1100px;
+      margin: -1px auto 0;
+      padding: 0 24px;
+    }
+    .notif-list {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 14px 0;
+    }
+    .notif-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow);
+      font-size: 0.85rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .notif-item:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .notif-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .notif-item strong {
+      color: var(--primary);
+    }
+    .notif-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .notif-badge.red { background: var(--danger); }
+    .notif-badge.blue { background: var(--primary); }
+    .notif-badge.gold { background: var(--accent); }
+
+    /* ========== 検索バー ========== */
+    .home-search {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 24px 0;
+    }
+    .home-search-box {
+      display: flex;
+      gap: 0;
+      max-width: 680px;
+    }
+    .home-search-input {
+      flex: 1;
+      padding: 13px 20px;
+      font-size: 0.95rem;
+      border: 1.5px solid var(--border);
+      border-right: none;
+      border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .home-search-input:focus {
+      border-color: var(--primary);
+    }
+    .home-search-btn {
+      padding: 13px 24px;
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+    }
+    .home-search-btn:hover {
+      opacity: 0.85;
+    }
+    .home-search-tags {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .home-search-tag {
+      padding: 5px 12px;
+      background: var(--primary-pale);
+      border-radius: 16px;
+      font-size: 0.78rem;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .home-search-tag:hover {
+      background: #d5dee9;
+    }
+
+    /* ========== メインレイアウト ========== */
+    .home-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 24px 48px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+    }
+
+    /* ========== 共通カード ========== */
+    .home-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .home-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .home-card-title .icon {
+      font-size: 1.1rem;
+    }
+    .home-card-title .more {
+      margin-left: auto;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .home-card-title .more:hover {
+      color: var(--primary);
+    }
+
+    /* ========== 左カラム：取引サマリー ========== */
+    .deal-mini {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      align-items: center;
+    }
+    .deal-mini:last-child { margin-bottom: 0; }
+    .deal-mini-thumb {
+      width: 56px;
+      height: 42px;
+      border-radius: var(--radius-xs);
+      background: var(--primary-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .deal-mini-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .deal-mini-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .deal-mini-detail {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+    .deal-mini-badge {
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .deal-mini-badge.buy {
+      background: var(--primary-pale);
+      color: var(--primary);
+    }
+    .deal-mini-badge.sell {
+      background: #fef3e0;
+      color: var(--accent);
+    }
+
+    /* 進捗ミニバー */
+    .mini-progress {
+      display: flex;
+      gap: 3px;
+      margin-top: 6px;
+    }
+    .mini-progress-step {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+    }
+    .mini-progress-step.done {
+      background: var(--success);
+    }
+    .mini-progress-step.current {
+      background: var(--primary);
+    }
+
+    /* メッセージミニ */
+    .msg-mini {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+    }
+    .msg-mini:last-child { border-bottom: none; }
+    .msg-mini:hover { opacity: 0.8; }
+    .msg-mini-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .msg-mini-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .msg-mini-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .msg-mini-preview {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .msg-mini-meta {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .msg-mini-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin-left: 4px;
+    }
+
+    /* クイックアクション */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .quick-action {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 16px 10px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 600;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .quick-action:hover {
+      background: var(--primary-pale);
+      box-shadow: var(--shadow);
+    }
+    .quick-action-icon {
+      font-size: 1.4rem;
+    }
+
+    /* ========== 右カラム：おすすめ物件 ========== */
+    .rec-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .rec-card {
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .rec-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+    .rec-card-img {
+      height: 110px;
+      background: var(--primary-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      position: relative;
+    }
+    .rec-card-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-size: 0.68rem;
+      font-weight: 700;
+    }
+    .rec-card-tag.new {
+      background: var(--accent);
+      color: var(--white);
+    }
+    .rec-card-tag.down {
+      background: #fde8e8;
+      color: var(--danger);
+    }
+    .rec-card-tag.fav {
+      background: var(--primary);
+      color: var(--white);
+    }
+    .rec-card-body {
+      padding: 12px;
+    }
+    .rec-card-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .rec-card-price {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .rec-card-price .old {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+      font-weight: 400;
+      margin-left: 4px;
+    }
+    .rec-card-specs {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+    .rec-card-reason {
+      margin-top: 6px;
+      padding: 4px 8px;
+      background: var(--white);
+      border-radius: 8px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* ========== 最近チェックした物件（横スクロール） ========== */
+    .recent-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 24px;
+    }
+    .recent-card-wrap {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .recent-scroll {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .recent-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    .recent-scroll::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+    .recent-item {
+      flex-shrink: 0;
+      width: 180px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s;
+    }
+    .recent-item:hover {
+      transform: translateY(-2px);
+    }
+    .recent-item-img {
+      width: 180px;
+      height: 100px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+    .recent-item-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .recent-item-price {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .recent-item-time {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* ========== お知らせ・ヒント ========== */
+    .tips-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 48px;
+    }
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .tip-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s;
+    }
+    .tip-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+    .tip-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .tip-icon.blue { background: var(--primary-pale); }
+    .tip-icon.gold { background: #fef3e0; }
+    .tip-icon.green { background: #e8f5e9; }
+    .tip-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .tip-desc {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+    .tip-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .tip-tag.new { background: #fde8e8; color: var(--danger); }
+    .tip-tag.tip { background: #e8f5e9; color: var(--success); }
+    .tip-tag.info { background: var(--primary-pale); color: var(--primary); }
+
+    /* ========== ハンバーガーメニュー ========== */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      color: var(--text);
+    }
+
+    /* ========== レスポンシブ ========== */
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      .header-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        flex-direction: column;
+        padding: 16px 24px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        z-index: 100;
+      }
+      .header-nav.open { display: flex; }
+      .header-nav li { padding: 8px 0; }
+      .site-header .header-inner { position: relative; }
+      .welcome-inner { flex-direction: column; text-align: center; }
+      .welcome-left { flex-direction: column; }
+      .welcome-right { justify-content: center; }
+      .home-layout { grid-template-columns: 1fr; }
+      .rec-grid { grid-template-columns: 1fr; }
+      .tips-grid { grid-template-columns: 1fr; }
+      .home-search-box { max-width: 100%; }
+    }
+  </style>
+</head>
+<body data-page="home">
+
+<!-- ========== ヘッダー ========== -->
+<header class="site-header"></header>
+
+<!-- ========== ウェルカムバー ========== -->
+<div class="welcome-bar">
+  <div class="welcome-inner">
+    <div class="welcome-left">
+      <div class="welcome-avatar">👩</div>
+      <div class="welcome-text">
+        <h1>おかえりなさい、田中さん！</h1>
+        <div class="welcome-sub">今日もReOpenをご利用いただきありがとうございます</div>
+      </div>
+    </div>
+    <div class="welcome-right">
+      <div class="welcome-stat">
+        <div class="welcome-stat-num accent">1</div>
+        <div class="welcome-stat-label">取引中</div>
+      </div>
+      <div class="welcome-stat">
+        <div class="welcome-stat-num">3</div>
+        <div class="welcome-stat-label">お気に入り</div>
+      </div>
+      <div class="welcome-stat">
+        <div class="welcome-stat-num accent">2</div>
+        <div class="welcome-stat-label">未読メッセージ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 通知バー ========== -->
+<div class="notif-bar">
+  <div class="notif-list">
+    <a href="mypage.html" class="notif-item">
+      <span class="notif-icon">🔔</span>
+      <span>「ブリリアタワー品川」が <strong>120万円値下げ</strong></span>
+      <span class="notif-badge gold">値下げ</span>
+    </a>
+    <a href="mypage.html" class="notif-item">
+      <span class="notif-icon">💬</span>
+      <span>佐藤さんからメッセージ</span>
+      <span class="notif-badge blue">新着</span>
+    </a>
+    <a href="mypage.html" class="notif-item">
+      <span class="notif-icon">⚠️</span>
+      <span>鈴木さんへの返信が未対応です</span>
+      <span class="notif-badge red">要返信</span>
+    </a>
+    <a href="mypage.html" class="notif-item">
+      <span class="notif-icon">📝</span>
+      <span>パークシティ武蔵小杉：次は「残金決済」</span>
+    </a>
+  </div>
+</div>
+
+<!-- ========== #6 おすすめ通知バナー ========== -->
+<div style="max-width:1100px;margin:0 auto;padding:12px 24px 0;">
+  <a href="property-list.html" style="display:flex;align-items:center;gap:14px;padding:14px 20px;background:linear-gradient(135deg,#fdf8f0,#fef3e0);border:1.5px solid #f0d9a8;border-radius:var(--radius-sm);text-decoration:none;color:var(--text);transition:box-shadow 0.2s;">
+    <span style="font-size:1.5rem;flex-shrink:0;">✨</span>
+    <div style="flex:1;">
+      <div style="font-size:0.95rem;font-weight:700;color:var(--accent);margin-bottom:2px;">あなたの好みに合う新着物件が 3件 あります</div>
+      <div style="font-size:0.82rem;color:var(--text-light);">2LDK・5,000万円以下・東京23区 にマッチする物件が新しく出品されました</div>
+    </div>
+    <span style="font-size:0.85rem;color:var(--primary);font-weight:600;white-space:nowrap;">見てみる →</span>
+  </a>
+</div>
+
+<!-- ========== 検索バー ========== -->
+<div class="home-search">
+  <div class="home-search-box">
+    <input type="text" class="home-search-input" placeholder="エリア名・マンション名・駅名で検索…">
+    <a href="property-list.html" class="home-search-btn">🔍 検索</a>
+  </div>
+  <div class="home-search-tags">
+    <a href="property-list.html" class="home-search-tag">📍 東京23区</a>
+    <a href="property-list.html" class="home-search-tag">📍 横浜・川崎</a>
+    <a href="property-list.html" class="home-search-tag">💰 3,000万円以下</a>
+    <a href="property-list.html" class="home-search-tag">🔥 新着物件</a>
+    <a href="property-list.html" class="home-search-tag">📊 投資用物件</a>
+  </div>
+</div>
+
+<!-- ========== メインレイアウト ========== -->
+<div class="home-layout">
+
+  <!-- ===== 左カラム：取引・メッセージ・アクション ===== -->
+  <aside>
+    <!-- 取引状況 -->
+    <div class="home-card">
+      <div class="home-card-title">
+        <span class="icon">📋</span> 取引状況
+        <a href="mypage.html" class="more">すべて見る →</a>
+      </div>
+
+      <!-- 購入取引 -->
+      <div class="deal-mini">
+        <div class="deal-mini-thumb">🏢</div>
+        <div class="deal-mini-info">
+          <div class="deal-mini-name">パークシティ武蔵小杉</div>
+          <div class="deal-mini-detail">5,280万円 ・ 手付金入金済み</div>
+          <div class="mini-progress">
+            <div class="mini-progress-step done"></div>
+            <div class="mini-progress-step done"></div>
+            <div class="mini-progress-step done"></div>
+            <div class="mini-progress-step current"></div>
+            <div class="mini-progress-step"></div>
+            <div class="mini-progress-step"></div>
+          </div>
+        </div>
+        <span class="deal-mini-badge buy">購入</span>
+      </div>
+
+      <!-- 出品中 -->
+      <div class="deal-mini">
+        <div class="deal-mini-thumb">🏠</div>
+        <div class="deal-mini-info">
+          <div class="deal-mini-name">サンクタス世田谷</div>
+          <div class="deal-mini-detail">閲覧342回 ・ 未回答の質問1件</div>
+        </div>
+        <span class="deal-mini-badge sell">出品中</span>
+      </div>
+    </div>
+
+    <!-- メッセージ -->
+    <div class="home-card">
+      <div class="home-card-title">
+        <span class="icon">💬</span> メッセージ
+        <a href="mypage.html" class="more">すべて見る →</a>
+      </div>
+      <div class="msg-mini">
+        <div class="msg-mini-avatar">🧑</div>
+        <div class="msg-mini-body">
+          <div class="msg-mini-name">佐藤 健太さん</div>
+          <div class="msg-mini-preview">駐車場の空き状況を教えて…</div>
+        </div>
+        <div class="msg-mini-meta">10分前<span class="msg-mini-dot"></span></div>
+      </div>
+      <div class="msg-mini">
+        <div class="msg-mini-avatar">🛡️</div>
+        <div class="msg-mini-body">
+          <div class="msg-mini-name">ReOpen サポート</div>
+          <div class="msg-mini-preview">手付金の入金確認が完了…</div>
+        </div>
+        <div class="msg-mini-meta">2時間前</div>
+      </div>
+      <div class="msg-mini">
+        <div class="msg-mini-avatar">👩</div>
+        <div class="msg-mini-body">
+          <div class="msg-mini-name">鈴木 美咲さん</div>
+          <div class="msg-mini-preview">内見希望です。来週土曜…</div>
+        </div>
+        <div class="msg-mini-meta" style="color:var(--danger);font-weight:600;">要返信</div>
+      </div>
+    </div>
+
+    <!-- クイックアクション -->
+    <div class="home-card">
+      <div class="home-card-title">
+        <span class="icon">⚡</span> クイックアクション
+      </div>
+      <div class="quick-actions">
+        <a href="property-list.html" class="quick-action">
+          <span class="quick-action-icon">🔍</span>
+          物件をさがす
+        </a>
+        <a href="mypage.html" class="quick-action">
+          <span class="quick-action-icon">❤️</span>
+          お気に入り
+        </a>
+        <a href="mypage.html" class="quick-action">
+          <span class="quick-action-icon">📦</span>
+          出品を管理
+        </a>
+        <a href="mypage.html" class="quick-action">
+          <span class="quick-action-icon">🏦</span>
+          ローン状況
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== 右カラム：おすすめ物件 ===== -->
+  <main>
+    <div class="home-card">
+      <div class="home-card-title">
+        <span class="icon">✨</span> あなたへのおすすめ
+        <a href="property-list.html" class="more">もっと見る →</a>
+      </div>
+      <div class="rec-grid">
+        <!-- おすすめ1：値下げ -->
+        <a href="property-detail.html" class="rec-card">
+          <div class="rec-card-img">
+            🏙️
+            <span class="rec-card-tag down">▼ 値下げ</span>
+          </div>
+          <div class="rec-card-body">
+            <div class="rec-card-name">ブリリアタワー品川</div>
+            <div class="rec-card-price">4,860万円 <span class="old">4,980万円</span></div>
+            <div class="rec-card-specs">2LDK ・ 40帖 / 65.3㎡ ・ 品川駅 徒歩8分</div>
+            <div class="rec-card-reason">💡 お気に入り物件が120万円値下げされました</div>
+          </div>
+        </a>
+
+        <!-- おすすめ2：新着 -->
+        <a href="property-detail.html" class="rec-card">
+          <div class="rec-card-img">
+            🏡
+            <span class="rec-card-tag new">✨ 新着</span>
+          </div>
+          <div class="rec-card-body">
+            <div class="rec-card-name">プラウド文京春日</div>
+            <div class="rec-card-price">5,480万円</div>
+            <div class="rec-card-specs">3LDK ・ 43帖 / 70.2㎡ ・ 後楽園駅 徒歩6分</div>
+            <div class="rec-card-reason">💡 お気に入りと似た条件の新着物件です</div>
+          </div>
+        </a>
+
+        <!-- おすすめ3：人気 -->
+        <a href="property-detail.html" class="rec-card">
+          <div class="rec-card-img">
+            🏠
+            <span class="rec-card-tag fav">🔥 人気</span>
+          </div>
+          <div class="rec-card-body">
+            <div class="rec-card-name">ザ・パークハウス三軒茶屋</div>
+            <div class="rec-card-price">4,380万円</div>
+            <div class="rec-card-specs">2LDK ・ 36帖 / 58.6㎡ ・ 三軒茶屋駅 徒歩4分</div>
+            <div class="rec-card-reason">💡 世田谷エリアで今週もっとも注目の物件</div>
+          </div>
+        </a>
+
+        <!-- おすすめ4：新着 -->
+        <a href="property-detail.html" class="rec-card">
+          <div class="rec-card-img">
+            🏢
+            <span class="rec-card-tag new">✨ 新着</span>
+          </div>
+          <div class="rec-card-body">
+            <div class="rec-card-name">パークタワー芝浦</div>
+            <div class="rec-card-price">4,950万円</div>
+            <div class="rec-card-specs">2LDK ・ 39帖 / 63.7㎡ ・ 田町駅 徒歩9分</div>
+            <div class="rec-card-reason">💡 検索条件「2LDK・5,000万円以下」に一致</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ========== 最近チェックした物件 ========== -->
+<div class="recent-section">
+  <div class="recent-card-wrap">
+    <div class="home-card-title" style="margin-bottom:14px;">
+      <span class="icon">🕐</span> 最近チェックした物件
+    </div>
+    <div class="recent-scroll">
+      <a href="property-detail.html" class="recent-item">
+        <div class="recent-item-img">🏙️</div>
+        <div class="recent-item-name">ブリリアタワー品川</div>
+        <div class="recent-item-price">4,860万円</div>
+        <div class="recent-item-time">今日</div>
+      </a>
+      <a href="property-detail.html" class="recent-item">
+        <div class="recent-item-img">🏢</div>
+        <div class="recent-item-name">パークシティ武蔵小杉</div>
+        <div class="recent-item-price">5,280万円</div>
+        <div class="recent-item-time">今日</div>
+      </a>
+      <a href="property-detail.html" class="recent-item">
+        <div class="recent-item-img">🏠</div>
+        <div class="recent-item-name">ライオンズマンション目黒</div>
+        <div class="recent-item-price">6,200万円</div>
+        <div class="recent-item-time">昨日</div>
+      </a>
+      <a href="property-detail.html" class="recent-item">
+        <div class="recent-item-img">🏡</div>
+        <div class="recent-item-name">グランドメゾン恵比寿テラス</div>
+        <div class="recent-item-price">4,800万円</div>
+        <div class="recent-item-time">2日前</div>
+      </a>
+      <a href="property-detail.html" class="recent-item">
+        <div class="recent-item-img">🏠</div>
+        <div class="recent-item-name">サンクタス世田谷</div>
+        <div class="recent-item-price">3,750万円</div>
+        <div class="recent-item-time">3日前</div>
+      </a>
+      <a href="property-detail.html" class="recent-item">
+        <div class="recent-item-img">🏢</div>
+        <div class="recent-item-name">リバーサイドコート中目黒</div>
+        <div class="recent-item-price">3,850万円</div>
+        <div class="recent-item-time">4日前</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ========== お知らせ・ヒント ========== -->
+<div class="tips-section">
+  <div class="home-card-title" style="margin-bottom:14px;">
+    <span class="icon">💡</span> お知らせ・ヒント
+  </div>
+  <div class="tips-grid">
+    <a href="beginners-guide.html" class="tip-card">
+      <div class="tip-icon green">📖</div>
+      <div>
+        <span class="tip-tag tip">ヒント</span>
+        <div class="tip-title">手付金の入金が完了したら？</div>
+        <div class="tip-desc">次のステップ「残金決済」までに準備しておくことをまとめました。</div>
+      </div>
+    </a>
+    <a href="features.html" class="tip-card">
+      <div class="tip-icon blue">📢</div>
+      <div>
+        <span class="tip-tag info">お知らせ</span>
+        <div class="tip-title">AI価格査定がアップデート</div>
+        <div class="tip-desc">より正確な査定結果をお届けできるようになりました。売却をご検討中の方はぜひお試しください。</div>
+      </div>
+    </a>
+    <a href="mypage.html" class="tip-card">
+      <div class="tip-icon gold">💬</div>
+      <div>
+        <span class="tip-tag new">要対応</span>
+        <div class="tip-title">未回答の質問があります</div>
+        <div class="tip-desc">鈴木さんからの内見希望に未返信です。24時間以内の返信で成約率が3倍に。</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ========== フッター ========== -->
+<footer class="site-footer"></footer>
+<script src="common.js"></script>
+
+</body>
+</html>

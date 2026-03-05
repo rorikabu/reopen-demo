@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ガイド｜ReOpen</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    .guide-hero {
+      background: linear-gradient(135deg, var(--primary), #2a5080);
+      color: var(--white);
+      padding: 48px 24px;
+      text-align: center;
+    }
+    .guide-hero h1 {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+    }
+    .guide-hero p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+    }
+
+    .guide-nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      padding: 16px 0;
+    }
+    .guide-nav-btn {
+      padding: 10px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      background: var(--white);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.25s;
+      font-family: inherit;
+    }
+    .guide-nav-btn:hover,
+    .guide-nav-btn.active {
+      color: var(--primary);
+      border-color: var(--primary);
+      background: var(--primary-pale);
+    }
+    .guide-section {
+      margin-bottom: 40px;
+      scroll-margin-top: 70px;
+    }
+    .guide-section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .guide-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+    .guide-checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      background: var(--white);
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    .guide-checklist li:hover {
+      background: var(--primary-pale);
+    }
+    .guide-checklist li.checked {
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+    .guide-checklist input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .guide-check-label {
+      flex: 1;
+    }
+    .guide-check-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .guide-check-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .guide-print-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: var(--primary-pale);
+      color: var(--primary);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .guide-print-link:hover {
+      background: #dbeafe;
+    }
+    .guide-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+    .guide-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 0;
+      position: relative;
+    }
+    .guide-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 52px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .guide-step-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .guide-step-body {
+      flex: 1;
+    }
+    .guide-step-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .guide-step-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .guide-glossary {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .guide-glossary-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .guide-glossary-q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+      cursor: pointer;
+      background: var(--white);
+      transition: background 0.2s;
+    }
+    .guide-glossary-q:hover {
+      background: var(--primary-pale);
+    }
+    .guide-glossary-q::after {
+      content: '\25BC';
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      transition: transform 0.25s;
+    }
+    .guide-glossary-item.open .guide-glossary-q::after {
+      transform: rotate(180deg);
+    }
+    .guide-glossary-a {
+      display: none;
+      padding: 0 16px 14px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .guide-glossary-item.open .guide-glossary-a {
+      display: block;
+    }
+
+    /* ===== 用語集 (gd-glossary) ===== */
+    .gd-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .gd-item {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--primary);
+      padding: 16px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .gd-term {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .gd-def {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.65;
+    }
+
+    /* ===== チェック10 (gd-check) ===== */
+    .gd-check-list {
+      counter-reset: gd-check;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .gd-check-item {
+      counter-increment: gd-check;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    }
+    .gd-check-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .gd-check-body { flex: 1; }
+    .gd-check-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .gd-check-desc {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ===== やってはいけない例 (gd-ng) ===== */
+    .gd-ng-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .gd-ng-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: #fff5f5;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--danger);
+      padding: 16px 18px;
+    }
+    .gd-ng-icon {
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .gd-ng-body { flex: 1; }
+    .gd-ng-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 3px;
+    }
+    .gd-ng-desc {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    .gd-ng-tip {
+      font-size: 0.78rem;
+      color: var(--success);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    /* ===== ハザード・耐震ほか (gd-know) ===== */
+    .gd-know-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .gd-know-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+    .gd-know-card h4 {
+      font-size: 0.95rem;
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .gd-know-card p {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.65;
+      margin: 0 0 8px;
+    }
+    .gd-know-card p:last-child { margin-bottom: 0; }
+    .gd-know-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 10px;
+      margin-right: 4px;
+    }
+    .gd-tag-danger { background: #fde2e2; color: var(--danger); }
+    .gd-tag-warn  { background: #fff3cd; color: #856404; }
+    .gd-tag-info  { background: var(--primary-pale); color: var(--primary); }
+
+    @media (max-width: 768px) {
+      .guide-hero { padding: 32px 16px; }
+      .guide-hero h1 { font-size: 1.3rem; }
+      .guide-nav { gap: 6px; padding: 10px 0; }
+      .guide-nav-btn { padding: 8px 14px; font-size: 0.82rem; }
+      .guide-step { gap: 12px; }
+      .guide-step-num { width: 34px; height: 34px; font-size: 0.88rem; }
+      .guide-step:not(:last-child)::after { left: 16px; top: 48px; }
+      .gd-list { grid-template-columns: 1fr; }
+      .gd-know-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body data-page="guide">
+
+<!-- ========== ヘッダー ========== -->
+<header class="site-header"></header>
+
+<!-- ========== ヒーロー ========== -->
+<div class="guide-hero">
+  <h1>売買ガイド</h1>
+  <p>内見・購入・売却・用語まで、はじめてでも安心のチェックリスト付きガイド</p>
+</div>
+
+<!-- ========== パンくず ========== -->
+<div class="breadcrumb">
+  <a href="index.html">トップ</a><span>></span>
+  売買ガイド
+</div>
+
+<div class="container" style="padding-bottom:48px;">
+
+  <!-- カテゴリナビ -->
+  <nav class="guide-nav">
+    <button class="guide-nav-btn active" data-guide="viewing">🏠 内見</button>
+    <button class="guide-nav-btn" data-guide="purchase">🛒 購入手続き</button>
+    <button class="guide-nav-btn" data-guide="selling">📦 売却</button>
+    <button class="guide-nav-btn" data-guide="glossary">📖 用語集</button>
+    <button class="guide-nav-btn" data-guide="terms">📝 購入用語集</button>
+    <button class="guide-nav-btn" data-guide="check10">✅ チェック10</button>
+    <button class="guide-nav-btn" data-guide="ng">🚫 失敗例</button>
+    <button class="guide-nav-btn" data-guide="knowledge">🏗️ 基礎知識</button>
+  </nav>
+
+  <!-- A. 内見ガイド -->
+  <section class="guide-section" id="guide-viewing">
+    <div class="guide-section-title">🏠 内見チェックリスト</div>
+    <ul class="guide-checklist" id="guideViewingList">
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">日当たり・風通し</div>
+          <div class="guide-check-desc">窓の方角と、実際の明るさを確認</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">水まわり</div>
+          <div class="guide-check-desc">キッチン・浴室・トイレの水圧と排水の流れ</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">騒音</div>
+          <div class="guide-check-desc">窓を閉めた状態で外の音がどのくらい聞こえるか</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">壁・天井のシミ</div>
+          <div class="guide-check-desc">雨漏りや結露の跡がないか</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">床の傾き</div>
+          <div class="guide-check-desc">ビー玉やスマホアプリで確認できます</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">収納スペース</div>
+          <div class="guide-check-desc">クローゼットや押入れの奥行き・数</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">共用部分</div>
+          <div class="guide-check-desc">エントランス・廊下・ゴミ置き場の清潔さ</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">周辺環境</div>
+          <div class="guide-check-desc">最寄り駅までの道、スーパー・病院の距離</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">駐車場・駐輪場</div>
+          <div class="guide-check-desc">空きがあるか、月額いくらか</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">管理状態</div>
+          <div class="guide-check-desc">修繕履歴・長期修繕計画があるか確認</div>
+        </div>
+      </li>
+    </ul>
+    <a href="#" class="guide-print-link">🖨️ 印刷用・全30項目のチェックリストはこちら</a>
+  </section>
+
+  <!-- B. 購入手続きガイド -->
+  <section class="guide-section" id="guide-purchase">
+    <div class="guide-section-title">🛒 購入後の手続きチェックリスト</div>
+    <ul class="guide-checklist" id="guidePurchaseList">
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">引越し業者の手配</div>
+          <div class="guide-check-desc">早めに複数社から見積もりを取る</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">住所変更届</div>
+          <div class="guide-check-desc">転出届→転入届（14日以内）</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">住宅ローンの団信確認</div>
+          <div class="guide-check-desc">団体信用生命保険の内容を再確認</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">火災保険・地震保険の加入</div>
+          <div class="guide-check-desc">引渡し日までに加入が必要</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">管理組合への届出</div>
+          <div class="guide-check-desc">所有者変更届を管理会社に提出</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">電気・ガス・水道の開通</div>
+          <div class="guide-check-desc">引渡し日に合わせて手配</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">インターネット回線の手配</div>
+          <div class="guide-check-desc">マンション対応プランを確認</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">ご近所への挨拶</div>
+          <div class="guide-check-desc">上下左右のお部屋に挨拶品を持参</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- C. 売却ガイド -->
+  <section class="guide-section" id="guide-selling">
+    <div class="guide-section-title">📦 売却の流れ</div>
+
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="guide-step-num">1</div>
+        <div class="guide-step-body">
+          <div class="guide-step-title">物件情報の登録</div>
+          <div class="guide-step-desc">基本情報・写真を入力</div>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">2</div>
+        <div class="guide-step-body">
+          <div class="guide-step-title">AI価格査定</div>
+          <div class="guide-step-desc">AIが周辺相場から適正価格を算出</div>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">3</div>
+        <div class="guide-step-body">
+          <div class="guide-step-title">出品</div>
+          <div class="guide-step-desc">購入希望者からの問い合わせを待つ</div>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">4</div>
+        <div class="guide-step-body">
+          <div class="guide-step-title">内見・交渉</div>
+          <div class="guide-step-desc">ReOpen提携業者が立ち会いサポート</div>
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">5</div>
+        <div class="guide-step-body">
+          <div class="guide-step-title">契約・引渡し</div>
+          <div class="guide-step-desc">書類手続きから鍵の受け渡しまで</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="guide-section-title" style="margin-top:32px;">📋 売却に必要な書類</div>
+    <ul class="guide-checklist" id="guideSellingDocs">
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">登記簿謄本（登記事項証明書）</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">本人確認書類</div>
+          <div class="guide-check-desc">運転免許証・マイナンバーカード等</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">固定資産税納税通知書</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">管理規約・重要事項説明書</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">印鑑証明書</div>
+          <div class="guide-check-desc">発行から3ヶ月以内</div>
+        </div>
+      </li>
+      <li onclick="this.querySelector('input').click()">
+        <input type="checkbox" onclick="event.stopPropagation(); guideCheck(this)">
+        <div class="guide-check-label">
+          <div class="guide-check-title">売買契約書</div>
+          <div class="guide-check-desc">購入時のもの</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- D. 用語集 -->
+  <section class="guide-section" id="guide-glossary">
+    <div class="guide-section-title">📖 用語集</div>
+    <ul class="guide-glossary">
+      <li class="guide-glossary-item">
+        <div class="guide-glossary-q" onclick="toggleGlossary(this)">登記簿謄本</div>
+        <div class="guide-glossary-a">不動産の所有者や権利関係が記載された公的書類です。法務局で取得できます。</div>
+      </li>
+      <li class="guide-glossary-item">
+        <div class="guide-glossary-q" onclick="toggleGlossary(this)">重要事項説明</div>
+        <div class="guide-glossary-a">契約前に宅建士が物件の重要な情報を説明することです。法律で義務付けられています。</div>
+      </li>
+      <li class="guide-glossary-item">
+        <div class="guide-glossary-q" onclick="toggleGlossary(this)">団体信用生命保険（団信）</div>
+        <div class="guide-glossary-a">住宅ローン返済中に万が一のことがあった場合、残りのローンが保険で支払われる仕組みです。</div>
+      </li>
+      <li class="guide-glossary-item">
+        <div class="guide-glossary-q" onclick="toggleGlossary(this)">管理組合</div>
+        <div class="guide-glossary-a">マンションの共用部分（エントランス・廊下・エレベーターなど）を管理するための住民組織です。</div>
+      </li>
+      <li class="guide-glossary-item">
+        <div class="guide-glossary-q" onclick="toggleGlossary(this)">修繕積立金</div>
+        <div class="guide-glossary-a">建物の将来の修繕（外壁塗装・配管交換など）に備えて、毎月積み立てるお金です。</div>
+      </li>
+      <li class="guide-glossary-item">
+        <div class="guide-glossary-q" onclick="toggleGlossary(this)">長期修繕計画</div>
+        <div class="guide-glossary-a">マンションの今後20〜30年の修繕スケジュールと費用の計画です。管理組合が作成します。</div>
+      </li>
+      <li class="guide-glossary-item">
+        <div class="guide-glossary-q" onclick="toggleGlossary(this)">抵当権</div>
+        <div class="guide-glossary-a">住宅ローン返済の担保として、不動産に設定される権利です。ローン完済後に抹消手続きが必要です。</div>
+      </li>
+      <li class="guide-glossary-item">
+        <div class="guide-glossary-q" onclick="toggleGlossary(this)">手付金</div>
+        <div class="guide-glossary-a">契約時に買主が売主に支払う保証金です。通常は売買価格の5〜10%が目安です。</div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- E. 購入用語集 -->
+  <section class="guide-section" id="guide-terms">
+    <div class="guide-section-title">📝 知っておきたい用語集</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:20px;">マンション購入で出てくる言葉をわかりやすくまとめました。わからない言葉があったらここで確認できます。</p>
+    <div class="gd-list">
+      <div class="gd-item">
+        <div class="gd-term">管理費</div>
+        <div class="gd-def">エレベーター・廊下・ゴミ置き場など「みんなで使う場所」を維持するために、毎月払うお金。マンションによって金額が違います。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">修繕積立金</div>
+        <div class="gd-def">外壁の塗り替え・配管の交換など「将来の大きな修理」に備えて、毎月少しずつ積み立てるお金。築年数が経つと値上がりすることがあります。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">専有部分</div>
+        <div class="gd-def">あなたの部屋の中（壁の内側から内側まで）。自分の判断でリフォームできる範囲です。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">共用部分</div>
+        <div class="gd-def">廊下・エレベーター・エントランス・バルコニー・窓ガラスなど、住人みんなのもの。勝手に改造はできません。※バルコニーも実は共用部分です。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">重要事項説明</div>
+        <div class="gd-def">契約の前に、宅建士（不動産の専門資格者）が物件の大事な情報を説明する手続き。法律で義務づけられています。「聞き流さない」ことがとても大切です。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">契約不適合責任</div>
+        <div class="gd-def">買った後に「聞いていなかった欠陥」が見つかった場合、売主に修理や代金の減額を求められる制度。以前は「瑕疵担保責任」と呼ばれていました。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">手付金</div>
+        <div class="gd-def">売買契約のときに買主が売主に渡すお金（物件価格の5〜10%が目安）。「この取引を本気で進めます」という証です。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">手付解除</div>
+        <div class="gd-def">契約後にやっぱりやめたい場合、手付金を放棄すれば契約を解除できる仕組み。ただし相手が履行に着手した後は使えません。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">登記（とうき）</div>
+        <div class="gd-def">「この不動産は誰のものか」を国の帳簿に記録すること。購入したら所有権の移転登記を行います。司法書士に依頼するのが一般的です。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">抵当権（ていとうけん）</div>
+        <div class="gd-def">住宅ローンを借りるとき、銀行が「返済できなくなったらこの物件を売れる権利」を設定すること。ローン完済後に抹消します。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">固定資産税・都市計画税</div>
+        <div class="gd-def">不動産を持っていると毎年かかる税金。物件の評価額によって決まります。年間で数万円〜数十万円。4回に分けて払うのが一般的です。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">管理組合</div>
+        <div class="gd-def">マンションの住人全員で構成する運営グループ。修繕計画の決定、ルール作り、お金の管理などを行います。区分所有者は自動的にメンバーになります。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">長期修繕計画</div>
+        <div class="gd-def">「いつ・何を・いくらで直すか」を20〜30年先まで決めた計画書。修繕積立金がこの計画に基づいて設定されます。計画がないマンションは要注意。</div>
+      </div>
+      <div class="gd-item">
+        <div class="gd-term">区分所有</div>
+        <div class="gd-def">マンションの1部屋（1区画）ごとに所有権を持つ仕組み。「建物全体」ではなく「自分の部屋＋共用部分の持ち分」を買うことになります。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- F. チェック10 -->
+  <section class="guide-section" id="guide-check10">
+    <div class="guide-section-title">✅ 中古マンションで見落としがちなチェック10</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:20px;">「あのとき確認しておけば…」を防ぐために。内見や契約の前にこの10項目を確認しましょう。</p>
+    <div class="gd-check-list">
+      <div class="gd-check-item">
+        <div class="gd-check-num">1</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">管理組合の議事録を確認する</div>
+          <div class="gd-check-desc">住人同士のトラブル、修繕の先送り、管理費の値上げ予定など、マンションの「本当の状態」が書かれています。最近1〜2年分は必ず確認を。</div>
+        </div>
+      </div>
+      <div class="gd-check-item">
+        <div class="gd-check-num">2</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">修繕積立金の残高と値上げ予定</div>
+          <div class="gd-check-desc">残高が少ないマンションは、将来の大規模修繕のときに一時金（数十万円〜）を請求されることも。値上げのスケジュールも重要です。</div>
+        </div>
+      </div>
+      <div class="gd-check-item">
+        <div class="gd-check-num">3</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">大規模修繕の実施履歴と次回予定</div>
+          <div class="gd-check-desc">外壁・屋上防水・配管などの大きな修理が予定通り行われているか。「修繕をずっとやっていない」マンションは建物の劣化が心配です。</div>
+        </div>
+      </div>
+      <div class="gd-check-item">
+        <div class="gd-check-num">4</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">配管の状態（特に築30年以上）</div>
+          <div class="gd-check-desc">古い配管は水漏れの原因に。交換済みか、交換予定があるかを確認しましょう。個人ではなくマンション全体の配管がポイントです。</div>
+        </div>
+      </div>
+      <div class="gd-check-item">
+        <div class="gd-check-num">5</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">管理費・修繕積立金の滞納状況</div>
+          <div class="gd-check-desc">前の持ち主が管理費を滞納していた場合、その支払い義務を引き継ぐことがあります。重要事項説明で必ず確認されるポイントです。</div>
+        </div>
+      </div>
+      <div class="gd-check-item">
+        <div class="gd-check-num">6</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">耐震基準の確認（旧耐震か新耐震か）</div>
+          <div class="gd-check-desc">1981年6月より前に建築確認を受けた建物は「旧耐震基準」。地震への強さが現在の基準より低い場合があります。</div>
+        </div>
+      </div>
+      <div class="gd-check-item">
+        <div class="gd-check-num">7</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">リフォーム・リノベーションの履歴</div>
+          <div class="gd-check-desc">過去にどこを直したか（水回り・床・壁など）がわかると、追加の出費を見積もれます。「フルリノベ済み」でも配管が古いままのケースに注意。</div>
+        </div>
+      </div>
+      <div class="gd-check-item">
+        <div class="gd-check-num">8</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">共用部分の管理状態を自分の目で確認</div>
+          <div class="gd-check-desc">ゴミ置き場が汚い、掲示板が放置、自転車が散乱…。共用部分の状態は「マンション全体の管理レベル」を映す鏡です。内見時にチェックしましょう。</div>
+        </div>
+      </div>
+      <div class="gd-check-item">
+        <div class="gd-check-num">9</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">周辺環境を時間帯を変えて確認</div>
+          <div class="gd-check-desc">昼は静かでも、夜は騒がしい繁華街だった…ということも。平日・休日、昼・夜と条件を変えて訪れると安心です。</div>
+        </div>
+      </div>
+      <div class="gd-check-item">
+        <div class="gd-check-num">10</div>
+        <div class="gd-check-body">
+          <div class="gd-check-title">ハザードマップで災害リスクを確認</div>
+          <div class="gd-check-desc">洪水・土砂災害・液状化などのリスクは、自治体のハザードマップで無料で確認できます。特に川沿い・低地の物件は必ずチェックを。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- G. やってはいけない例 -->
+  <section class="guide-section" id="guide-ng">
+    <div class="guide-section-title">🚫 やってはいけない！ よくある失敗例</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:20px;">先輩購入者がやってしまった失敗を、先に知っておくだけで避けられます。</p>
+    <div class="gd-ng-list">
+      <div class="gd-ng-card">
+        <div class="gd-ng-icon">🚫</div>
+        <div class="gd-ng-body">
+          <div class="gd-ng-title">勢いで購入申込してしまう</div>
+          <div class="gd-ng-desc">内見1回で「ここにします！」と即決。間取りは気に入ったけど、管理状態を見ていない、修繕履歴も確認していない…。冷静に比較する時間を取りましょう。</div>
+          <div class="gd-ng-tip">→ 最低でも2〜3物件を比較し、1日寝かせてから決断する</div>
+        </div>
+      </div>
+      <div class="gd-ng-card">
+        <div class="gd-ng-icon">🚫</div>
+        <div class="gd-ng-body">
+          <div class="gd-ng-title">諸費用を計算に入れていない</div>
+          <div class="gd-ng-desc">「4,000万円の物件を買う＝4,000万円あればOK」ではありません。登記費用・税金・保険・手数料など、物件価格の6〜8%が別途かかります。</div>
+          <div class="gd-ng-tip">→ 物件価格×1.08 を「本当の予算」として考える</div>
+        </div>
+      </div>
+      <div class="gd-ng-card">
+        <div class="gd-ng-icon">🚫</div>
+        <div class="gd-ng-body">
+          <div class="gd-ng-title">管理状態を見ないで買う</div>
+          <div class="gd-ng-desc">部屋の中はキレイでも、マンション全体の管理がずさんだと、建物の劣化が早く進み、資産価値がどんどん下がります。</div>
+          <div class="gd-ng-tip">→ 共用部分の清掃状態・掲示板・管理人の有無を必ず確認する</div>
+        </div>
+      </div>
+      <div class="gd-ng-card">
+        <div class="gd-ng-icon">🚫</div>
+        <div class="gd-ng-body">
+          <div class="gd-ng-title">住宅ローンを1社だけで決める</div>
+          <div class="gd-ng-desc">銀行によって金利・手数料・審査基準が違います。0.1%の金利差でも、35年で数十万円〜百万円以上の差になることがあります。</div>
+          <div class="gd-ng-tip">→ 最低でも2〜3社の条件を比較する</div>
+        </div>
+      </div>
+      <div class="gd-ng-card">
+        <div class="gd-ng-icon">🚫</div>
+        <div class="gd-ng-body">
+          <div class="gd-ng-title">重要事項説明を聞き流す</div>
+          <div class="gd-ng-desc">専門用語が多くて眠くなる…気持ちはわかります。でも、後から「知らなかった」では済まない内容が含まれています。</div>
+          <div class="gd-ng-tip">→ 事前に書類をもらい、わからない部分にマーカーを引いて質問する</div>
+        </div>
+      </div>
+      <div class="gd-ng-card">
+        <div class="gd-ng-icon">🚫</div>
+        <div class="gd-ng-body">
+          <div class="gd-ng-title">ハザードマップを確認しない</div>
+          <div class="gd-ng-desc">「駅近・きれい・安い」に飛びついたら、実はハザードマップで浸水想定区域だった…。災害リスクは価格に直結します。</div>
+          <div class="gd-ng-tip">→ 契約前にハザードマップポータルサイトで必ず確認する</div>
+        </div>
+      </div>
+      <div class="gd-ng-card">
+        <div class="gd-ng-icon">🚫</div>
+        <div class="gd-ng-body">
+          <div class="gd-ng-title">「修繕積立金が安い＝お得」と思う</div>
+          <div class="gd-ng-desc">積立金が安すぎるマンションは、必要な修繕ができず建物が傷んでいくか、将来一気に値上げ・一時金の徴収が来る可能性があります。</div>
+          <div class="gd-ng-tip">→ 長期修繕計画と残高を確認し、「安すぎないか」も見る</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- H. 建物と土地の基礎知識 -->
+  <section class="guide-section" id="guide-knowledge">
+    <div class="guide-section-title">🏗️ これだけは知っておきたい ─ 建物と土地の基礎知識</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:20px;">ハザード・耐震・借地権・用途地域など、「聞いたことはあるけどよくわからない」ものを最低限わかるようにまとめました。</p>
+    <div class="gd-know-grid">
+      <div class="gd-know-card">
+        <h4>🌊 ハザードマップ</h4>
+        <p>国や自治体が「ここは洪水・土砂災害・津波・液状化などの危険がある」と示した地図です。ネットで誰でも無料で見られます。</p>
+        <p><strong>確認方法：</strong>「ハザードマップポータルサイト」で住所を入力するだけ。洪水（何メートル浸水するか）、土砂災害、高潮などが色分けで表示されます。</p>
+        <p><span class="gd-know-tag gd-tag-danger">必ず確認</span>川沿い・低地・埋立地は特にリスクが高い</p>
+      </div>
+      <div class="gd-know-card">
+        <h4>🏗️ 新耐震基準と旧耐震基準</h4>
+        <p><strong>分かれ目は1981年（昭和56年）6月。</strong>この日以降に「建築確認」を受けた建物が新耐震基準です。</p>
+        <p><strong>旧耐震</strong>：震度5程度で倒壊しないことが目標。大地震には不十分な場合がある。<br>
+        <strong>新耐震</strong>：震度6強〜7でも倒壊しないことが目標。阪神・東日本大震災でも新耐震の被害は比較的少なかった。</p>
+        <p><span class="gd-know-tag gd-tag-warn">注意</span>旧耐震でも耐震補強済みなら安心度が上がります。住宅ローン控除が使えない場合もあるので要確認。</p>
+      </div>
+      <div class="gd-know-card">
+        <h4>📄 借地権（しゃくちけん）</h4>
+        <p>建物は自分のもの、でも<strong>土地は地主から借りている</strong>状態。土地を買わないぶん物件価格が安いのが特徴です。</p>
+        <p><strong>メリット：</strong>相場より2〜3割安く買えることがある。<br>
+        <strong>注意点：</strong>毎月「地代（じだい）」を払う必要がある。建て替え・売却に地主の承諾が必要。住宅ローンが通りにくい場合がある。</p>
+        <p><span class="gd-know-tag gd-tag-warn">確認</span>借地の種類（旧法 or 定期借地）と残存期間を必ず確認</p>
+      </div>
+      <div class="gd-know-card">
+        <h4>🗺️ 用途地域</h4>
+        <p>街のエリアごとに「どんな建物を建てていいか」を定めたルール。全13種類あり、住環境に大きく影響します。</p>
+        <p><strong>住居系</strong>（第一種低層〜準住居）：静かな住環境。高い建物が建ちにくい。<br>
+        <strong>商業系</strong>（近隣商業・商業）：お店やオフィスが多い。利便性は高いが騒がしいことも。<br>
+        <strong>工業系</strong>（準工業・工業・工業専用）：工場が建てられるエリア。住宅地としてはやや不向き。</p>
+        <p><span class="gd-know-tag gd-tag-info">ポイント</span>「隣に突然高いビルが建つ」リスクは用途地域でわかる</p>
+      </div>
+      <div class="gd-know-card">
+        <h4>📐 建ぺい率・容積率</h4>
+        <p><strong>建ぺい率</strong>：土地に対して建物が占める面積の割合。<br>
+        <strong>容積率</strong>：土地に対して建物の延べ床面積の割合。</p>
+        <p>マンションを買うだけなら直接関係しませんが、「将来の建て替え」や「周辺に何が建つか」を判断する材料になります。</p>
+        <p><span class="gd-know-tag gd-tag-info">ポイント</span>容積率いっぱいで建てられたマンションは、建て替え時に部屋が小さくなる可能性がある</p>
+      </div>
+      <div class="gd-know-card">
+        <h4>👤 管理形態のちがい</h4>
+        <p>マンション管理にはいくつかの方式があり、管理の手厚さに差があります。</p>
+        <p><strong>日勤管理</strong>：管理人が日中いる（一般的）。<br>
+        <strong>常駐管理</strong>：管理人が24時間いる（大規模マンション向け）。<br>
+        <strong>巡回管理</strong>：管理人が週に数回だけ来る（コストは安い）。<br>
+        <strong>自主管理</strong>：管理会社なし。住人だけで運営（トラブルリスクあり）。</p>
+        <p><span class="gd-know-tag gd-tag-warn">確認</span>自主管理のマンションは管理レベルに差が出やすい</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ========== フッター ========== -->
+<footer class="site-footer"></footer>
+
+<script src="common.js"></script>
+<script>
+  /* カテゴリナビスクロール */
+  document.querySelectorAll('.guide-nav-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.guide-nav-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var target = document.getElementById('guide-' + btn.dataset.guide);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  /* チェックボックス */
+  function guideCheck(cb) {
+    var li = cb.closest('li');
+    if (cb.checked) {
+      li.classList.add('checked');
+    } else {
+      li.classList.remove('checked');
+    }
+  }
+
+  /* 用語集の開閉 */
+  function toggleGlossary(el) {
+    var item = el.closest('.guide-glossary-item');
+    item.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
