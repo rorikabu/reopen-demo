@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ReOpen - 事業概要プレゼンテーション</title>
+<style>
+:root {
+  --green-dark: #0d3320;
+  --green: #1a5c3a;
+  --green-light: #e8f5ee;
+  --gold: #d4a843;
+  --gold-light: #fdf6e3;
+  --bg: #f8f9fa;
+  --card-bg: #ffffff;
+  --text: #1a1a1a;
+  --text-sub: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 2px 12px rgba(0,0,0,.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.08);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', sans-serif; color: var(--text); line-height: 1.8; background: var(--bg); }
+
+/* ── ヒーロー ── */
+.hero {
+  background: linear-gradient(135deg, var(--green-dark) 0%, #1a5c3a 50%, #2d7a50 100%);
+  color: #fff;
+  padding: 80px 40px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at 30% 40%, rgba(212,168,67,.15) 0%, transparent 50%),
+              radial-gradient(circle at 70% 60%, rgba(255,255,255,.05) 0%, transparent 40%);
+  pointer-events: none;
+}
+.hero h1 { font-size: 48px; font-weight: 800; letter-spacing: -.02em; position: relative; }
+.hero h1 .accent { color: var(--gold); }
+.hero .tagline { font-size: 20px; font-weight: 400; margin-top: 12px; opacity: .9; position: relative; }
+.hero .meta { font-size: 13px; margin-top: 24px; opacity: .6; position: relative; }
+
+/* ── ナビ ── */
+.nav-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+}
+.nav-bar a {
+  font-size: 13px; font-weight: 600; color: var(--green);
+  text-decoration: none; padding: 6px 14px;
+  border-radius: 20px; transition: all .2s;
+}
+.nav-bar a:hover { background: var(--green-light); }
+
+/* ── コンテナ ── */
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+/* ── セクショングループ ── */
+.group-header {
+  text-align: center;
+  padding: 48px 0 8px;
+}
+.group-header .label {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .2em;
+  color: var(--green);
+  background: var(--green-light);
+  padding: 6px 20px;
+  border-radius: 20px;
+}
+
+/* ── カード ── */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 36px 32px;
+  margin: 20px 0;
+  border: 1px solid var(--border);
+}
+.card h2 {
+  font-size: 22px; font-weight: 800;
+  color: var(--green-dark);
+  margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.card h2 .icon { font-size: 28px; }
+.card h3 { font-size: 15px; color: var(--green); margin: 20px 0 8px; }
+
+/* ── KPI カード ── */
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 20px 0; }
+.kpi {
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--green-light), #f0faf4);
+  border: 1px solid #d1e7dd;
+}
+.kpi .number { font-size: 36px; font-weight: 800; color: var(--green-dark); line-height: 1.2; }
+.kpi .unit { font-size: 14px; color: var(--green); }
+.kpi .desc { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+
+.kpi-gold {
+  background: linear-gradient(135deg, var(--gold-light), #fff8e8);
+  border-color: #e8d5a0;
+}
+.kpi-gold .number { color: #8b6914; }
+.kpi-gold .unit { color: #a07d1c; }
+
+/* ── テーブル ── */
+table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; font-size: 13px; }
+th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+th { background: #f8f9fa; font-weight: 700; color: var(--green-dark); }
+.highlight { background: var(--green-light); font-weight: 600; }
+.status-done { color: var(--green); font-weight: 700; }
+
+/* ── リスト ── */
+ul { margin: 4px 0 12px 20px; font-size: 14px; }
+li { margin: 3px 0; }
+p { font-size: 14px; }
+.sub-note { font-size: 14px; color: var(--text-sub); margin-bottom: 12px; }
+
+/* ── ティア ── */
+.tier1 { color: #dc2626; }
+.tier2 { color: #ea580c; }
+.tier3 { color: #2563eb; }
+.hold { color: #92400e; background: #fef3c7; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+
+/* ── 構造図 ── */
+.struct-diagram {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #e0e0e0;
+  border-radius: var(--radius-sm);
+  padding: 28px 32px;
+  font-size: 13px; line-height: 2.2;
+  margin: 16px 0 20px;
+  font-family: 'SF Mono', 'Menlo', monospace;
+  box-shadow: 0 4px 20px rgba(0,0,0,.15);
+}
+.struct-diagram .alert { color: #ff6b6b; font-weight: 700; }
+.struct-diagram strong { color: #74b9ff; }
+
+/* ── 比較ハイライト ── */
+.compare-box {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0;
+}
+.compare-item {
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+.compare-old { background: #fef2f2; border: 1px solid #fecaca; }
+.compare-new { background: var(--green-light); border: 1px solid #bbf7d0; }
+.compare-item .label { font-size: 12px; font-weight: 700; color: var(--text-sub); margin-bottom: 4px; }
+.compare-item .value { font-size: 28px; font-weight: 800; }
+.compare-old .value { color: #dc2626; }
+.compare-new .value { color: var(--green); }
+.compare-item .detail { font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+
+/* ── セクション区切り ── */
+.section-sep { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+.sub-h { font-size: 14px; color: var(--text); margin: 16px 0 4px; font-weight: 700; }
+
+/* ── 折りたたみ ── */
+details {
+  margin: 16px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--card-bg);
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+details summary {
+  padding: 14px 18px;
+  font-size: 15px; font-weight: 700;
+  color: var(--green-dark);
+  cursor: pointer;
+  list-style: none;
+  display: flex; align-items: center; gap: 8px;
+}
+details summary::before { content: '▶'; font-size: 11px; color: #9ca3af; transition: transform .2s; }
+details[open] summary::before { transform: rotate(90deg); }
+details summary:hover { background: #f9fafb; }
+details .fold-inner { padding: 4px 18px 18px; }
+
+/* ── フィルター ── */
+.filters { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+.filters button { font-size: 12px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 20px; background: #fff; cursor: pointer; color: var(--text); transition: all .2s; }
+.filters button.active { background: var(--green); color: #fff; border-color: var(--green); }
+.filters button.ctoc { color: #dc2626; border-color: #fee2e2; }
+.filters button.rank-a { color: #dc2626; border-color: #fee2e2; }
+.filters button.rank-b { color: #2563eb; border-color: #dbeafe; }
+.filters button.rank-c { color: #9ca3af; border-color: var(--border); }
+#filter-count { font-size: 13px; color: var(--text-sub); margin: 6px 0 12px; }
+#ideas-table td:first-child { font-weight: 700; text-align: center; width: 40px; }
+.rank-a { color: #dc2626; font-weight: 800; }
+.rank-b { color: #2563eb; font-weight: 700; }
+.rank-c { color: #9ca3af; }
+.ctoc-mark { color: #dc2626; font-size: 11px; }
+.done { text-decoration: line-through; color: #9ca3af; }
+
+/* ── フッター ── */
+.footer {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-sub);
+  font-size: 13px;
+}
+
+/* ── レスポンシブ ── */
+@media (max-width: 640px) {
+  .hero { padding: 48px 20px 40px; }
+  .hero h1 { font-size: 32px; }
+  .hero .tagline { font-size: 16px; }
+  .card { padding: 24px 20px; }
+  .kpi-row { grid-template-columns: 1fr; }
+  .compare-box { grid-template-columns: 1fr; }
+  .kpi .number { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ ヒーロー ═══ -->
+<div class="hero">
+  <h1>Re<span class="accent">Open</span></h1>
+  <div class="tagline">不動産のメルカリ — 中古マンション CtoC プラットフォーム</div>
+  <div class="meta">プロジェクト議論ボード ｜ 最終更新: 2026年3月6日</div>
+</div>
+
+<!-- ═══ ナビ ═══ -->
+<div class="nav-bar">
+  <a href="#concept">コンセプト</a>
+  <a href="#ctoc">差別化</a>
+  <a href="#pain">ペインポイント</a>
+  <a href="#user-flow">ユーザーフロー</a>
+  <a href="#overprice">高値つかみ</a>
+  <a href="#issues">現状課題</a>
+  <a href="#merit">メリット・懸念</a>
+  <a href="#marketing">マーケ施策</a>
+  <a href="#biz-todo">事業TODO</a>
+  <a href="#dev">開発資料</a>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════
+     事業概要
+     ═══════════════════════════════════════════ -->
+<div class="group-header"><span class="label">事業概要</span></div>
+
+<div class="card" id="concept">
+  <h2><span class="icon">💡</span> コンセプト</h2>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="number">CtoC</div>
+      <div class="unit">個人間取引プラットフォーム</div>
+      <div class="desc">個人が自分で値付け・出品</div>
+    </div>
+    <div class="kpi kpi-gold">
+      <div class="number">1.5<span class="unit">%</span></div>
+      <div class="unit">売主手数料</div>
+      <div class="desc">従来: 3% + 6万円</div>
+    </div>
+    <div class="kpi kpi-gold">
+      <div class="number">1<span class="unit">%</span></div>
+      <div class="unit">買主手数料</div>
+      <div class="desc">業界平均の 1/3</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>項目</th><th>内容</th></tr>
+    <tr><td>ビジネスモデル</td><td><strong>不動産のメルカリ</strong> — 個人が自分で値付け・出品、契約部分のみ宅建士が介入</td></tr>
+    <tr><td>対象物件</td><td>中古マンション（区分・一棟 / 居住用＋投資用）</td></tr>
+    <tr><td>チーム</td><td><strong>社長</strong>: 不動産プロ / <strong>ろりぃさん</strong>: 初心者目線のアイデア担当</td></tr>
+  </table>
+
+  <h3>手数料の差額インパクト</h3>
+  <div class="compare-box">
+    <div class="compare-item compare-old">
+      <div class="label">従来の仲介（5,000万円の場合）</div>
+      <div class="value">156万円 × 2</div>
+      <div class="detail">売主 156万円 + 買主 156万円 = 計312万円</div>
+    </div>
+    <div class="compare-item compare-new">
+      <div class="label">ReOpen（5,000万円の場合）</div>
+      <div class="value">75万 + 50万</div>
+      <div class="detail">売主 75万円 + 買主 50万円 = 計125万円（187万円の差）</div>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="ctoc">
+  <h2><span class="icon">⚡</span> 既存サービスとの違い</h2>
+  <table>
+    <tr><th>項目</th><th>既存サービス（SUUMO等）</th><th class="highlight">ReOpen</th></tr>
+    <tr><td>出品者</td><td>不動産業者が掲載</td><td class="highlight">個人が自分で出品・値付け</td></tr>
+    <tr><td>仲介</td><td>業者がフル仲介</td><td class="highlight">契約部分のみ宅建士が介入</td></tr>
+    <tr><td>手数料</td><td>片側最大 3% + 6万円</td><td class="highlight">売主1.5%、買主1%</td></tr>
+    <tr><td>情報の透明性</td><td>広告的な情報が中心</td><td class="highlight">売主の生の声・運用実績等</td></tr>
+  </table>
+
+  <h3>CtoC差別化分析（全17個）</h3>
+  <p class="sub-note">SUUMOやHOME'Sにできなくて、ReOpenだからできることは何か？</p>
+
+  <h3 class="tier1">Tier 1: コアDNA（これがないとReOpenではない）</h3>
+  <ul>
+    <li><strong>#9</strong> 売主コメント欄 — 住んだ人の本音が見える。CtoC最大の情報優位性</li>
+    <li><strong>#23</strong> 売主に質問機能 — メルカリの「コメント機能」に相当（価格交渉NG）</li>
+    <li><strong>#87</strong> 本人確認・物件確認済バッジ — CtoC最大の不安「信頼性」を解決</li>
+    <li><strong>#25</strong> 手数料比較 — 業界平均3%→1.5%の差額をリアルタイム表示。最強の訴求</li>
+  </ul>
+
+  <h3 class="tier2">Tier 2: 強力な差別化（CtoC体験を格段に高める）</h3>
+  <ul>
+    <li><strong>#21</strong> 売主レビュー機能 — 住み心地・管理状況・周辺環境のリアル情報</li>
+    <li><strong>#50</strong> 売主の運用実績表示 — 「本当に儲かったのか？」が見える投資情報</li>
+    <li><strong>#83</strong> AI価格査定 — 個人が値付けするCtoC特有の課題を解決（売主向け）</li>
+    <li><strong>#89</strong> 内見予約カレンダー — ReOpen契約の現地業者が立ち会い・調整</li>
+  </ul>
+
+  <h3 class="tier3">Tier 3: エコシステム強化（成長フェーズで効く）</h3>
+  <ul>
+    <li><strong>#36</strong> 購入ステップ進捗バー — メルカリ風の取引ステータス可視化</li>
+    <li><strong>#79</strong> オーナー同士のQ&Aコミュニティ — ユーザー数が増えてから有効</li>
+    <li><strong>#84</strong> 値下げ交渉のマナーと相場ガイド <span class="hold">保留: 社長と要相談</span></li>
+  </ul>
+
+  <h3>差別化ストーリーまとめ</h3>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="number" style="font-size:20px">🔍</div>
+      <div class="unit">情報の透明性</div>
+      <div class="desc">売主の本音・レビュー・運用実績</div>
+    </div>
+    <div class="kpi">
+      <div class="number" style="font-size:20px">💬</div>
+      <div class="unit">直接つながる</div>
+      <div class="desc">売主に質問・業者が内見手配</div>
+    </div>
+    <div class="kpi">
+      <div class="number" style="font-size:20px">🛡️</div>
+      <div class="unit">信頼の仕組み</div>
+      <div class="desc">バッジ認証・AI価格査定</div>
+    </div>
+    <div class="kpi kpi-gold">
+      <div class="number" style="font-size:20px">💰</div>
+      <div class="unit">圧倒的コストメリット</div>
+      <div class="desc">買主1%、売主1.5%</div>
+    </div>
+  </div>
+
+  <h3>社長確認が必要な事項</h3>
+  <ul>
+    <li>値下げ交渉はReOpenでアリなのか？（#84の扱い）</li>
+    <li>内見予約は実務上どこまでプラットフォーム化できるか？（#89）</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     市場分析
+     ═══════════════════════════════════════════ -->
+<div class="group-header"><span class="label">市場分析</span></div>
+
+<div class="card" id="pain">
+  <h2><span class="icon">😣</span> 初心者目線のペインポイント</h2>
+  <ul>
+    <li>1. そもそも何から始めればいいかわからない</li>
+    <li>2. 物件の良し悪しの判断基準がわからない</li>
+    <li>3. お金周り（ローン・諸費用）が不透明</li>
+    <li>4. 契約・手続きの流れが複雑すぎる</li>
+    <li>5. 適正な物件の価格がわからない</li>
+    <li class="tier2">6. 利回りや収支の計算がわからない（投資）</li>
+    <li class="tier2">7. 空室リスクや管理が不安（投資）</li>
+    <li class="tier2">8. 投資用と居住用の違いがわからない（投資）</li>
+  </ul>
+</div>
+
+<div class="card" id="user-flow">
+  <h2><span class="icon">🗺️</span> 中古マンション購入の初心者ユーザーフロー</h2>
+  <p class="sub-note">初めて中古マンションを買う人が、どんな流れ・心理で動くかを整理。ReOpenが各フェーズでどう関われるかを考える土台。</p>
+
+  <h3>🔍 Phase 1｜きっかけ・情報収集（1〜3ヶ月）</h3>
+  <table>
+    <tr><th style="width:120px">トリガー</th><td>賃貸の更新タイミング / 結婚・出産・子供の入学 / 資産形成への関心</td></tr>
+    <tr><th>行動</th><td>
+      <ul style="margin:0">
+        <li>SUUMOやHOME'Sで漠然と物件を眺める</li>
+        <li>「中古マンション 買い方」「中古 vs 新築」などをGoogle検索</li>
+        <li>SNS・YouTubeで購入体験談を収集</li>
+        <li>大まかな予算感・相場を把握しようとする</li>
+      </ul>
+    </td></tr>
+  </table>
+
+  <h3>💰 Phase 2｜資金計画・ローン検討（1〜2ヶ月）</h3>
+  <table>
+    <tr><th style="width:120px">行動</th><td>
+      <ul style="margin:0">
+        <li>住宅ローンのシミュレーター（銀行サイト）で返済額を試算</li>
+        <li>自己資金（頭金）がどれくらい出せるか確認</li>
+        <li>事前審査・仮審査の存在を知る</li>
+        <li>FP相談や銀行窓口に行く人も</li>
+      </ul>
+    </td></tr>
+    <tr><th>不安・疑問のピーク</th><td>「いくら借りられる？」「諸費用って別にかかる？」「リノベ費用も含めてローンできる？」</td></tr>
+  </table>
+
+  <h3>🗺️ Phase 3｜エリア・条件の絞り込み（並行して進む）</h3>
+  <ul>
+    <li>通勤・通学・生活利便性からエリアを絞る</li>
+    <li>「駅徒歩◯分以内」「築年数」「管理状態」などの優先順位を整理</li>
+    <li>築古＋リノベ か 築浅そのまま か、方針を決める</li>
+  </ul>
+
+  <h3>🏢 Phase 4｜不動産会社との接触・内見（1〜4ヶ月）</h3>
+  <table>
+    <tr><th style="width:120px">行動</th><td>
+      <ul style="margin:0">
+        <li>SUUMOから問い合わせ → 仲介会社に連絡</li>
+        <li>複数社に問い合わせ、または1社に絞って動く</li>
+        <li>週末に2〜4件程度を内見</li>
+        <li>管理組合の議事録・修繕積立金の状況を確認（後半になって気づく人も）</li>
+      </ul>
+    </td></tr>
+    <tr><th>落とし穴</th><td>
+      <ul style="margin:0">
+        <li>担当者との相性で進捗が大きく変わる</li>
+        <li>気に入った物件がすぐ売れてしまい焦りが生まれる</li>
+      </ul>
+    </td></tr>
+  </table>
+
+  <h3>📝 Phase 5｜購入申込・契約（1〜2週間）</h3>
+  <ul>
+    <li>1. 買付申込書を提出（価格交渉もここで）</li>
+    <li>2. 重要事項説明を宅建士から受ける</li>
+    <li>3. 売買契約を締結・手付金を支払う</li>
+    <li>4. 住宅ローン本審査を申込む</li>
+  </ul>
+
+  <h3>🏦 Phase 6｜ローン実行・引き渡し（1〜2ヶ月）</h3>
+  <ul>
+    <li>ローン本審査の承認</li>
+    <li>残代金決済・登記手続き（司法書士が立ち会い）</li>
+    <li>鍵の引き渡し</li>
+  </ul>
+
+  <h3>🔨 Phase 7｜入居準備（任意・0〜3ヶ月）</h3>
+  <ul>
+    <li>リノベ・リフォームが必要な場合は業者選定・工事</li>
+    <li>引越し手配</li>
+  </ul>
+
+  <h3>ユーザー心理の変化まとめ</h3>
+  <table>
+    <tr><th>フェーズ</th><th>感情</th></tr>
+    <tr><td>🔍 情報収集期</td><td>漠然とした期待・不安</td></tr>
+    <tr><td>💰 資金計画期</td><td>現実との直面・焦り</td></tr>
+    <tr><td>🏢 内見期</td><td>ワクワク ↔ 妥協の連続</td></tr>
+    <tr><td>📝 契約直前</td><td>大きな決断への緊張</td></tr>
+    <tr><td>🏦 引き渡し後</td><td>達成感・新たな不安（管理・修繕）</td></tr>
+  </table>
+</div>
+
+<div class="card" id="overprice">
+  <h2><span class="icon">📉</span> なぜ高値つかみが起きるのか｜構造的原因の全体像</h2>
+
+  <h3>全体構造図</h3>
+  <div class="struct-diagram">
+<strong>【情報の非対称性】</strong><br>
+&nbsp;&nbsp;売り出し価格 → 誰でも見える<br>
+&nbsp;&nbsp;成約価格 &nbsp;&nbsp;&nbsp;&nbsp;→ 業者しか見えない<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+<strong>【比較の困難さ】</strong><br>
+&nbsp;&nbsp;同じマンション内でも階・向き・管理状態・<br>
+&nbsp;&nbsp;修繕履歴が異なり「正しい比較対象」が存在しない<br>
+&nbsp;&nbsp;→ "高い理由がある気がする" で思考停止<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+<strong>【エージェントの利益相反】</strong><br>
+&nbsp;&nbsp;仲介業者は成約させた方が手数料が入る<br>
+&nbsp;&nbsp;→ 割高であることを積極的に教えない<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+<strong>【買主の焦り・経験不足】</strong><br>
+&nbsp;&nbsp;好条件物件ほどスピードが求められる<br>
+&nbsp;&nbsp;人生最大の買い物を素人が1〜2回だけ経験<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong class="alert">高値つかみ が発生</strong>
+  </div>
+
+  <h3>層1｜市場環境の問題（相場情報が構造的に見えない）</h3>
+  <p class="sub-note">中古マンション市場は価格の透明性が構造的に低い。相場を知らないままに購入すると数百万円の損をしてしまうこともざらにある。「売り出し価格」はSUUMOで見えても、<strong>実際の成約価格（いくらで売れたか）は一般公開されていない</strong>。レインズの成約データは原則として業者しか閲覧できず、レインズマーケットインフォメーションで成約単価は確認できるが、マンション単位・住戸単位での詳細な適正価格判断には専門知識が必要という実態がある。</p>
+
+  <h3>層2｜比較の難しさ（個別性が高すぎて「似た物件」が存在しない）</h3>
+  <p class="sub-note" style="margin-bottom:8px">これが中古マンション特有の問題。新築や家電と違い、同じ物件が2つと存在しない。同じマンション内でも価値は大きく異なる：</p>
+  <table>
+    <tr><th>要素の種類</th><th>具体例</th></tr>
+    <tr><td>物件固有の要素</td><td>階・向き・眺望・間取り・日照・角部屋か否か・リフォーム履歴と品質</td></tr>
+    <tr><td>建物管理の要素</td><td>管理組合の運営状態・修繕積立金の残高・大規模修繕の直前か直後か・過去の修繕履歴</td></tr>
+  </table>
+  <p class="sub-note">これらが複合的に絡み合うと、買主は「似た物件」を正しく比較できなくなる。結果として<strong>「高い理由がある気がする」という曖昧な納得</strong>で判断が止まってしまう。</p>
+
+  <h3>層3｜取引構造の問題（エージェントの利益相反）</h3>
+  <p class="sub-note" style="margin-bottom:8px">これが最も構造的な原因。仲介業者は成約させることで仲介手数料を得るビジネスモデルのため、<strong>「この物件は割高です」と言うインセンティブが乏しい</strong>。</p>
+  <p class="sub-note">購入者が仲介担当者に期待した16項目のうち、<strong>「満足」が「期待」を上回ったのは3項目のみ</strong>で、「物件や購入のデメリットの説明」は期待と満足のギャップが特に大きかった（-84pt）というデータがそれを裏付けている。</p>
+
+  <h3>層4｜買主の心理・行動の問題（焦りと情報不足の重なり）</h3>
+  <p class="sub-note">条件の良い物件はポータルサイトには掲載されず、購入意欲が高い顧客ほど優先的に紹介されるため、ポータルに出た時点ですでに「売れ残り」の可能性があるという構造が<strong>「早く決めないと」という焦り</strong>を生む。さらに買主は一生に1〜2回しか経験しない取引に対し、売主・仲介側は何十件も経験したプロという<strong>圧倒的な経験非対称性</strong>がある。</p>
+</div>
+
+<div class="card" id="issues">
+  <h2><span class="icon">🚨</span> マンション購入時｜現状サービスの課題まとめ（買主側）</h2>
+
+  <h3>課題1｜価格の不透明性：高値つかみが構造的に起きやすい</h3>
+
+  <h3 class="sub-h">情報格差の問題</h3>
+  <ul>
+    <li>買主に見えるのは売り出し価格のみで、成約価格・値下げ履歴・同マンション内の過去実績が揃わない</li>
+    <li>レインズの成約データは業者専用で、一般ユーザーが使えるデータは粒度が粗すぎて住戸単位の判断に使えない</li>
+    <li>「なぜこの価格か」が説明されず、相場感が形成されないまま意思決定に進む</li>
+  </ul>
+
+  <h3 class="sub-h">個別性による比較困難</h3>
+  <ul>
+    <li>同じマンション内でも階・向き・眺望・リフォーム履歴・修繕タイミングで価値が大きく異なる</li>
+    <li>多変数を統合して「この部屋の適正価格はいくら」と示せるサービスが存在しない</li>
+    <li>結果として"高い理由がある気がする"という曖昧な納得で判断が止まる</li>
+  </ul>
+
+  <h3 class="sub-h">焦りによる判断崩壊</h3>
+  <ul>
+    <li>好条件の物件ほど申し込みが重複し、数日以内の決断を迫られる</li>
+    <li>情報が揃う頃には売れているという状況が繰り返され、情報不足のまま決断するか、良い物件を逃すかのジレンマが生まれる</li>
+  </ul>
+
+  <h3>課題2｜情報の非対称性：重要情報が"後出し"になりやすい</h3>
+
+  <h3 class="sub-h">地雷情報の開示タイミング問題</h3>
+  <ul>
+    <li>管理状態・修繕積立金の残高・滞納状況・管理規約・近隣トラブルといった"買わない理由"になりうる情報が、検討初期に揃わない</li>
+    <li>これらが開示されるのは内見後〜契約直前の重要事項説明が初めてというケースが多い</li>
+    <li>結果として買主は「比較すべき材料が揃っていない状態で内見・申込に進む」構造になっている</li>
+  </ul>
+
+  <h3 class="sub-h">優良物件ほど情報が市場に出ない逆説</h3>
+  <ul>
+    <li>本当に条件の良い物件は不動産会社が既存顧客に先に紹介するため、ポータルに掲載された時点ですでに売れ残り候補という構造がある</li>
+    <li>良い物件を得るには特定業者と早期に関係構築する必要があるが、それを知らないユーザーがほとんど</li>
+  </ul>
+
+  <h3>課題3｜比較の難しさ：中古の個別性に対してUI・支援が弱い</h3>
+
+  <h3 class="sub-h">物件比較の機能不足</h3>
+  <ul>
+    <li>サービス側が提供する比較軸が「価格・広さ・駅距離」程度に留まり、価値判断に必要な個別要素が統合されていない</li>
+    <li>お気に入りが増えすぎて整理できず、比較表・優先順位付けの機能が弱い</li>
+    <li>内見回数が増えるほど判断が麻痺する（内見疲れ）が起きても、整理をサポートする仕組みがない</li>
+  </ul>
+
+  <h3 class="sub-h">実質コストの見えにくさ</h3>
+  <ul>
+    <li>管理費・修繕積立金・将来の増額見込み・税金を含めた月次実質コストの比較がしづらい</li>
+    <li>物件ごとにこれらの金額が大きく異なるにもかかわらず、表面の物件価格だけで比較しがち</li>
+  </ul>
+
+  <h3 class="sub-h">家族間の合意形成の設計がない</h3>
+  <ul>
+    <li>夫婦・家族で意思決定基準が揃わず、内見のたびに評価軸がブレる</li>
+    <li>合意形成をサポートする仕組みがどのサービスにも存在しない</li>
+  </ul>
+
+  <h3>課題4｜インセンティブのズレ：買主の利益と仲介ビジネスが一致しない場面がある</h3>
+
+  <h3 class="sub-h">構造的な利益相反</h3>
+  <ul>
+    <li>仲介業者は成約によって手数料を得るモデルのため、「買わない判断」「待つ判断」を積極的にサポートするインセンティブがない</li>
+    <li>「この物件は割高です」と言うことが業者にとって機会損失になる構造</li>
+    <li>調査データでも「デメリット説明への満足度」は期待を大幅に下回っており（-84pt）、買主保護の視点での説明が著しく不足している</li>
+  </ul>
+
+  <h3 class="sub-h">担当者の質への過度な依存</h3>
+  <ul>
+    <li>価格交渉・リスク説明の質が担当者個人のスキルと誠実さに完全に依存し、再現性がない</li>
+    <li>同じ物件でも担当者によって買主が得られる情報量・交渉結果が大きく変わる</li>
+  </ul>
+
+  <h3>課題5｜ローン・資金計画：早い段階での現実確定が弱い</h3>
+  <ul>
+    <li>「買えるレンジ」が固まらないまま物件検索が始まり、後から予算オーバーが判明して時間を浪費するケースが多い</li>
+    <li>管理費・修繕積立金・固定資産税・将来の修繕一時金を含めた月次コストの見える化が弱く、表面のローン返済額だけで判断しがち</li>
+    <li>旧耐震基準など物件属性によってローン条件が変わることの説明が遅く、検討後半になって初めて「借りられない」が発覚する</li>
+  </ul>
+
+  <h3>課題6｜リスク評価：ハザードや将来性が"点"でしか見えない</h3>
+  <ul>
+    <li>ハザードマップ・周辺の再開発計画・人口動態・学区・騒音・嫌悪施設などの情報が個別には存在するが、意思決定に統合された形で提示されない</li>
+    <li>「このリスクが価格にどう織り込まれるべきか」という視点が提供されないため、リスクを認識しても価格判断に活かせない</li>
+    <li>結果として見落としたリスクが高値つかみの隠れた原因になる</li>
+  </ul>
+
+  <h3>課題7｜契約直前：重説が難しく、買主が守りきれない</h3>
+  <ul>
+    <li>重要事項説明書は書類が多く専門用語が多く、買主が読み切れない</li>
+    <li>「重要ポイントの要約」や「危険信号の抽出」をしてくれるサービスが存在しない</li>
+    <li>契約直前は心理的に引き返しにくい状態になっており、致命的な見落としが最も起きやすいタイミングでもある</li>
+  </ul>
+
+  <h3>課題の全体構造</h3>
+  <div class="struct-diagram">
+<strong>【川上】</strong><br>
+&nbsp;&nbsp;成約価格が見えない<br>
+&nbsp;&nbsp;重要情報が後出しになる<br>
+&nbsp;&nbsp;優良物件がポータルに出ない<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+<strong>【中流】</strong><br>
+&nbsp;&nbsp;個別性が高すぎて比較できない &nbsp;&nbsp;←── 実質コストも見えない<br>
+&nbsp;&nbsp;資金計画が後手になる &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;←── ローン条件も後出し<br>
+&nbsp;&nbsp;リスクが点でしか見えない<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+<strong>【川中】</strong><br>
+&nbsp;&nbsp;仲介業者の利益相反<br>
+&nbsp;&nbsp;担当者の質に依存<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+<strong>【買主の状態】</strong><br>
+&nbsp;&nbsp;焦り × 情報不足 × 疲労 × 家族間の意見不一致<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+<strong>【川下】</strong><br>
+&nbsp;&nbsp;重説で初めて地雷を知る<br>
+&nbsp;&nbsp;心理的に引き返せない<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<strong class="alert">高値つかみ・後悔・見落とし</strong>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     事業戦略
+     ═══════════════════════════════════════════ -->
+<div class="group-header"><span class="label">事業戦略</span></div>
+
+<div class="card" id="merit">
+  <h2><span class="icon">✅</span> 売主・買主メリット＋懸念</h2>
+  <p class="sub-note">ReOpenを使うことで売主・買主それぞれが得られるメリットの整理。</p>
+
+  <h3>売主がReOpenを使うメリット</h3>
+
+  <h3 style="margin-top:12px">1. コスト面</h3>
+  <ul>
+    <li><strong>手数料が半額以下</strong>: 1.5%（業界標準: 3% + 6万円）</li>
+    <li>例: 5,000万円の物件 → 従来156万円 → ReOpen 75万円（<strong>81万円の差</strong>）</li>
+    <li>例: 1億円の物件 → 従来306万円 → ReOpen 150万円（<strong>156万円の差</strong>）</li>
+    <li>手数料の差額はそのまま手取りが増える</li>
+  </ul>
+
+  <h3 style="margin-top:12px">2. 自分でコントロールできる</h3>
+  <ul>
+    <li><strong>価格を自分で決められる</strong>（業者の言いなりにならない）</li>
+    <li><strong>物件の魅力を自分の言葉で伝えられる</strong>（売主コメント欄）
+      <br>— 「南向きで午後の日当たりが最高」「近所のパン屋が美味しい」など、住んだ人にしかわからない情報</li>
+    <li>写真・説明文も自分で作成できる（デメリットでもある）</li>
+  </ul>
+
+  <div class="section-sep">
+    <h3>買主がReOpenを使うメリット</h3>
+  </div>
+
+  <h3 style="margin-top:12px">1. コスト面</h3>
+  <ul>
+    <li><strong>手数料が1/3</strong>: 1%（業界標準: 3% + 6万円）</li>
+    <li>例: 5,000万円の物件 → 従来156万円 → ReOpen 50万円（<strong>106万円の差</strong>）</li>
+    <li>例: 1億円の物件 → 従来306万円 → ReOpen 100万円（<strong>206万円の差</strong>）</li>
+    <li>浮いたお金をリフォームや家具、頭金の上乗せに回せる</li>
+  </ul>
+
+  <h3 style="margin-top:12px">2. 情報の透明性（最大の差別化）</h3>
+  <ul>
+    <li><strong>売主の本音コメント</strong>が読める（業者の広告文ではない、住んだ人のリアルな声）
+      <br>— 「上の階の足音は気になる」「管理人さんが親切」など</li>
+    <li><strong>売主に直接質問できる</strong>（「冬の日当たりは？」「ご近所トラブルは？」など）</li>
+    <li><strong>売主レビュー</strong>で住み心地・管理状況がわかる</li>
+    <li>投資物件なら<strong>運用実績</strong>（本当に儲かったのか）が見える</li>
+    <li>→ <strong>SUUMOやHOME'Sでは絶対に得られない「住んだ人だけが知っている情報」</strong></li>
+  </ul>
+
+  <div class="section-sep">
+    <h3>売主の懸念・課題</h3>
+  </div>
+  <table>
+    <tr><th>懸念</th><th>従来の仲介なら…</th><th>ReOpenでは…</th></tr>
+    <tr><td>自分で出品するのが面倒</td><td>業者が全部やってくれる</td><td>5ステップの出品フロー + AI査定でサポート</td></tr>
+    <tr><td>買い手が見つかるか不安</td><td>業者のネットワークで集客</td><td>プラットフォームの集客力次第（成長フェーズの課題）</td></tr>
+    <tr><td>価格設定に自信がない</td><td>業者が査定してくれる</td><td>AI査定があるが、最終判断は自分</td></tr>
+    <tr><td>トラブルが起きたら？</td><td>業者が間に入る</td><td>契約部分は宅建士が介入するが、やり取りは基本ダイレクト</td></tr>
+  </table>
+
+  <h3>買主の懸念・課題</h3>
+  <table>
+    <tr><th>懸念</th><th>従来の仲介なら…</th><th>ReOpenでは…</th></tr>
+    <tr><td>物件数が少ないのでは？</td><td>SUUMO等は膨大な掲載数</td><td>立ち上げ期は物件数が課題（売主が集まるかに依存）</td></tr>
+    <tr><td>個人から買うのは不安</td><td>業者が責任を持つ</td><td>バッジ＋宅建士介入で担保するが、心理的ハードルはある</td></tr>
+    <tr><td>内見の手配が面倒？</td><td>業者がセッティング</td><td>ReOpen提携業者が立ち会うので同等</td></tr>
+    <tr><td>契約不適合があったら？</td><td>業者に言える</td><td>ReOpenも不動産業者が間に入るので、直接請求は避けられる</td></tr>
+  </table>
+
+  <p style="font-size:13px;color:var(--text-sub);margin-top:12px"><strong>共通の最大課題:</strong> 物件数（売主が集まらないと買主が来ない、買主がいないと売主が出品しない）— 鶏と卵の問題をどう解くか</p>
+</div>
+
+<div class="card" id="marketing">
+  <h2><span class="icon">📣</span> マーケ施策</h2>
+
+  <h3>買主側マーケ施策</h3>
+  <p class="sub-note" style="margin-bottom:8px">ユーザーフローの情報収集フェーズ（Phase 1）や条件絞り込みフェーズ（Phase 3）で取り込む必要がある。</p>
+
+  <h3 style="margin-top:12px">SEO（重要）— マンション名で上位表示</h3>
+  <p class="sub-note" style="margin-bottom:8px">マンション名の検索結果でReOpenが上位に表示されることで、2つの流入経路が生まれる。</p>
+
+  <table>
+    <tr><th style="width:100px">経路</th><th>流れ</th></tr>
+    <tr><td><strong>乗り換え</strong></td><td>マンション名を検索 → ReOpenが上位表示される → 手数料が他よりも安いことを知る → 不動産業者や他媒体経由で検討をスタートしていても、<strong>ReOpenを使って契約しようという流れになる</strong></td></tr>
+    <tr><td><strong>独占認知</strong></td><td>他社が掲載を隠すような案件でも、ReOpenでは表示されている → <strong>「このサービスにしかない物件がある！」</strong>という認知が取れる → ReOpenでしか出会えない物件があるという信頼・ブランドにつながる</td></tr>
+  </table>
+
+  <h3 style="margin-top:12px">データベース的な位置付け（サブ要素として実装）</h3>
+  <p class="sub-note" style="margin-bottom:8px">高値つかみや適正価格が「？」になる根本原因は<strong>データがないから</strong>。レインズは一般公開NGなので、ReOpen独自のデータ蓄積が差別化になる。</p>
+
+  <table>
+    <tr><th style="width:180px">データ収集手段</th><th>内容</th></tr>
+    <tr><td><strong>自社取引データの蓄積</strong></td><td>ReOpen上で成約した物件の価格データが自然に蓄積される。取引量が増えるほどデータベースの価値が上がる</td></tr>
+    <tr><td><strong>過去の売主からの情報提供</strong></td><td>過去に売った人が成約価格や取引経験を記入したくなる仕様・仕掛けを設計する（レビュー機能との連携など）</td></tr>
+    <tr><td><strong>業者からの情報買取</strong></td><td>不動産業者から直接データを買う → お礼として手数料％の割合を増やす、または登録料の免除等でインセンティブを設計</td></tr>
+  </table>
+
+  <h3>売主側マーケ施策</h3>
+  <table>
+    <tr><th style="width:160px">施策</th><th>状態</th><th>内容</th></tr>
+    <tr><td><strong>マンションインフルエンサーの確保</strong></td><td class="status-done">実行中</td><td>マンション系インフルエンサーと連携し、ReOpenの認知を売主候補層に広げる</td></tr>
+  </table>
+</div>
+
+<div class="card" id="biz-todo">
+  <h2><span class="icon">📋</span> 事業検討TODOリスト</h2>
+  <table>
+    <tr><th style="width:40px">#</th><th>項目</th><th style="width:80px">状態</th></tr>
+    <tr><td>1</td><td>買主側獲得施策</td><td>検討中</td></tr>
+    <tr><td>2</td><td>売主側獲得施策</td><td>検討中</td></tr>
+    <tr><td>3</td><td>差別化整理</td><td>検討中</td></tr>
+    <tr><td>4</td><td>懸念整理と解消案</td><td>検討中</td></tr>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     開発資料
+     ═══════════════════════════════════════════ -->
+<div class="group-header"><span class="label">開発資料</span></div>
+
+<div class="card" id="dev">
+  <h2><span class="icon">🛠️</span> 開発資料</h2>
+
+  <h3>アイデア集計</h3>
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="number">124</div>
+      <div class="unit">アイデア総数</div>
+    </div>
+    <div class="kpi">
+      <div class="number">71</div>
+      <div class="unit" style="color:#dc2626">Aランク</div>
+    </div>
+    <div class="kpi">
+      <div class="number">17</div>
+      <div class="unit">CtoC差別化</div>
+    </div>
+    <div class="kpi">
+      <div class="number">11</div>
+      <div class="unit">デモサイトページ数</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>フェーズ</th><th>居住</th><th>投資</th><th>両方</th><th>合計</th></tr>
+    <tr><td>物件探し</td><td>3</td><td>11</td><td>7</td><td><strong>21</strong></td></tr>
+    <tr><td>物件見極め</td><td>2</td><td>11</td><td>12</td><td><strong>25</strong></td></tr>
+    <tr><td>お金・ローン</td><td>9</td><td>13</td><td>3</td><td><strong>25</strong></td></tr>
+    <tr><td>横断</td><td>1</td><td>12</td><td>40</td><td><strong>53</strong></td></tr>
+    <tr style="background:var(--green-light);font-weight:700"><td>合計</td><td>15</td><td>47</td><td>62</td><td><strong>124</strong></td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--text-sub)">評価軸: (1)CtoC差別化度 (2)初心者ペインへの刺さり (3)仮サイトでの見せやすさ</p>
+
+  <!-- アイデア一覧 -->
+  <details>
+    <summary>アイデア一覧を開く（全124個・フィルター付き）</summary>
+    <div class="fold-inner">
+      <div class="filters">
+        <button class="active" onclick="filter('all')">すべて</button>
+        <button onclick="filter('phase-物件探し')">物件探し</button>
+        <button onclick="filter('phase-物件見極め')">物件見極め</button>
+        <button onclick="filter('phase-お金・ローン')">お金・ローン</button>
+        <button onclick="filter('phase-横断')">横断</button>
+        <button onclick="filter('target-居住')">居住</button>
+        <button onclick="filter('target-投資')">投資</button>
+        <button onclick="filter('target-両方')">両方</button>
+        <button onclick="filter('type-機能')">機能</button>
+        <button onclick="filter('type-コンテンツ')">コンテンツ</button>
+        <button onclick="filter('type-UI/UX')">UI/UX</button>
+        <button class="ctoc" onclick="filter('ctoc')">CtoC差別化のみ</button>
+        <button class="rank-a" onclick="filter('rank-A')">Aランク</button>
+        <button class="rank-b" onclick="filter('rank-B')">Bランク</button>
+        <button class="rank-c" onclick="filter('rank-C')">Cランク</button>
+      </div>
+      <div id="filter-count">124件表示中</div>
+      <table id="ideas-table">
+        <thead><tr><th style="width:40px">#</th><th>ランク</th><th>名前</th><th>説明</th><th>フェーズ</th><th>対象</th><th>種別</th></tr></thead>
+        <tbody id="ideas-body"></tbody>
+      </table>
+    </div>
+  </details>
+
+  <!-- 仮サイト計画 -->
+  <details>
+    <summary>仮サイト計画（全11ページ完成）</summary>
+    <div class="fold-inner">
+      <table>
+        <tr><th>#</th><th>ページ</th><th>ファイル</th><th>状態</th></tr>
+        <tr><td>1</td><td>LP（未会員向け）</td><td>index.html</td><td class="status-done">完成</td></tr>
+        <tr><td>2</td><td>ホーム（ログイン後）</td><td>home.html</td><td class="status-done">完成</td></tr>
+        <tr><td>3</td><td>物件一覧（区分）</td><td>property-list.html</td><td class="status-done">完成</td></tr>
+        <tr><td>4</td><td>物件詳細</td><td>property-detail.html</td><td class="status-done">完成</td></tr>
+        <tr><td>5</td><td>初心者ガイド</td><td>beginners-guide.html</td><td class="status-done">完成</td></tr>
+        <tr><td>6</td><td>サービスの特徴</td><td>features.html</td><td class="status-done">完成</td></tr>
+        <tr><td>7</td><td>マイページ</td><td>mypage.html</td><td class="status-done">完成</td></tr>
+        <tr><td>8</td><td>登録+好み診断</td><td>register.html</td><td class="status-done">完成</td></tr>
+        <tr><td>9</td><td>出品フロー</td><td>sell.html</td><td class="status-done">完成</td></tr>
+        <tr><td>10</td><td>一棟投資用マンション一覧</td><td>building-list.html</td><td class="status-done">完成</td></tr>
+        <tr><td>11</td><td>売買ガイド</td><td>guide.html</td><td class="status-done">完成</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <!-- デモサイト実装状況 -->
+  <details>
+    <summary>デモサイト実装状況（各ページの要素）</summary>
+    <div class="fold-inner">
+      <p class="sub-note" style="margin-bottom:16px">デモサイトに実装済みの機能・UI要素の一覧。社長に「何ができるか」を見せるための整理。</p>
+
+      <h3>1. LP — index.html</h3>
+      <ul>
+        <li>ヒーローセクション（キャッチコピー＋CTA）</li>
+        <li>手数料比較（業界平均3% vs ReOpen 1〜1.5%）</li>
+        <li>サービスの特徴紹介 / 物件カード例 / 会員登録CTA</li>
+      </ul>
+
+      <h3>2. ホーム — home.html</h3>
+      <ul>
+        <li>お気に入り物件・閲覧履歴 / 保存した検索条件</li>
+        <li>新着・おすすめ物件 / 取引ステータス</li>
+      </ul>
+
+      <h3>3. 物件一覧 — property-list.html</h3>
+      <ul>
+        <li>検索ヒーロー（キーワード＋人気タグ）</li>
+        <li><strong>AI条件おまかせ入力</strong> / 6種フィルター / 物件カード13件</li>
+        <li><strong>相性スコア</strong> / 投資物件の利回り表示</li>
+        <li><strong>条件保存＋アラート機能</strong> / 一覧・地図切替</li>
+        <li><strong>コンサルタントにチャットで相談</strong>ボタン</li>
+      </ul>
+
+      <h3>4. 物件詳細 — property-detail.html</h3>
+      <ul>
+        <li>写真ギャラリー / 基本情報テーブル</li>
+        <li><strong>売主コメント欄</strong>（#9）/ <strong>売主に質問</strong>（#23）/ <strong>売主レビュー</strong>（#21）</li>
+        <li><strong>月々シミュレーター</strong> / 周辺相場 / <strong>手数料比較</strong>（#25）</li>
+        <li>内見予約CTA / PC最適化レイアウト</li>
+      </ul>
+
+      <h3>5. 初心者ガイド — beginners-guide.html</h3>
+      <ul>
+        <li><strong>購入ロードマップ</strong>（8ステップ）/ 費用内訳 / ローン比較表</li>
+        <li><strong>AIチャットbot</strong>（デモ）/ 売買ガイドへの誘導</li>
+      </ul>
+
+      <h3>6. サービスの特徴 — features.html</h3>
+      <ul><li>6つの特徴カード / 手数料シミュレーション / 安全取引の説明 / CTA</li></ul>
+
+      <h3>7. マイページ — mypage.html</h3>
+      <ul><li>プロフィール / 5タブ切替 / お気に入り / 保存条件 / 売買ガイドリンク</li></ul>
+
+      <h3>8. 登録+好み診断 — register.html</h3>
+      <ul><li>ステップ形式登録 / <strong>好み診断</strong> / おすすめ物件提示</li></ul>
+
+      <h3>9. 出品フロー — sell.html</h3>
+      <ul><li>5ステップ出品 / <strong>AI価格査定</strong>（#83）/ 書類チェックリスト / 完了画面</li></ul>
+
+      <h3>10. 一棟投資用 — building-list.html</h3>
+      <ul><li>専用カード6件 / 8項目フィルター / 区分一覧との相互リンク</li></ul>
+
+      <h3>11. 売買ガイド — guide.html</h3>
+      <ul>
+        <li>8カテゴリナビ / 内見チェックリスト / 購入後手続き / 売却の流れ</li>
+        <li>用語集（2種）/ チェック10 / 失敗例7 / 基礎知識</li>
+      </ul>
+
+      <h3>共通要素</h3>
+      <ul><li>共通ヘッダー/フッター（common.js）/ 共通CSS / レスポンシブ / パンくず</li></ul>
+    </div>
+  </details>
+
+  <!-- 未決事項 -->
+  <div class="section-sep">
+    <h3>未決事項・ネクストアクション</h3>
+  </div>
+  <h3>済み</h3>
+  <ul>
+    <li class="done">仮のサービス名を決める → ReOpen</li>
+    <li class="done">124個のアイデアの優先度付け → Aランク71個確定</li>
+    <li class="done">仮サイト6ページ構成＋各ページ詳細設計完了</li>
+    <li class="done">90個のアイデアを優先度付けして絞り込む</li>
+    <li class="done">各ページに盛り込むアイデアを選定</li>
+    <li class="done">他業界アイデア30個精査 → 7個採用・全て反映済み</li>
+    <li class="done">仮サイト全10ページ制作完了</li>
+    <li class="done">CSS/JS/HTML共通化でコード23%削減（13,200行→10,166行）</li>
+    <li class="done">条件保存＋アラート機能追加（property-list.html）</li>
+    <li class="done">売買ガイドをマイページから独立ページに分離（guide.html）</li>
+    <li class="done">初心者ガイドから用語集・チェック10・失敗例・基礎知識をガイドページに移動</li>
+    <li class="done">物件一覧のUI改善（画像追加・1億クラス追加・フィルター整理）</li>
+    <li class="done">物件詳細のPC表示レイアウト最適化（シミュレーター周り）</li>
+    <li class="done">物件一覧にコンサルタント相談ボタン追加</li>
+  </ul>
+  <h3>次にやること</h3>
+  <ul>
+    <li><strong>社長にデモサイトを見せてフィードバック収集</strong></li>
+    <li>#84 値下げ交渉の可否 → 社長と相談</li>
+    <li>各ページの細かいチェック・品質確認</li>
+  </ul>
+</div>
+
+</div><!-- /.container -->
+
+<div class="footer">
+  ReOpen プロジェクト議論ボード ｜ Confidential
+</div>
+
+<script src="ideas-data.js"></script>
+<script>
+const tbody = document.getElementById('ideas-body');
+const phases = ['物件探し','物件見極め','お金・ローン','横断'];
+phases.forEach(ph => {
+  const items = IDEAS.filter(i => i.phase === ph);
+  if (!items.length) return;
+  const hr = document.createElement('tr');
+  hr.className = 'phase-row';
+  hr.dataset.phase = ph;
+  hr.innerHTML = '<td colspan="7" style="background:#f8f9fa;font-weight:700;font-size:14px">' + ph + '（' + items.length + '件）</td>';
+  tbody.appendChild(hr);
+  items.forEach(i => {
+    const tr = document.createElement('tr');
+    tr.dataset.phase = i.phase;
+    tr.dataset.target = i.target;
+    tr.dataset.type = i.type;
+    tr.dataset.ctoc = i.ctoc;
+    tr.dataset.rank = i.rank;
+    tr.innerHTML = '<td>' + i.id + '</td>'
+      + '<td class="rank-' + i.rank.toLowerCase() + '">' + i.rank + '</td>'
+      + '<td>' + i.name + (i.ctoc ? ' <span class="ctoc-mark">CtoC</span>' : '') + '</td>'
+      + '<td>' + i.desc + '</td>'
+      + '<td>' + i.phase + '</td>'
+      + '<td>' + i.target + '</td>'
+      + '<td>' + i.type + '</td>';
+    tbody.appendChild(tr);
+  });
+});
+
+function filter(f) {
+  document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  const rows = tbody.querySelectorAll('tr');
+  let count = 0;
+  rows.forEach(r => {
+    if (r.className === 'phase-row') { r.style.display = ''; return; }
+    let show = true;
+    if (f === 'all') show = true;
+    else if (f.startsWith('phase-')) show = r.dataset.phase === f.replace('phase-','');
+    else if (f.startsWith('target-')) show = r.dataset.target === f.replace('target-','');
+    else if (f.startsWith('type-')) show = r.dataset.type === f.replace('type-','');
+    else if (f === 'ctoc') show = r.dataset.ctoc === 'true';
+    else if (f.startsWith('rank-')) show = r.dataset.rank === f.replace('rank-','');
+    r.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  rows.forEach(r => {
+    if (r.className !== 'phase-row') return;
+    const ph = r.dataset.phase;
+    const hasVisible = Array.from(rows).some(x => x.className !== 'phase-row' && x.dataset.phase === ph && x.style.display !== 'none');
+    r.style.display = hasVisible ? '' : 'none';
+  });
+  document.getElementById('filter-count').textContent = count + '件表示中';
+}
+</script>
+
+</body>
+</html>
